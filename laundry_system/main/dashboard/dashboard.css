@@ -71,10 +71,6 @@ html {
     background-color: #0e223e;
     border-radius: 0 20px 20px 0;
   }
-
-  .main.expand {
-    margin-left: 260px; /* Adjust for expanded sidebar width */
-}
   
   #sidebar.expand {
     width: 260px;

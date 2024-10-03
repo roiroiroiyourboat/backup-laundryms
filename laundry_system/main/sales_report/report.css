@@ -182,7 +182,7 @@ a.sidebar-link:hover {
   flex-direction: row;
   justify-content: center; 
   gap: 1rem;
-  padding-top: 1rem;
+  padding: 0.5rem 0;
   flex-wrap: wrap;
   width: 100%;
 }
@@ -238,5 +238,88 @@ a.sidebar-link:hover {
   }
   .chart {
     flex: 1 1 100%;
+  }
+}
+
+/*************************TRANSACTION SUMMARY TABLE*************************/
+.table-container {
+  padding: 1rem 0;
+}
+
+.clicked{
+  border-color: transparent;
+  color: #000;
+  background-color: #cecece;
+  transition: 0ms ease-in-out;
+}
+
+.table-container .btns {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap; 
+  gap: 10px; 
+  margin: 10px 0; 
+}
+
+.table-container .btn-info {
+  margin-left: auto;
+}
+
+/*search bar*/
+.search_bar {
+  position: relative; 
+}
+
+.search_bar .form-control {
+  padding-left: 38px; 
+}
+
+.search_bar .form-control::placeholder {
+  color: #aaa;
+}
+
+.search_bar .form-control {
+  background-image: url('/laundry_system/main/icons/search-regular-24.png'); 
+  background-repeat: no-repeat;
+  background-position: 10px center; 
+  background-size: 20px 20px; 
+}
+
+@media (max-width: 768px) {
+  .table-container .btns {
+    justify-content: center; 
+  }
+}
+
+@media (max-width: 480px) {
+  .table-container .btns {
+    flex-direction: column; 
+    align-items: center; 
+  }
+
+  .table-container .btns .btn {
+    width: 100%; 
+    margin: 5px 0; 
+  }
+}
+
+@media print {
+  h2 {
+    display: block;
+  }
+
+  .table {
+      width: 100%;
+      border-collapse: collapse;
+  }
+
+  .table th, .table td {
+      border: 1px solid black; 
+      padding: 8px;
+      text-align: left;
+  }
+
+  .table th, .table td {
+      font-size: 12px;
   }
 }

@@ -335,7 +335,7 @@ $('#amount_tendered').on('input', function() {
         if (amountTendered < finalTotalAmount) {
             Swal.fire("Insufficient Amount!", "The amount tendered is less than the total amount.", "warning");
         }
-    }, 500); //the sweetalert will only show if the user stops typing for a short period of time (500)
+    }, 700); //the sweetalert will only show if the user stops typing for a short period of time
 });
 
 $(document).ready(function() {
@@ -568,7 +568,9 @@ $(document).ready(function() {
         $.ajax({
             type: 'POST',
             url: 'laundryService_config.php',
-            data: { orders: JSON.stringify(orders) },
+            data: { orders: JSON.stringify(orders),
+                    isNewTransaction: 'true'
+                },
             dataType: 'json',
             success: function(response) {
                 if (response.status === 'success') {
@@ -590,12 +592,6 @@ $(document).ready(function() {
                             $('#service_request_id_hidden').val(response.service_request_id);
                             $('#customer_name_hidden').val(response.customer_name);
                             $('#contact_number_hidden').val(response.contact_number);
-                            $('#laundry_service_id').val(response.service_id);
-                            $('#laundry_service_option').val(response.service_option);
-                            $('#laundry_category_id').val(response.category_id);
-                            $('#laundry_category_option').val(response.category_option);
-                            $('#weight_hidden').val(response.weight);
-                            $('#price_hidden').val(response.price);
                           
                             // Show service form after saving
                             $('#service_details').show();
@@ -627,12 +623,6 @@ $(document).ready(function() {
         var amountTendered = parseFloat($('#amount_tendered').val()) || 0;
         var customerName = $('#customer_name_hidden').val();
         var contactNumber = $('#contact_number_hidden').val();
-        var laundryServiceID = $('#laundry_service_id').val();
-        var laundryCategoryID = $('#laundry_category_id').val();
-        var laundryServiceOp = $('#laundry_service_option').val();
-        var laundryCategoryOp = $('#laundry_category_option').val();
-        var laundryWeight = $('#weight_hidden').val();
-        var laundryPrice = $('#price_hidden').val();
     
         var finalTotalAmount = totalPrice + deliveryFee + (isRush === 'Rush' ? rushFee : 0);
         var change = amountTendered - finalTotalAmount;
@@ -663,13 +653,7 @@ $(document).ready(function() {
             amount_tendered: amountTendered.toFixed(2),
             change: change.toFixed(2),
             customer_name: customerName,
-            contact_number: contactNumber,
-            laundry_service_id: laundryServiceID,
-            laundry_category_id: laundryCategoryID,
-            laundry_service_op: laundryServiceOp,
-            laundry_category_op: laundryCategoryOp,
-            laundry_weight: laundryWeight,
-            laundry_price: laundryPrice
+            contact_number: contactNumber
         };
     
         $.ajax({
@@ -750,99 +734,81 @@ $(document).ready(function() {
                 Swal.fire("Service details not saved!", "An error occurred while saving the service details. Please try again.", "error");
             }
         });
-    });
+    })
 
     function printInvoice() {
         var printButton = document.getElementById('print_invoice_btn');
         printButton.style.display = 'none';
-    
-        var printContents = document.getElementById('print_invoice');
-    
-        //temporary window for printing
-        var printWindow = window.open('', '_blank');
-        printWindow.document.write('<html><head><style>' +
-          '@media print {' +
-          '@page {' +
-          'size: 80mm;' +
-          'margin: 5mm;' +
-          '}' +
-    
-          '.print_invoice {' +
-          'display: block;' +
-          'position: static;' +
-          'background-color: transparent;' +
-          'padding: 0;' +
-          'margin: 0;' +
-          'width: 100%;' +
-          '}' +
-    
-          '.invoice_container {' +
-          'margin: 0;' +
-          'padding: 0;' +
-          'border: none;' +
-          'width: 100%;' +
-          'max-width: 100%;' +
-          '}' +
-    
-          'body {' +
-          'font-size: 12px;' +
-          'width: 100%;' +
-          'margin: 0;' +
-          'padding: 0;' +
-          '}' +
-    
-          '.text-center {' +
-          'text-align: center;' +
-          'font-size: 12px;' +
-          '}' +
-    
-          '.mt-4, .mt-2, .mb-4 {' +
-          'margin-top: .5rem;' +
-          'margin-bottom: .5rem;' +
-          '}' +
-    
-          '* {' +
-          'font-size: 12px;' +
-          '}' +
-    
-          '.table {' +
-          'width: 100%;' +
-          'border-collapse: collapse;' +
-          'text-align: center' +
-          '}' +
-    
-          '.table, .table th, .table td {' +
-          'border: 1px solid black;' +
-          '}' +
-    
-          '.table th, .table td {' +
-          'padding: 3px;' +
-          'text-align: left;' +
-          '}' +
-    
-          '.logo_header img {' +
-          'width: 40px;' +
-          'height: auto;' +
-          'display: block;' +
-          'margin: 0 auto;' +
-          '}' +
-    
-          '.content {' +
-          'padding: 5px;' +
-          '}' +
-          '}' +
-          '</style></head><body>' +
-          printContents.outerHTML +
-          '</body></html>');
-        printWindow.document.close();
-        printWindow.print();
-        printWindow.close();
-    
+        
+        var printContents = document.querySelector('.print_invoice').outerHTML; 
+        
+        // Use a new window for printing
+        var newWindow = window.open('', '', 'height=600,width=800');
+        
+        // Write HTML and styles to the new window
+        newWindow.document.write('<html><head><title>Invoice</title>');
+        newWindow.document.write('<style>' +
+            '@media print {' +
+                '@page {' +
+                    'size: 80mm;' + //size of thermal paper
+                    'margin: 0;' +
+                '}' +
+                
+                '.print_invoice {' +
+                    'display: block;' +
+                    'position: static;' +
+                    'background-color: transparent;' +
+                    'padding: 10px;' + 
+                    'width: 100%;' +
+                    'max-width: 80mm;' +  
+                '}' + 
+
+                'hr{' + 
+                'border: 1px solid; margin: 5px 0}' +
+
+                '.logo_header, h3{' + 
+                'font-size: 14px;}' +
+                
+                '.text-center{' +
+                    'text-align: center;' +
+                    'font-size: 12px;' +
+                '}' +
+                
+                '#services-table {' +
+                    'width: 70mm;' + 
+                    'border-collapse: collapse;' +
+                    'margin: 0 auto;' + 
+                '}' +
+                
+                'th, td {' +
+                    'border: 1px solid black;' +
+                    'padding: 2px;' + 
+                    'text-align: left;' +
+                    'font-size: 10px;' + 
+                '}' +
+        
+                'body {' +
+                    'margin: 0;' + 
+                    'padding: 0;' +
+                    'font-size: 12px;' + 
+                '}' +
+            '}' +
+        '</style>');   
+        
+        newWindow.document.write('</head><body>');
+        newWindow.document.write(printContents);
+        newWindow.document.write('</body></html>');
+        
+        newWindow.document.close(); // Close the document to apply styles
+        newWindow.print(); // Trigger the print dialog
+        
+        // Reset UI elements
         printButton.style.display = 'block';
         $('#print_invoice tbody').empty();
         $('#print_invoice').hide();
         $('#service_details').hide();
     }
+    
     
     $('#print_invoice_btn').click(printInvoice);
     

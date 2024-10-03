@@ -261,14 +261,6 @@ $conn->close();
                     <input type="hidden" id="customer_name_hidden" name="customer_name_hidden">
                     <input type="hidden" id="contact_number_hidden" name="contact_number_hidden">
 
-                    <input type="hidden" name="laundry_service_id" id="laundry_service_id">
-                    <input type="hidden" name="laundry_category_id" id="laundry_category_id">
-                    <input type="hidden" name="laundry_service_option" id="laundry_service_option">
-                    <input type="hidden" name="laundry_category_option" id="laundry_category_option">
-                    <input type="hidden" name="weight" id="weight_hidden">
-                    <input type="hidden" name="price" id="price_hidden">
-
-
                     <div class="row">       
                         <h5 class="text-center">Service Details</h5>
                         <div class="col">
@@ -353,14 +345,12 @@ $conn->close();
         <div class="print_invoice" id="print_invoice" style="display:none;">
             <div class="invoice_container" id="invoice_container">
                 <div class="logo_header">
-                    <header>
-                        <img src="/laundry_system/main/images/laundry-logo.png">     
-                    </header>
-                    <h4 class="text-center">Azia Skye's Laundry</h4>
-                    <h6 class="text-center">Verde Height, City of San Jose del Monte, Bulacan</h6>
-                    <h6 class="text-center">0995-062-8516 / 0991-370-9729</h6>
+                    <h5 class="text-center">Azia Skye's Laundry <br>
+                        <span>Verde Heights, City of San Jose del Monte, Bulacan</span> <br>
+                        <span>0995-062-8516 / 0991-370-9729</span>
+                    </h5>
                 </div>
-                <hr style="border: 1px solid #000000; margin: 16px 0;">
+                <hr>
                 
                 <div id="invoice-details" class="mb-4">
                     <h6>Customer No: <span id="invoice_customer_id_hidden"></span></h6>
@@ -378,22 +368,24 @@ $conn->close();
 
                     <h6>Contact Number: <span id="invoice_contact_number"></span></h6>
                     <h6>Address: <span id="invoice_address"></span></h6>
-
-                    <h4>Service Details</h4>
-                    <table class="table table-bordered" id="services-table">
-                        <thead>
-                            <tr>
-                                <th>Service</th>
-                                <th>Category</th>
-                                <th>Quantity</th>
-                                <th>Weight</th>
-                                <th>Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Service details will be inserted here -->
-                        </tbody>
-                    </table>
+                    
+                    <div class="table-responsive">
+                        <span>Service Details</span>
+                        <table class="table table-bordered" id="services-table">
+                            <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th>Weight</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Service details will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
                     
                     <h6>Service Type: <span id="invoice_service_type"></span></h6>
                     <h6>Pickup/Delivery Date: <span id="invoice_pickup_delivery_date"></span></h6>
