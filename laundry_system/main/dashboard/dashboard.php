@@ -1,3 +1,14 @@
+<?php
+session_start(); 
+
+$user_role = $_SESSION['user_role'];
+
+if(!isset($_SESSION['user_role'])) {
+    header('location: /laundry_system/main/homepage/homepage.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,34 +61,36 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                   <a href="/laundry_system/main/users/users.php" class="sidebar-link">
-                        <i class="lni lni-users"></i>
-                        <span>Users</span>
-                    </a>
-                </li>
+                <?php if ($user_role === 'admin') : ?>
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/main/users/users.php" class="sidebar-link">
+                            <i class="lni lni-users"></i>
+                            <span>Users</span>
+                        </a>
+                    </li>
 
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
-                        data-bs-target="#records" aria-expanded="false" aria-controls="records">
-                        <i class="lni lni-files"></i>
-                        <span>Records</span>
-                    </a>
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/main/records/records.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#records" aria-expanded="false" aria-controls="records">
+                            <i class="lni lni-files"></i>
+                            <span>Records</span>
+                        </a>
 
-                    <ul id="records" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="/laundry_system/main/records/customer.php" class="sidebar-link">Customer</a>
-                        </li>
+                        <ul id="records" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/main/records/customer.php" class="sidebar-link">Customer</a>
+                            </li>
 
-                        <li class="sidebar-item">
-                            <a href="/laundry_system/main/records/service.php" class="sidebar-link">Service</a>
-                        </li>
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/main/records/service.php" class="sidebar-link">Service</a>
+                            </li>
 
-                        <li class="sidebar-item">
-                            <a href="/laundry_system/main/records/category.php" class="sidebar-link">Category</a>
-                        </li>
-                    </ul>
-                </li>
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/main/records/category.php" class="sidebar-link">Category</a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
 
                 <li class="sidebar-item">
                     <a href="/laundry_system/main/transaction/transaction.php" class="sidebar-link">
@@ -93,26 +106,28 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                    <a href="/laundry_system/main/settings/settings.php" class="sidebar-link">
-                        <i class="lni lni-cog"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
+                    <?php if ($user_role === 'admin') : ?>
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/main/settings/settings.php" class="sidebar-link">
+                            <i class="lni lni-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
 
-                <hr style="border: 1px solid #b8c1ec; margin: 8px">
+                    <hr style="border: 1px solid #b8c1ec; margin: 8px">
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/main/archived/archived.php" class="sidebar-link">
+                        <a href="/laundry_system/main/archived/archive_users.php" class="sidebar-link">
                             <i class='bx bxs-archive-in'></i>
                             <span class="nav-item">Archived</span>
                         </a>
                     </li>
+                <?php endif; ?>
 
             </ul>
 
             <div class="sidebar-footer">
-                <a href="#" class="sidebar-link">
+                <a href="#" id="btn_logout" class="sidebar-link">
                     <i class="lni lni-exit"></i>
                     <span>Logout</span>
                 </a>
@@ -120,12 +135,12 @@
         </aside>
         
         <!-------------MAIN CONTENT------------->
-        <div class="main p-3">
-            <div class="header-con">
-                <h1>
-                   Dashboard
-                </h1>
-            </div>
+        <div class="main-content">
+            <nav>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Dashboard</h2>
+                </div>
+            </nav>
                  <!----CARDS FOR SERVICE TYPE ORDERS (RUSH/PICK UP/DELIVERY) ---->
                 <div class="cards">
                     <div class="card card-body p-3">
@@ -306,7 +321,7 @@
                             die("Connection failed: " . $conn->connect_error);
                         }
 
-                        $query = "SELECT request_id, laundry_service_option, request_date, service_request_date FROM service_request";
+                        $query = "SELECT request_id, laundry_service_option, request_date, service_request_date, customer_name FROM service_request WHERE order_status = 'completed'";
                         $result = $conn->query($query);
 
                         if (!$result) {
@@ -318,6 +333,7 @@
                     while ($row = $result->fetch_assoc()) {
                         $events[] = array(
                             'title' => $row['laundry_service_option'],
+                            'customer_name' => $row['customer_name'],
                             'start' => $row['service_request_date'],
                             'end' => $row['request_date'],
                         );
@@ -365,6 +381,10 @@
 
                             date.innerHTML = months[month] + " " + year;
 
+                            //to reset today to midnight for date-only comparisons
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0);
+
                             let days = "";
                             // Prev
                             for (let x = day; x > 0; x--) {
@@ -372,19 +392,27 @@
                             }
 
                             for (let i = 1; i <= lastDate; i++) {
-                                //check if event is present on that day
                                 const eventDate = new Date(year, month, i);
                                 const eventsForDay = <?php echo json_encode($events); ?>.filter((event) => {
-                                    const eventDateTime = new Date(event.start);
-                                    return eventDateTime.getDate() === i && eventDateTime.getMonth() === month && eventDateTime.getFullYear() === year;
+                                    const eventEnd = new Date(event.end);
+                                    return (
+                                        eventEnd.getDate() === i &&
+                                        eventEnd.getMonth() === month &&
+                                        eventEnd.getFullYear() === year
+                                    );
                                 });
 
                                 if (eventsForDay.length > 0) {
-                                    days += `<div class="day has-event mark">${i}</div>`; //add the mark
+                                    if (eventDate < today) {
+                                        console.log(`Applying past-event to day ${i}`);
+                                        days += `<div class="day has-event past-event mark">${i}</div>`;
+                                    } else {
+                                        days += `<div class="day has-event mark">${i}</div>`;
+                                    }
                                 } else if (
-                                    i === new Date().getDate() &&
-                                    year === new Date().getFullYear() &&
-                                    month === new Date().getMonth()
+                                    i === today.getDate() &&
+                                    year === today.getFullYear() &&
+                                    month === today.getMonth()
                                 ) {
                                     days += `<div class="day today">${i}</div>`;
                                 } else {
@@ -392,13 +420,11 @@
                                 }
                             }
 
-                            for (let j = 1; j < nextDays; j++) {
+                            for (let j = 1; j <= nextDays; j++) {
                                 days += `<div class="day next-date">${j}</div>`;
                             }
-                            
+                        
                             daysContainer.innerHTML = days;
-
-                            
                         }
 
                         initCalendar();
@@ -429,17 +455,20 @@
                             let eventList = "";
 
                             events.forEach((event) => {
-                                const eventDate = new Date(event.start);
+                                const eventDate = new Date(event.end);
                                 if (eventDate.getDate() === date.getDate() && eventDate.getMonth() === date.getMonth() && eventDate.getFullYear() === date.getFullYear()) {
                                     eventList += `
+                                        <hr style="border: 1px solid #b8c1ec;"> 
                                         <div class="event">
-                                        <h4><li>${event.title}</li></h4>
-                                        <span>Start: ${event.start}</span>
-                                        <span>End: ${event.end}</span>
+                                            <h4><li>${event.title}</li></h4>
+                                            <span>Customer name: ${event.customer_name}</span>
+                                            <span>Start: ${event.start}</span>
+                                            <span>End: ${event.end}</span>
                                         </div>
-                                        <hr style="border: 1px solid #b8c1ec; margin: 5px 0;"> 
+                                       
+                                        
                                     `;
-                                }
+                                } // <hr style="border: 1px solid #b8c1ec; margin: 1rem;"> 
                             });
 
                             eventsContainer.innerHTML = eventList;
@@ -456,6 +485,17 @@
                         displayEventsForDate(new Date().getDate(), <?php echo json_encode($events); ?>);
                     </script>
                 </div> <!--END OF CALENDAR CONTAINER-->
+            
+            <div id="logoutModal" class="modal" style="display:none;">
+                <div class="modal-cont">
+                    <span class="close">&times;</span>
+                    <h2>Do you want to logout?</h2>
+                    <div class="modal-buttons">
+                        <a href="/laundry_system/main/homepage/logout.php" class="btn btn-yes">Yes</a>
+                        <button class="btn btn-no">No</button>
+                    </div>
+                </div>
+            </div>
 
         </div> <!--end of main content-->
     </div><!--end of wrapper--->

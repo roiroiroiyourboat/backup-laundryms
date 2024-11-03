@@ -1,3 +1,13 @@
+<?php
+session_start(); 
+
+$user_role = $_SESSION['user_role'];
+
+if(!isset($_SESSION['user_role'])) {
+    header('location: /laundry_system/main/homepage/homepage.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,12 +118,12 @@
         </aside>
         
         <!-------------MAIN CONTENT------------->
-        <div class="main p-3">
-            <div class="header-con">
-                <h1>
-                   Transaction
-                </h1>
-            </div>
+        <div class="main-content">
+            <nav>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Transaction</h2>
+                </div>
+            </nav>
         </div>
     </div>
 </body>

@@ -136,6 +136,36 @@ function validateContactNumber(input) {
     }
 }
 
+/*********************LOGIN FORM************************/
+document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault(); 
+
+    const formData = new FormData(this); 
+
+    fetch('login.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json()) // Parse the JSON response
+    .then(data => {
+        if (data.success) {
+            //redirect on successful login
+            window.location.href = '/laundry_system/main/dashboard/dashboard.php';
+        } else {
+            //error message
+            Swal.fire({
+                icon: 'error',
+                title: data.title,
+                text: data.message,
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+
 /***************************LAUNDRY SERVICE REQUEST****************************/
 //fetch laundry service
 function fetchServices() {
@@ -498,16 +528,16 @@ $(document).ready(function() {
             if (weightValue < minWeight) {
                 swal.fire({
                     title: "Minimum Weight!",
-                    text: `The minimum weight for laundry is ${minWeight} kilos. Do you want to proceed with a 5 kilo order?`,
+                    text: `The minimum weight for laundry is ${minWeight} kilos. Do you want to proceed with a ${minWeight} kilo order?`,
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Yes',
                     cancelButtonText: 'No'
-                }).then((result) => {
+                }).then((result) => {   
                     if (result.isConfirmed) {
-                        validateAndSubmitOrder(5);
+                        validateAndSubmitOrder(minWeight);
                     } else {
                         $('#form_id').find('input[type="text"], input[type="number"], input[type="tel"], select').val('');
                     }
@@ -750,7 +780,7 @@ $(document).ready(function() {
         newWindow.document.write('<style>' +
             '@media print {' +
                 '@page {' +
-                    'size: 80mm;' + //size of thermal paper
+                    'size: 58mm;' + //size of thermal paper
                     'margin: 0;' +
                 '}' +
                 
@@ -760,7 +790,7 @@ $(document).ready(function() {
                     'background-color: transparent;' +
                     'padding: 10px;' + 
                     'width: 100%;' +
-                    'max-width: 80mm;' +  
+                    'max-width: 58mm;' +  
                 '}' + 
 
                 'hr{' + 
@@ -775,7 +805,7 @@ $(document).ready(function() {
                 '}' +
                 
                 '#services-table {' +
-                    'width: 70mm;' + 
+                    'width: 50mm;' + 
                     'border-collapse: collapse;' +
                     'margin: 0 auto;' + 
                 '}' +
@@ -784,7 +814,7 @@ $(document).ready(function() {
                     'border: 1px solid black;' +
                     'padding: 2px;' + 
                     'text-align: left;' +
-                    'font-size: 10px;' + 
+                    'font-size: 8px;' + 
                 '}' +
         
                 'body {' +
@@ -886,4 +916,137 @@ $(document).ready(function() {
             }
         });
     });
+
+    /**************FORGOT PASSWORD***************/
+    $('#forgotPasswordModal').on('shown.bs.modal', function () {
+        //remove any existing listeners to prevent duplicates
+        $('#reset_pass_username').off('input');
+        $('#submitForgotPassword').off('click');
+
+        //get the security question when they type their username
+        document.querySelector("#reset_pass_username").addEventListener("input", (e) => {
+            const username = e.target.value.trim();
+            clearTimeout(timeoutId)
+            timeoutId = setTimeout(function(){
+                if (username) {
+                fetchSecurityQuestion(username).then(fetchedQuestion => {
+                    document.querySelector("#question").value = fetchedQuestion || 'No question found';
+                });
+                } else {
+                    document.querySelector("#question").value = '';
+                }
+            }, 1000)
+
+        });
+
+        // Handle the form submission when the submit button is clicked
+        document.querySelector("#submitForgotPassword").addEventListener("click", () => {
+            const username = document.querySelector("#reset_pass_username").value.trim();
+            const answer = document.querySelector("#answer").value.trim();
+
+            console.log("Username: ", username);
+            console.log("Answer: ", answer);
+
+            if (!username) {
+                console.log("No username provided.");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Input Required',
+                    text: 'Username is required.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                return;
+            }
+
+            if (!answer) {
+                console.log("No answer provided.");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Input Required',
+                    showConfirmButton: false,
+                    text: 'Answer is required.',
+                    timer: 2000,
+                });
+                return;
+            }
+
+            //send `username` and `answer` to the server
+            fetch('/laundry_system/main/homepage/forgot_password.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reset_pass_username: username, answer })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
+                    modal.hide();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Answer Verified! ' + data.message,
+                        showConfirmButton: false,
+                        timer: 2000,
+                    }).then(() => {
+                        window.location.href = '/laundry_system/main/homepage/reset_password.php';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        timer: 2000,
+                        showConfirmButton: false,
+                        text: data.message,
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    text: 'An error occurred. Please try again later.',
+                });
+            });
+        });
+    });
+
+    //to retrieve security question
+    function fetchSecurityQuestion(username) {
+        return fetch('/laundry_system/main/homepage/get_security_question.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                return data.question;
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    text: data.message || 'Failed to retrieve security question.',
+                });
+                return '';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching security question:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                timer: 2000,
+                showConfirmButton: false,
+                text: 'An error occurred. Please try again.',
+            });
+            return '';
+        });
+    }
+
 });

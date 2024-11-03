@@ -1,3 +1,14 @@
+<?php
+session_start(); 
+
+$user_role = $_SESSION['user_role'];
+
+if(!isset($_SESSION['user_role'])) {
+    header('location: /laundry_system/main/homepage/homepage.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +23,6 @@
 <body>
     <div class="progress"></div>
     <div class="wrapper">
-
     <aside id="sidebar">
             <div class="d-flex">
                 <button id="toggle-btn" type="button">
@@ -39,34 +49,36 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                   <a href="/laundry_system/main/users/users.php" class="sidebar-link">
-                        <i class="lni lni-users"></i>
-                        <span>Users</span>
-                    </a>
-                </li>
+                <?php if ($user_role === 'admin') : ?>
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/main/users/users.php" class="sidebar-link">
+                            <i class="lni lni-users"></i>
+                            <span>Users</span>
+                        </a>
+                    </li>
 
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
-                        data-bs-target="#records" aria-expanded="false" aria-controls="records">
-                        <i class="lni lni-files"></i>
-                        <span>Records</span>
-                    </a>
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/main/records/records.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#records" aria-expanded="false" aria-controls="records">
+                            <i class="lni lni-files"></i>
+                            <span>Records</span>
+                        </a>
 
-                    <ul id="records" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="/laundry_system/main/records/customer.php" class="sidebar-link">Customer</a>
-                        </li>
+                        <ul id="records" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/main/records/customer.php" class="sidebar-link">Customer</a>
+                            </li>
 
-                        <li class="sidebar-item">
-                            <a href="/laundry_system/main/records/service.php" class="sidebar-link">Service</a>
-                        </li>
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/main/records/service.php" class="sidebar-link">Service</a>
+                            </li>
 
-                        <li class="sidebar-item">
-                            <a href="/laundry_system/main/records/category.php" class="sidebar-link">Category</a>
-                        </li>
-                    </ul>
-                </li>
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/main/records/category.php" class="sidebar-link">Category</a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
 
                 <li class="sidebar-item">
                     <a href="/laundry_system/main/transaction/transaction.php" class="sidebar-link">
@@ -82,26 +94,28 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                    <a href="/laundry_system/main/settings/settings.php" class="sidebar-link">
-                        <i class="lni lni-cog"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
+                    <?php if ($user_role === 'admin') : ?>
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/main/settings/settings.php" class="sidebar-link">
+                            <i class="lni lni-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
 
-                <hr style="border: 1px solid #b8c1ec; margin: 8px">
+                    <hr style="border: 1px solid #b8c1ec; margin: 8px">
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/main/archived/archived.php" class="sidebar-link">
+                        <a href="/laundry_system/main/archived/archive_users.php" class="sidebar-link">
                             <i class='bx bxs-archive-in'></i>
                             <span class="nav-item">Archived</span>
                         </a>
                     </li>
+                <?php endif; ?>
 
             </ul>
 
             <div class="sidebar-footer">
-                <a href="#" class="sidebar-link">
+                <a href="#" id="btn_logout" class="sidebar-link">
                     <i class="lni lni-exit"></i>
                     <span>Logout</span>
                 </a>
@@ -109,10 +123,12 @@
         </aside>
 
             <!---------MAIN CONTENT------------->
-            <div class="main p-3">
-                <div class="header-con">
-                    <h1>My Profile</h1>
-                </div>
+            <div class="main-content">
+                <nav>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2>Profile</h1>
+                    </div>
+                </nav>
 
                 <div class="user_container" id="user_container">
                     <form action="" method="post" class="user_form" id="user_form">
@@ -151,6 +167,7 @@
                     </form>
                 </div>
 
+                <!----------------------EDIT USER INFO------------------------------->
                 <div class="edit_user" id="edit_user">
                     <form action="" method="post" class="edit_user_form" id="edit_user_form">
                         <div class="header">
@@ -208,11 +225,22 @@
                         </div>
                         
                         <div class="text-center">
-                            <button type="button" class="btn btn-light" id="btnBack">Back</button>
+                            <button type="button" class="btn btn-outline-secondary" id="btnBack">Back</button>
                             <button type="button" class="btn btn-primary" id="btnSaveChanges">Save Changes</button>
                         </div>
                     </form>
                 </div>
+            
+            <div id="logoutModal" class="modal" style="display:none;">
+                <div class="modal-cont">
+                    <span class="close">&times;</span>
+                    <h2>Do you want to logout?</h2>
+                    <div class="modal-buttons">
+                        <a href="/laundry_system/main/homepage/logout.php" class="btn btn-yes">Yes</a>
+                        <button class="btn btn-no">No</button>
+                    </div>
+                </div>
+            </div>
 
             </div> <!--end of main content-->
 
