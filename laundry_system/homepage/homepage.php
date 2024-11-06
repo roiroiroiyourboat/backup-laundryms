@@ -84,8 +84,8 @@ $conn->close();
                             <img src="/laundry_system/images/laundry-logo.png" alt="logo">      
                         </header>
                         <button type="button" class="btnClose" onclick="closeForm()"><i class='bx bx-x bx-rotate-90'></i></button>
-                        <h4>Welcome back!</h4>
-                        <h5>Login</h5>
+                        <h4>Login</h3>
+                        <h5>Welcome back!</h5>
                     </div>
 
                     <form id="loginForm">
@@ -143,7 +143,6 @@ $conn->close();
                 </div>
             </div>
         </div>
-
 
         <!--POP UP LAUNDRY SERVICE FORM-->
         <div class="service_form" id="service_form">
@@ -324,6 +323,9 @@ $conn->close();
                         <div class="col">
                             <label for="form-label"><b>Address</b></label>
                             <textarea class="form-control" id="address" name="address" rows="3"></textarea>
+                            <div class="form-text">
+                                Note: If you have selected delivery, kindly provide your address.
+                            </div>
                         </div>
                     </div>
 

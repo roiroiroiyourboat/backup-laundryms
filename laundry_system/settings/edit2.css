@@ -64,6 +64,7 @@ transition: all 0.25s ease-in-out;
 flex-direction: column;
 background-color: #0e223e;
 border-radius: 0 20px 20px 0;
+overflow: auto;
 }
 
 #sidebar.expand {

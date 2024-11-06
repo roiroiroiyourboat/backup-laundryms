@@ -606,7 +606,6 @@ $(document).ready(function() {
                 if (response.status === 'success') {
                     swal.fire("Orders saved successfully!", response.message, "success")
                         .then(() => {
-
                             //Store orders in session storage
                             sessionStorage.setItem('orders', JSON.stringify(orders));
                             
@@ -640,8 +639,6 @@ $(document).ready(function() {
     });
     
     $('#btnDone_service').click(function() {
-        console.log("btnDone_service clicked");
-        
         var customerId = $('#customer_id_hidden').val();
         var serviceId = $('select[name="service_option"]').val();
         var serviceOption = $('select[name="service_option"] option:selected').text();
@@ -700,6 +697,9 @@ $(document).ready(function() {
                         timer: 2000,
                         showConfirmButton: false
                     }).then(() => {
+                        //to set a flag to trigger the other page to refresh
+                        localStorage.setItem("refreshOtherPage", "true");
+
                         resetOrder();
                         $('#form_id')[0].reset();
                         $('#form-service input, #form-service select, #form-service textarea').val('');
@@ -757,6 +757,7 @@ $(document).ready(function() {
                         $('#print_invoice_btn').show();
                         console.log("Invoice data set and container shown.");
                     });
+
                 } else {
                     Swal.fire("Service details not saved!", response.message, "error");
                 }

@@ -236,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="col">
-                            <label for="rush_delivery_day"><b>Delivery Period for Rush:</b></label>
+                            <label for="rush_delivery_day"><b>Rush Delivery Period:</b></label>
                             <input type="number" class="form-control" id="rush_delivery_day" name="rush_delivery_day" value="<?php echo $rush_delivery_day?>">
                         </div>
                     </div>

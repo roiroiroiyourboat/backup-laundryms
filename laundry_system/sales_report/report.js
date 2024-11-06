@@ -6,6 +6,14 @@ hamburger.addEventListener("click", function(){
 
 /**************************************CHARTS**************************************/
 document.addEventListener('DOMContentLoaded', function() {
+     //checking the flag from the homepage.js set
+     setInterval(function() {
+        if (localStorage.getItem("refreshOtherPage") === "true") {
+            localStorage.removeItem("refreshOtherPage"); //to clear the flag
+            location.reload(); //to refresh the page
+        }
+    }, 1000);
+    
     //daily
     const datePicker = document.getElementById('chooseDate');
     datePicker.value = getCurrentDate();
