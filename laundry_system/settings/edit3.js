@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //detects when the user navigates back in history. 
     //popstate event detects when user pressed the back button.
     window.addEventListener('popstate', function() { //
-        window.location.href = "categ1.php"; 
+        window.location.href = "categ3.php"; 
     });
 
     // for logout

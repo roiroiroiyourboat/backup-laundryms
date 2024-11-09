@@ -251,7 +251,6 @@ if(!isset($_SESSION['user_role'])) {
                                     <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" autocomplete="username" required>
                             </div>
                         
-
                             <div class="form-group">
                                 <label for="question">Security Questions</label>
                                     <select name="question" class="form-control">

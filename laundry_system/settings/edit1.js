@@ -74,11 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 timer: 2000,
                 showConfirmButton: false
             }).then(() => {
-                /* history.pushState(null, '', 'edit1.php');
-                location.reload(); */
-                //window.location.replace('edit1.php');
-                // Instead of reloading, update the table row directly with the new price
-            //   document.querySelector(`#price-cell-${id}`).innerText = priceInput;
               $('#editForm').hide();
               location.reload();
               

@@ -284,13 +284,13 @@
                 </form>    
             </div> 
 
-            <div id="logoutModal" class="modal" style="display: none;">
+            <div id="logoutModal" class="modal" style="display:none;">
                 <div class="modal-cont">
                     <span class="close">&times;</span>
                     <h2>Do you want to logout?</h2>
                     <div class="modal-buttons">
-                        <a href="/laundry_system/homepage/logout.php" class="btns btn-yes">Yes</a>
-                        <button class="btns btn-no">No</button>
+                        <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
+                        <button class="btn btn-no">No</button>
                     </div>
                 </div>
             </div>
@@ -306,6 +306,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="edit1.js"></script>
+<script type="text/javascript" src="edit3.js"></script>
 
 </html>

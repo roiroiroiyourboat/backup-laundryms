@@ -85,20 +85,20 @@ $conn->close();
                         </header>
                         <button type="button" class="btnClose" onclick="closeForm()"><i class='bx bx-x bx-rotate-90'></i></button>
                         <h4>Login</h3>
-                        <h5>Welcome back!</h5>
+                        <h6>Welcome back!</h6>
                     </div>
 
                     <form id="loginForm">
                         <div class="row">
                             <div class="col">
-                                <label for="form-label">Username</label>
+                                <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="username" name="username" required>
                             </div>
                         </div>
                             
                         <div class="row">
                             <div class="col">
-                                <label for="form-label">Password</label>
+                                <label for="pass" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                         </div>
@@ -159,22 +159,22 @@ $conn->close();
                 <div class="row">
                     <h5 class="text-center">Customer Details</h5>
                     <div class="col">
-                        <label for="form-label"><b>Customer Name</b></label>
+                        <label for="name" class="form-label"><b>Customer Name</b></label>
                         <input type="text" class="form-control" id="customer_name" name="customer_name"
                             placeholder="Enter customer name" autocomplete="off">
                     </div>
 
                     <div class="col">
-                        <label for="form-label"><b>Contact Number</b></label>
+                        <label for="contactNo" class="form-label"><b>Contact Number</b></label>
                         <input type="tel" class="form-control" id="contact_number" name="contact_number"
-                            placeholder="Enter customer number" autocomplete="off"  maxlength="11" oninput="validateContactNumber(this)">
+                            placeholder="Enter contact number" autocomplete="off"  maxlength="11" oninput="validateContactNumber(this)">
                     </div>
                 </div>
 
                 <div class="row">
                     <h5 class="text-center">Laundry Information</h5>
                     <div class="col">
-                        <label for="form-label"><b>Quantity</b></label>
+                        <label for="qty" class="form-label"><b>Quantity of laundry bags</b></label>
                         <select name="quantity" class="form-control">
                             <option selected>--Select Quantity--</option>
                             <option value="1">1</option>
@@ -193,14 +193,14 @@ $conn->close();
 
                 <div class="row">
                     <div class="col">
-                        <label for="form-label"><b>Laundry Service</b></label>
+                        <label for="service" class="form-label"><b>Laundry Service</b></label>
                         <select name="service" class="form-control" id="service">
                             <option selected>--Select Service--</option>
                         </select>
                     </div>
 
                     <div class="col">
-                        <label for="form-label"><b>Laundry Category</b></label>
+                        <label for="category" class="form-label"><b>Laundry Category</b></label>
                         <select name="category" class="form-control" id="category">
                             <option selected>--Select Category--</option>
                         </select>
@@ -209,14 +209,14 @@ $conn->close();
 
                 <div class="row">
                     <div class="col">
-                        <label for="form-label"><b>Weight(kg)</b></label>
+                        <label for="weight" class="form-label"><b>Weight(kg)</b></label>
                         <input type="number" class="form-control" step="0.01" id="weight" name="weight" autocomplete="off" required>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col">
-                        <label for="form-label"><b>Price</b></label>
+                        <label for="price" class="form-label"><b>Price</b></label>
                         <input type="number" class="form-control" id="price" name="price" autocomplete="off" readonly>
                     </div>
                 </div>
@@ -302,7 +302,7 @@ $conn->close();
                     <div class="row">       
                         <h5 class="text-center">Service Details</h5>
                         <div class="col">
-                            <label for="form-label"><b>Service Option</b></label>
+                            <label for="service_option" class="form-label"><b>Service Option</b></label>
                             <select name="service_option" class="form-control" id="service_option">
                                 <option selected>--Select Option--</option>
                             </select>
@@ -314,39 +314,65 @@ $conn->close();
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="Rush" id="rush" name="rush">
                                 <label class="form-check-label" for="rush"><b>Rush</b></label>
-                                <p>Get your order delivered as soon as possible.</p>
+                                <div class="form-text">Get your order delivered as soon as possible.</div>
                             </div>
                         </div>
                     </div>
-
+                
                     <div class="row">
                         <div class="col">
-                            <label for="form-label"><b>Address</b></label>
-                            <textarea class="form-control" id="address" name="address" rows="3"></textarea>
+                            <label for="address" class="form-label"><b>Address</b></label>
                             <div class="form-text">
                                 Note: If you have selected delivery, kindly provide your address.
                             </div>
+                            <textarea class="form-control" id="address" name="address" rows="2"
+                            placeholder="Block, Lot, Street, and Subdivision" ></textarea>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col">
-                            <label for="form-label"><b>Pickup/Delivery Date</b></label>
+                            <select class="form-select" aria-label="province" name="province">
+                                <option selected>Province</option>
+                                <option value="bulacan">Bulacan</option>
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <select class="form-select" aria-label="city" name="city">
+                                <option selected>City</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-select" aria-label="brygy" name="brgy">
+                                <option selected>Barangay</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="pick/delivery date" class="form-label"><b>Pickup/Delivery Date</b></label>
                             <input type="date" class="form-control" id="pickup_date" name="pickup_date" value="<?php echo $defaultDeliveryDay; ?>">
                         </div>
                     </div>
 
                     <div class="row">
                         <h5 class="text-center">Charges</h5>
+                        
                         <div class="col">
-                            <label for="form-label"><b>Delivery Fee</b></label>
+                            <label for="delivery_fee" class="form-label"><b>Delivery Fee</b></label>
                             <input type="number" class="form-control" id="delivery_fee" name="delivery_fee"
                                 autocomplete="off" readonly>
                         </div>
                         
                         <div class="col">
                             <label for="rush_fee" class="form-label"><b>Rush Fee</b></label>
-                            <input type="number" class="form-control" id="rush_fee" name="rush_fee" autocomplete="off" readonly>
+                            <input type="number" class="form-control" id="rush_fee" name="rush_fee"
+                            autocomplete="off" readonly>
                         </div>
                     </div>
 
@@ -354,7 +380,7 @@ $conn->close();
 
                     <div class="row">
                         <div class="col">
-                            <label for="form-label"><b>Total Amount</b></label>
+                            <label for="total_amount" class="form-label"><b>Total Amount</b></label>
                             <input type="number" class="form-control" id="total_amount" name="total_amount"
                                 autocomplete="off" readonly>
                         </div>
@@ -362,13 +388,13 @@ $conn->close();
 
                     <div class="row">
                         <div class="col">
-                            <label for="form-label"><b>Amount Tendered</b></label>
+                            <label for="amount_tendered" class="form-label"><b>Amount Tendered</b></label>
                             <input type="number" class="form-control" id="amount_tendered" name="amount_tendered"
                                 autocomplete="off">
                         </div>
 
                         <div class="col">
-                            <label for="form-label"><b>Change</b></label>
+                            <label for="change" class="form-label"><b>Change</b></label>
                             <input type="number" class="form-control" id="change" name="change"
                                 autocomplete="off" readonly>
                         </div>

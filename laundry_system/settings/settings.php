@@ -232,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row">
                         <div class="col">
                              <label for="delivery_date"><b>Delivery Period:</b></label>
-                            <input type="number" class="form-control" id="delivery_day" name="delivery_day" value="<?php echo $delivery_day ?>">
+                            <input type="number" class="form-control" id="delivery_day" name="delivery_day" value="<?php echo $delivery_day?>">
                         </div>
 
                         <div class="col">
