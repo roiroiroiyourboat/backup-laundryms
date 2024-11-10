@@ -30,6 +30,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    function fetchServices() {
+        fetch('get_service_id.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data); // For debugging
+                let dropdown = document.getElementById('service_id');
+                dropdown.innerHTML = '<option selected disabled>--Select Service ID--</option>'; //to clear existing option
+                data.forEach(service => {
+                    let option = document.createElement('option');
+                    option.value = service.service_id;
+                    option.textContent = `${service.service_id} - ${service.laundry_service_option}`;
+                    dropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching services:', error));
+    }
+    fetchServices();
+
+    function fetchCategories() {
+        fetch('get_categ_id.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data); // For debugging
+                let dropdown = document.getElementById('categ_id');
+                dropdown.innerHTML = '<option selected disabled>--Select Category ID--</option>'; //to clear existing option
+                data.forEach(category => {
+                    let option = document.createElement('option');
+                    option.value = category.category_id;
+                    option.textContent = `${category.category_id} - ${category.laundry_category_option}`;
+                    dropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching services:', error));
+    }
+    fetchCategories();
+
     const form = document.getElementById('form');
 
     form.addEventListener('submit', function (event) {
@@ -41,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             body: formData
         })
-
         .then(response => response.json())
         .then(data => {
             if (data.success) {

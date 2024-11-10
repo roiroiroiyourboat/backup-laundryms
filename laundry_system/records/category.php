@@ -208,15 +208,29 @@ if ($_SESSION['user_role'] !== 'admin') {
             <div class="modal" id="addModal" style="display: none;">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1>Add Category</h1>
+                        <h3>Add Category</h3>
                         <span class="close">&times;</span>
                     </div>
 
                     <div class="modal-body">
                         <form method="POST" action="add_category.php" id="form">
                             <div class="form-group">
-                                <h3>Laundry Category</h3>
+                                <label for="category" class="form-label">Laundry Category:</label>
                                 <input type="text" class="form-control" placeholder="Create laundry category option" name="laundry_category_option" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="serv_id" class="form-label">Service ID:</label>
+                                <select class="form-select" aria-label="Service ID" name="service_id" id="service_id">
+                                    <option selected disabled>--Select Service ID--</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="categ_id" class="form-label">Category ID:</label>
+                                <select class="form-select" aria-label="Category ID" name="categ_id" id="categ_id">
+                                    <option selected disabled>--Select Category ID--</option>
+                                </select>
                             </div>
 
                             <button type="submit" class="btn btn-success">Submit</button>

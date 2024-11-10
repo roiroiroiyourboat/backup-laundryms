@@ -5,7 +5,7 @@
     if ($conn->connect_error) {
         die(json_encode(['error' => 'Failed to connect: ' . $conn->connect_error]));
     } else {
-        $sql = "SELECT service_id, laundry_service_option FROM service";
+        $sql = "SELECT category_id, laundry_category_option FROM category";
         $result = $conn->query($sql);
 
         if (!$result) {
@@ -16,8 +16,8 @@
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $options[] = [
-                    'service_id' => $row['service_id'],
-                    'laundry_service_option' => $row['laundry_service_option']
+                    'category_id' => $row['category_id'],
+                    'laundry_category_option' => $row['laundry_category_option']
                 ];
             }
         }

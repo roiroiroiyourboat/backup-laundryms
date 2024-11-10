@@ -4,7 +4,8 @@ session_start();
 //to check if user is verified
 if (!isset($_SESSION['verified_user'])) {
     echo "<script>
-    alert('Access denied. Please complete verification first.');
+        Access denied. Please complete verification first.');
+        window.location.href = 'homepage.php';
     </script>";
     exit;
 }
@@ -75,6 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <style>
@@ -133,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="mb-3">
                     <label for="confirm_pass" class="form-label">Confirm new password</label>
                     <div class="password-wrapper">
-                        <input type="password" class="form-control" id="con_password" name="con_password">
+                        <input type="password" class="form-control" id="con_password" name="con_password" minlength="8" maxlength="20">
                         <i class='bx bx-show toggle-password' data-target="#con_password"></i>
                     </div>  
                 </div>
@@ -165,7 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             const formData = new FormData(this);
             const jsonData = Object.fromEntries(formData.entries());
 
-            console.log("Form Data:", jsonData); 
+            console.log("Form Data:", jsonData);
 
             fetch('reset_password.php', {
                 method: 'POST',
@@ -175,21 +177,42 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 body: JSON.stringify(jsonData),
             })
             .then(response => {
-                console.log("Response Status:", response.status); 
+                console.log("Response Status:", response.status);
                 return response.json();
             })
             .then(data => {
                 console.log("Response Data:", data);
-                alert(data.message);
                 if (data.success) {
-                    window.location.href = 'homepage.php'; 
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then((result) => {
+                        window.location.href = 'homepage.php';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: 'An unexpected error occurred. Please try again later.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
             });
         });
-
 
     </script>
 </body>
