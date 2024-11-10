@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // AJAX request to update.php
+        
         fetch('update.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //detects when the user navigates back in history. 
     //popstate event detects when user pressed the back button.
     window.addEventListener('popstate', function() { //
-        window.location.href = "categ1.php"; 
+        window.location.href = "settings.php"; 
     });
 
     // for logout

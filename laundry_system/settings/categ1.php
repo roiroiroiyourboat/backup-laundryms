@@ -1,39 +1,43 @@
 <?php
-session_start(); 
+    session_start(); 
 
-$user_role = $_SESSION['user_role'];
+    $user_role = $_SESSION['user_role'];
 
-if(!isset($_SESSION['user_role'])) {
-    header('location: /laundry_system/homepage/homepage.php');
-    exit();
-}
-
-$conn = new mysqli('localhost', 'root', '', 'laundry_db');
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-//fetch the rows for wash/dry/fold
-$sql = "SELECT scp.price, c.laundry_category_option, s.laundry_service_option
-        FROM service_category_price scp
-        JOIN category c ON scp.category_id = c.category_id
-        JOIN service s ON scp.service_id = s.service_id
-        WHERE s.service_id = 1";
-
-$result = $conn->query($sql); 
-
-$prices = [];
-if ($result) {
-    while ($row = $result->fetch_assoc()) { 
-        $prices[] = $row; 
+    if(!isset($_SESSION['user_role'])) {
+        header('location: /laundry_system/homepage/homepage.php');
+        exit();
     }
-} else {
-    die("Query Failed: " . $conn->error); 
-}
 
-//close connection
-$conn->close();
+    if (isset($_GET['service_id'])) {
+
+        $conn = new mysqli('localhost', 'root', '', 'laundry_db');
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        //fetch the rows for wash/dry/fold
+        $sql = "SELECT scp.price, c.laundry_category_option, s.laundry_service_option
+                FROM service_category_price scp
+                JOIN category c ON scp.category_id = c.category_id
+                JOIN service s ON scp.service_id = s.service_id
+                WHERE s.service_id = 1";
+
+        $result = $conn->query($sql); 
+
+        $prices = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) { 
+                $prices[] = $row; 
+            }
+        } else {
+            die("Query Failed: " . $conn->error); 
+        }
+
+        //close connection
+        $conn->close();
+    }
+
 ?>
 
 <!DOCTYPE html>

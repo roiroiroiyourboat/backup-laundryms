@@ -206,54 +206,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </nav>
 
-            <div class="buttons">
-                <div class="wdf_button">
-                    <a href="/laundry_system/settings/categ1.php" class="button" id="wdfBtn">Wash/Dry/Fold</a>
-                </div>
-                    
-                <div class="wdp_button">
-                    <a href="/laundry_system/settings/categ2.php" class="button" id="wdpBtn">Wash/Dry/Press</a>
-                </div>
-                
-                <div class="dry_button">
-                    <a href="/laundry_system/settings/categ3.php" class="button" id="dryBtn">Dry only</a>
-                </div>       
-            </div> 
-
             <div class="form-settings" id="mainForm">
                 <form class="form-container" id="settingsForm" method="POST">
                     <div class="row">
                         <div class="col">
-                            <label for="min_kilos"><b>Minimum Kilos:</b></label>
+                            <label for="service" class="form-label"><b>Service: </b></label>
+                            <select class="form-select" aria-label="Service" name="service" id="service">
+                                <option selected disabled>--Select Service--</option>
+                            </select>
+                        </div>
+                         <hr style="border: 1px solid #232946; margin: 8px 0">
+                    </div>
+                   
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="min_kilos" class="form-label"><b>Minimum Kilos:</b></label>
                             <input type="number" class="form-control" id="min_kilos" name="min_kilos" value="<?php echo $minimum_kilos ?>">
                         </div>
                     </div>
                     
                     <div class="row">
                         <div class="col">
-                             <label for="delivery_date"><b>Delivery Period:</b></label>
+                             <label for="delivery_date" class="form-label"><b>Delivery Period:</b></label>
                             <input type="number" class="form-control" id="delivery_day" name="delivery_day" value="<?php echo $delivery_day?>">
                         </div>
 
                         <div class="col">
-                            <label for="rush_delivery_day"><b>Rush Delivery Period:</b></label>
+                            <label for="rush_delivery_day" class="form-label"><b>Rush Delivery Period:</b></label>
                             <input type="number" class="form-control" id="rush_delivery_day" name="rush_delivery_day" value="<?php echo $rush_delivery_day?>">
                         </div>
                     </div>
                     
                     <div class="row">
                         <div class="col">
-                            <label for="delivery_charge"><b>Delivery Fee: </b></label>
+                            <label for="delivery_charge" class="form-label"><b>Delivery Fee: </b></label>
                             <input type="number" class="form-control" id="delivery_charge" name="delivery_charge" value="<?php echo $delivery_charge ?>">
                         </div>
 
                         <div class="col">
-                            <label for="rush_charge"><b>Rush Fee:</b></label>
+                            <label for="rush_charge" class="form-label"><b>Rush Fee:</b></label>
                             <input type="number" class="form-control" id="rush_charge" name="rush_charge" value="<?php echo $rush_charge ?>">
                         </div>
                     </div>          
 
                     <button type="submit" class="btn btn-success" id="submit_btn" name="submit">Submit</button>
+                    
                 </form>
             </div>
 
@@ -316,7 +314,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-         </div> <!--end of main on. -->
+         </div> <!--end of main -->
     </div>
 
 </body>

@@ -291,23 +291,38 @@ if(!isset($_SESSION['user_role'])) {
                 <div class="container">
                     <div class="left">
                         <div class="calendar">
-                        <div class="month">
-                            <i class="fas fa-angle-left prev"></i>
-                            <div class="date">December 2015</div>
-                            <i class="fas fa-angle-right next"></i>
-                        </div>
-                        <div class="weekdays">
-                            <div>Sun</div>
-                            <div>Mon</div>
-                            <div>Tue</div>
-                            <div>Wed</div>
-                            <div>Thu</div>
-                            <div>Fri</div>
-                            <div>Sat</div>
-                        </div>
-                        <div class="days"></div>
+                            <div class="month">
+                                <i class="fas fa-angle-left prev"></i>
+                                <div class="date">December 2015</div>
+                                <i class="fas fa-angle-right next"></i>
+                            </div>
+                            <div class="weekdays">
+                                <div>Sun</div>
+                                <div>Mon</div>
+                                <div>Tue</div>
+                                <div>Wed</div>
+                                <div>Thu</div>
+                                <div>Fri</div>
+                                <div>Sat</div>
+                            </div>
+                            <div class="days"></div>
+
+                            <div class="container-sm">
+                                <div class="legend-container">
+                                    <div class="legend-item">
+                                        <i class='bx bxs-circle' style='color:#0758ff'></i>
+                                        <span>Past events</span>
+                                    </div>
+
+                                    <div class="legend-item">
+                                        <i class='bx bxs-circle' style='color:#ff0707'></i>
+                                        <span>Upcoming events</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                     <div class="right">
                         <div class="event-title">Events</div>
                         <hr>
@@ -321,7 +336,10 @@ if(!isset($_SESSION['user_role'])) {
                             die("Connection failed: " . $conn->connect_error);
                         }
 
-                        $query = "SELECT request_id, laundry_service_option, request_date, service_request_date, customer_name FROM service_request WHERE order_status = 'completed'";
+                        $query = "SELECT sr.request_id, sr.laundry_service_option, sr.request_date, sr.service_request_date, sr.customer_name , t.service_option_name, t.laundry_cycle
+                                FROM service_request sr 
+                                INNER JOIN transaction t ON sr.request_id = t.request_id 
+                                WHERE sr.order_status = 'completed'";
                         $result = $conn->query($query);
 
                         if (!$result) {
@@ -334,6 +352,8 @@ if(!isset($_SESSION['user_role'])) {
                         $events[] = array(
                             'title' => $row['laundry_service_option'],
                             'customer_name' => $row['customer_name'],
+                            'service_option_name' => $row['service_option_name'],
+                            'laundry_cycle' => $row['laundry_cycle'],
                             'start' => $row['service_request_date'],
                             'end' => $row['request_date'],
                         );
@@ -458,17 +478,19 @@ if(!isset($_SESSION['user_role'])) {
                                 const eventDate = new Date(event.end);
                                 if (eventDate.getDate() === date.getDate() && eventDate.getMonth() === date.getMonth() && eventDate.getFullYear() === date.getFullYear()) {
                                     eventList += `
-                                        <hr style="border: 1px solid #b8c1ec;"> 
-                                        <div class="event">
+                                        <hr style="border: 1px solid #b8c1ec; margin: 1.5rem 0;">
+                                        <div class="event_container">
                                             <h4><li>${event.title}</li></h4>
-                                            <span>Customer name: ${event.customer_name}</span>
-                                            <span>Start: ${event.start}</span>
-                                            <span>End: ${event.end}</span>
+                                            <div class="event-details">
+                                                <span>Customer Name: ${event.customer_name}</span>
+                                                <span>Service Type: ${event.service_option_name}</span>
+                                                <span>Laundry Cycle: ${event.laundry_cycle}</span>
+                                                <span>Start: ${event.start}</span>
+                                                <span>End: ${event.end}</span>
+                                            </div>
                                         </div>
-                                       
-                                        
                                     `;
-                                } // <hr style="border: 1px solid #b8c1ec; margin: 1rem;"> 
+                                }  
                             });
 
                             eventsContainer.innerHTML = eventList;

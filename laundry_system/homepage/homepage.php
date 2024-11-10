@@ -161,13 +161,13 @@ $conn->close();
                     <div class="col">
                         <label for="name" class="form-label"><b>Customer Name</b></label>
                         <input type="text" class="form-control" id="customer_name" name="customer_name"
-                            placeholder="Enter customer name" autocomplete="off">
+                            placeholder="Enter customer name" autocomplete="off" required>
                     </div>
 
                     <div class="col">
                         <label for="contactNo" class="form-label"><b>Contact Number</b></label>
                         <input type="tel" class="form-control" id="contact_number" name="contact_number"
-                            placeholder="Enter contact number" autocomplete="off"  maxlength="11" oninput="validateContactNumber(this)">
+                            placeholder="Enter contact number" autocomplete="off"  maxlength="11" oninput="validateContactNumber(this)" required>
                     </div>
                 </div>
 
@@ -175,8 +175,8 @@ $conn->close();
                     <h5 class="text-center">Laundry Information</h5>
                     <div class="col">
                         <label for="qty" class="form-label"><b>Quantity of laundry bags</b></label>
-                        <select name="quantity" class="form-control">
-                            <option selected>--Select Quantity--</option>
+                        <select name="quantity" class="form-select" required>
+                            <option selected disabled>--Select Quantity--</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -194,15 +194,15 @@ $conn->close();
                 <div class="row">
                     <div class="col">
                         <label for="service" class="form-label"><b>Laundry Service</b></label>
-                        <select name="service" class="form-control" id="service">
-                            <option selected>--Select Service--</option>
+                        <select name="service" class="form-select" id="service" required>
+                            <option selected disabled>--Select Service--</option>
                         </select>
                     </div>
 
                     <div class="col">
                         <label for="category" class="form-label"><b>Laundry Category</b></label>
-                        <select name="category" class="form-control" id="category">
-                            <option selected>--Select Category--</option>
+                        <select name="category" class="form-select" id="category" required>
+                            <option selected disabled>--Select Category--</option>
                         </select>
                     </div>
                 </div>

@@ -261,7 +261,7 @@ transition: margin-left 0.5s ease;
 
 @media (max-width: 480px) {
   .charts {
-    padding: 1rem; 
+    padding: 1rem 0; 
   }
   .chart {
     flex: 1 1 100%;
@@ -283,6 +283,7 @@ transition: margin-left 0.5s ease;
 .calendar {
   position: relative;
   width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -291,6 +292,7 @@ transition: margin-left 0.5s ease;
   border-radius: 5px;
   background-color: #BEDAE3;
   box-shadow: 0 10px 10px rgba(26, 22, 22, 0.1);
+  margin: 0 auto;
 }
 
 .calendar .month {
@@ -442,7 +444,7 @@ transition: margin-left 0.5s ease;
 .events {
   width: 98%;
   height: 90%;
-  max-height: 395px;
+  max-height: 450px;
   overflow: auto;
   display: flex;
   background: linear-gradient(90deg, #050a20, #5d71ca);
@@ -480,6 +482,32 @@ transition: margin-left 0.5s ease;
   align-items: center;
   pointer-events: none;
 }
+
+/*custom style para sa evenList*/
+.event_container {
+  background-color: transparent; 
+  color: #ffffff;           
+  padding: 1rem;           
+  border-radius: 8px;             
+}
+
+.event_container h4 {
+  font-size: 1.2rem;        
+  margin-bottom: 0.5rem;     
+  font-weight: bold;
+}
+
+.event_container .event-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;               
+}
+
+.event_container .event-details span {
+  display: block;
+  font-size: 0.9rem;         
+}
+
 
 .event-title {
   font-size: 2rem;
@@ -520,6 +548,23 @@ transition: margin-left 0.5s ease;
 
 .day.has-event.past-event {
   background-color: #BEDAE3;
+}
+
+.container-sm {
+  display: flex;
+  justify-content: center;
+}
+
+.legend-container {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .today {
@@ -570,6 +615,7 @@ transition: margin-left 0.5s ease;
 @media (max-width: 1200px) {
   .container {
     flex-direction: column;
+    padding: 2rem;
   }
 
   .container .left, .container .right {
@@ -577,15 +623,22 @@ transition: margin-left 0.5s ease;
   }
 
   .container .left {
-    padding: 2rem;
+    padding: 5px;
   }
 
-  .container .right {
-    padding: 2rem;
-  }
 }
 
 @media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .calendar {
+    width: 100%;
+    padding: 1rem 0;
+  }
+
   .calendar .month {
     font-size: 1rem;
     padding: 0 20px;
@@ -618,38 +671,59 @@ transition: margin-left 0.5s ease;
     transform: none;
     border: 2px solid #501818;
   }
+  
 }
 
 @media (max-width: 480px) {
+  .container {
+    padding: 1rem 0;
+  }
+
+  .calendar {
+    width: 100%;
+    padding: 1rem 0.5rem;
+  }
+
   .calendar .month {
-    font-size: 0.9rem;
-    padding: 0 10px;
+    font-size: 0.8rem;
+    padding: 0 5px;
   }
 
   .calendar .weekdays {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
+    padding: 0 5px;
+  }
+
+  .calendar .days {
     padding: 0 5px;
   }
 
   .calendar .days .day {
-    width: 20%;
-    height: 30px;
+    width: 14.28%;
+    height: 35px;
     font-size: 0.7rem;
   }
 
-  .events .event {
-    padding: 5px 5px;
+  .legend-container {
+    flex-direction: column;
   }
 
   .event-title {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    padding: 5px;
+  }
+
+  .events .event {
+    padding: 5px;
   }
 
   .day-content, .month-content, .week-content {
     width: 95%;
     left: 2.5%;
+    padding: 10px;
   }
 }
+
 
 /* logout */
 #logoutModal {
