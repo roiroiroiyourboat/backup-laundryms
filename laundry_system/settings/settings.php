@@ -203,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="main-content">
             <nav>
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2>Settings</h2>
+                    <h1>Settings</h1>
                 </div>
             </nav>
             
@@ -225,26 +225,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="modal-body">
                             <form id="modal_set_price">
                                 <div class="mb-3">
-                                    <label for="serv_id" class="form-label">Service:</label>
+                                    <label for="serv_id" class="form-label"><b>Service: </b></label>
                                     <select class="form-select" aria-label="Service" name="service_id" id="service_id">
                                         <option selected disabled>--Select Service--</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="categ_id" class="form-label">Category:</label>
+                                    <label for="categ_id" class="form-label"><b>Category: </b></label>
                                     <select class="form-select" aria-label="Category" name="categ_id" id="categ_id">
                                         <option selected disabled>--Select Category--</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="categ_price" class="form-label">Price:</label>
+                                    <label for="categ_price" class="form-label"><b>Price: </b></label>
                                     <input type="number" class="form-control" id="categ_price" placeholder="Input price">
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary"  id="saveChangesBtn">Save changes</button>
+                            <button type="submit" class="btn btn-primary"  id="saveChangesBtn">Save changes</button>
                         </div>
                         </div>
                     </div>

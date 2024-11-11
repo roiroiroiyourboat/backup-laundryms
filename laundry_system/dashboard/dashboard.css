@@ -345,7 +345,6 @@ transition: margin-left 0.5s ease;
   padding: 0 20px;
   font-size: 1rem;
   font-weight: 500;
-  margin-bottom: 20px;
 }
 
 .calendar .days .day {
@@ -557,7 +556,7 @@ transition: margin-left 0.5s ease;
 
 .legend-container {
   display: flex;
-  gap: 1rem;
+  gap: 0.8rem;
   padding: 1rem 0;
 }
 
@@ -690,7 +689,7 @@ transition: margin-left 0.5s ease;
   }
 
   .calendar .weekdays {
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     padding: 0 5px;
   }
 

@@ -133,7 +133,7 @@ if(!isset($_SESSION['user_role'])) {
         <div class="main-content">
             <nav>
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2>Sales Report</h2>
+                    <h1>Sales Report</h1>
                 </div>
             </nav>
 

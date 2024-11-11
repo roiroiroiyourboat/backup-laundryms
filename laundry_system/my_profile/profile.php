@@ -126,7 +126,7 @@ if(!isset($_SESSION['user_role'])) {
             <div class="main-content">
                 <nav>
                     <div class="d-flex justify-content-between align-items-center">
-                        <h2>Profile</h1>
+                        <h1>Profile</h1>
                     </div>
                 </nav>
 

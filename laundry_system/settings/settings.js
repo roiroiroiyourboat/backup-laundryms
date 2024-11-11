@@ -54,6 +54,7 @@ $(document).ready(function() {
                     option.value = service.service_id;
                     option.textContent = service.laundry_service_option;
                     dropdown.appendChild(option);
+                    
                 });
             })
             .catch(error => console.error('Error fetching services:', error));
@@ -84,6 +85,7 @@ $(document).ready(function() {
     fetchCategories();
 
     $('#saveChangesBtn').on('click', function () {
+        console.log("Button clicked!");
         var serviceId = $('#service_id').val();
         var categoryId = $('#categ_id').val();
         var categoryPrice = $('#categ_price').val();
@@ -96,7 +98,9 @@ $(document).ready(function() {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Please fill out all fields.'
+                text: 'Please fill out all fields.',
+                showConfrimButton: false,
+                timer: 2500
             });
             return;
         }
@@ -110,85 +114,41 @@ $(document).ready(function() {
                 categ_price: categoryPrice
             },
             success: function (response) {
-                console.log("Response:", response); // Log the response to check the status
+                console.log("Response:", response); 
                 if (response.status === 'success') {
-                    Swal.fire({
+                    swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: response.message
+                        text: response.message,
                     }).then(() => {
-                        $('#categ_price_modal').modal('hide');
+                        $('#categ_price_modal').hide();
                         $('#modal_set_price')[0].reset();
+                        location.reload();
                     });
                 } else {
-                    Swal.fire({
+                    swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: response.message
+                        text: response.message,
+                        timer: 2000
                     });
                 }
             },
             error: function (xhr, status, error) {
-                Swal.fire({
+                console.log("XHR:", xhr); // Logs full response
+                console.log("Status:", status);
+                console.log("Error:", error);
+                swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'AJAX error: ' + error
+                    text: 'AJAX error: ' + error,
+                    showConfirmButton: false,
+                    timer: 2000
                 });
             }
         });
     });
     
-
-    // $('#saveChangesBtn').on('click', function () {
-    //     var serviceId = $('#service_id').val();
-    //     var categoryId = $('#categ_id').val();
-    //     var categoryPrice = $('#categ_price').val();
-
-    //     if (!serviceId || !categoryId || !categoryPrice) {
-    //         Swal.fire({
-    //             icon: 'error',
-    //             title: 'Error',
-    //             text: 'Please fill out all fields.'
-    //         });
-    //         return;
-    //     }
-
-    //     $.ajax({
-    //         url: 'insert_price.php',
-    //         type: 'POST',
-    //         data: {
-    //             service_id: serviceId,
-    //             categ_id: categoryId,
-    //             categ_price: categoryPrice
-    //         },
-    //         success: function (response) {
-    //             if (response.status === 'success') {
-    //                 Swal.fire({
-    //                     icon: 'success',
-    //                     title: 'Success',
-    //                     text: response.message
-    //                 }).then(() => {
-    //                     $('#modal_set_price').modal('hide');
-    //                 });
-    //             } else {
-    //                 Swal.fire({
-    //                     icon: 'error',
-    //                     title: 'Error',
-    //                     text: response.message
-    //                 });
-    //             }
-    //         },
-    //         error: function (xhr, status, error) {
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'Error',
-    //                 text: 'AJAX error: ' + error
-    //             });
-    //         }
-    //     });
-        
-    // });
-
     //for logout
     const logoutModal = document.getElementById("logoutModal");
     const closeBtn = logoutModal.querySelector(".close");

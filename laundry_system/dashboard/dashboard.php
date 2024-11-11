@@ -138,7 +138,7 @@ if(!isset($_SESSION['user_role'])) {
         <div class="main-content">
             <nav>
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2>Dashboard</h2>
+                    <h1>Dashboard</h1>
                 </div>
             </nav>
                  <!----CARDS FOR SERVICE TYPE ORDERS (RUSH/PICK UP/DELIVERY) ---->

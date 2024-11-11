@@ -153,7 +153,7 @@
         <div class="main-content">
             <nav>
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2>Settings</h2>
+                    <h1>Settings</h1>
                 </div>
 
                 <div class="text" style="text-align: center;" name="category">

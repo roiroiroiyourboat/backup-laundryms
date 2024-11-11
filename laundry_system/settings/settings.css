@@ -203,6 +203,11 @@ a.sidebar-link:hover {
   cursor: pointer;
 }
 
+/* set price button */
+#set_price {
+  font-size: 18px;
+}
+
 /* form container */
 .form-settings {
   display: flex;
@@ -217,7 +222,8 @@ a.sidebar-link:hover {
     padding: 20px;
     border-radius: 8px;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    border: 1px solid #ccc;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     width: 100%;
     gap: 10px;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;

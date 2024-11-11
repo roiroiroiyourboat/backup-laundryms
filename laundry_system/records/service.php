@@ -23,6 +23,7 @@ if ($_SESSION['user_role'] !== 'admin') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Records - Service</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
@@ -32,16 +33,15 @@ if ($_SESSION['user_role'] !== 'admin') {
 
 <body>
     <div class="progress"></div>
-
     <div class="wrapper">
-        <aside id="sidebar">
+    <aside id="sidebar">
             <div class="d-flex">
                 <button id="toggle-btn" type="button">
                     <i class="bx bx-menu-alt-left"></i>
                 </button>
 
                 <div class="sidebar-logo">
-                    <a href="/laundry_system/dashboard/dashboard.php">Azia Skye</a>
+                    <a href="#">Azia Skye</a>
                 </div>
             </div>
 
@@ -54,7 +54,7 @@ if ($_SESSION['user_role'] !== 'admin') {
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="/laundry_system/profile/profile.php" class="sidebar-link">
+                    <a href="/laundry_system/my_profile/profile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>Profile</span>
                     </a>
@@ -69,7 +69,7 @@ if ($_SESSION['user_role'] !== 'admin') {
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        <a href="/laundry_system/records/records.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
                             data-bs-target="#records" aria-expanded="false" aria-controls="records">
                             <i class="lni lni-files"></i>
                             <span>Records</span>
@@ -105,9 +105,9 @@ if ($_SESSION['user_role'] !== 'admin') {
                     </a>
                 </li>
 
-                <?php if ($user_role === 'admin') : ?>
+                    <?php if ($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/setting.php" class="sidebar-link">
+                        <a href="/laundry_system/settings/settings.php" class="sidebar-link">
                             <i class="lni lni-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -116,35 +116,17 @@ if ($_SESSION['user_role'] !== 'admin') {
                     <hr style="border: 1px solid #b8c1ec; margin: 8px">
 
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
-                        data-bs-target="#archived" aria-expanded="false" aria-controls="archived">
+                        <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">
                             <i class='bx bxs-archive-in'></i>
-                            <span>Archived</span>
+                            <span class="nav-item">Archived</span>
                         </a>
-
-                        <ul id="archived" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">Archived Users</a>
-                            </li>
-
-                            <li class="sidebar-item">
-                                <a href="/laundry_system/archived/archive_customer.php" class="sidebar-link">Archived Customer</a>
-                            </li>
-
-                            <li class="sidebar-item">
-                                <a href="/laundry_system/archived/archive_service.php" class="sidebar-link">Archived Service</a>
-                            </li>
-
-                            <li class="sidebar-item">
-                                <a href="/laundry_system/archived/archive_category.php" class="sidebar-link">Archived Category</a>
-                            </li>
-                        </ul>
                     </li>
                 <?php endif; ?>
+
             </ul>
 
             <div class="sidebar-footer">
-                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout">
+                <a href="#" id="btn_logout" class="sidebar-link">
                     <i class="lni lni-exit"></i>
                     <span>Logout</span>
                 </a>
@@ -153,7 +135,7 @@ if ($_SESSION['user_role'] !== 'admin') {
 
         <div class="main-content">
             <nav>
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between" id="navbar">
                     <h1>Records</h1>
 
                 <div class="search_bar" m-1>
@@ -162,24 +144,6 @@ if ($_SESSION['user_role'] !== 'admin') {
             </nav>
 
             <div class="buttons">
-                <!-- <form action="customer.php" method="POST" id="cust-btn-form">
-                    <div class="customer_button">
-                         <button type="button" class="btn-primary" id="customerBtn">Customer</button>
-                    </div>
-                </form> 
-
-               <form action="service.php" method="POST">
-                    <div class="service_button">
-                        <button type="button" class="btn-primary" id="serviceBtn">Service</button>
-                    </div>
-                </form>
-
-                <form action="category.php" method="POST">
-                    <div class="category_button">
-                        <button type="button" class="btn-primary" id="categoryBtn">Category</button>
-                    </div>
-                </form> -->
-                
                 <div class="customer_button">
                     <a href="customer.php" class="button" id="customerBtn">Customer</a>
                 </div>
@@ -236,27 +200,29 @@ if ($_SESSION['user_role'] !== 'admin') {
             </div>
 
             <div class="add_button d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" id="addServiceButton">Add Service</button>
+                <button type="button" class="btn btn-primary" id="addServiceButton" data-bs-toggle="modal" data-bs-target="#addModal">Add Service</button>
                 <i class="lni lni-plus"></i>
             </div>
 
-            <div class="modal" id="addModal" style="display: none;">
+            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="Add_Service" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h2>Add Service</h2>
-                            <span class="close">&times;</span>
+                            <span class="close" data-bs-dismiss="modal" >&times;</span>
                         </div>
 
                         <div class="modal-body">
                             <form method="POST" action="add_service.php" id="form">
                                 <div class="form-group">
-                                    <label for="service" class="form-label">Laundry Service</label>
+                                    <label for="service" class="form-label"><b>Laundry Service: </b></label>
                                     <input type="text" class="form-control" placeholder="input laundry service" name="laundry_service_option" required>
                                 </div>
 
-                                <button type="submit" class="btn btn-success">Submit</button>
-                                <button type="button" class="btn btn-info">Clear</button>
+                                <div class="mx-auto p-3" style="width: 200px;">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="button" class="btn btn-info">Clear</button>
+                                </div>
                             </form>    
                         </div>
                     </div> <!-- modal-dialog closing tag -->

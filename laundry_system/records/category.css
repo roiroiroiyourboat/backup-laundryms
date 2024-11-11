@@ -183,11 +183,12 @@ a.sidebar-link:hover {
 }
 
 .button {
-  display: inline-flex; 
+  display: flex; 
+  flex-direction: column;
   align-items: center; 
   justify-content: center;
   height: 60px;
-  width: 155px;
+  width: 200px;
   padding: 10px 20px;
   background-color: #b8c1ec;
   color: #000;
@@ -234,49 +235,48 @@ th, td {
   .table {
     font-size: 0.9rem;
   }
+
+  #navbar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .button {
+    height: 40px;
+    width: 300px;
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 480px) {
   .table {
     font-size: 0.8rem;
   }
+
+  #navbar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .button {
+    height: 40px;
+    width: 265px;
+    font-size: 18px;
+  }
 } 
 
 /* modal */
-.modal {
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0,0,0,0.5);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
 .modal-content {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   background-color: #fefefe;
   border: 1px solid #888;
-  width: 70%;
+  padding: 14px;
   max-width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   border-radius: 8px;
-  margin: 0 auto;
-  overflow: auto;
-  z-index: 1000;
 }
 
 .modal-body {
@@ -285,13 +285,6 @@ th, td {
 
 .form-control {
   width: 100%;
-}
-
-.modal-body, .btn-success, .btn-info {
-  margin-top: 1rem;
-  display: inline-block;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .close, .close-btn {
@@ -366,7 +359,7 @@ th, td {
 }
 
 .search_bar .form-control {
-  background-image: url('/laundry_system/images/search.png');
+  background-image: url('/laundry_system/icons/search-regular-24.png');
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 20px 20px;

@@ -126,7 +126,7 @@ if(!isset($_SESSION['user_role'])) {
         <div class="main-content">
             <nav>
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2>Users</h2>
+                    <h1>Users</h1>
 
                     <div class="search_bar" m-1>
                         <input class="form-control" type="text" id="filter_user" placeholder="Search users...">

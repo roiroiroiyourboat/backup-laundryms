@@ -188,7 +188,7 @@ a.sidebar-link:hover {
   align-items: center; 
   justify-content: center;
   height: 60px;
-  width: 155px;
+  width: 200px;
   padding: 10px 20px;
   background-color: #b8c1ec;
   color: #000;
@@ -229,11 +229,33 @@ th, td {
   .table {
     font-size: 0.9rem;
   }
+
+  #navbar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .button {
+    height: 40px;
+    width: 300px;
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 480px) {
   .table {
     font-size: 0.8rem;
+  }
+
+  #navbar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .button {
+    height: 40px;
+    width: 265px;
+    font-size: 18px;
   }
 } 
 
@@ -322,7 +344,7 @@ th, td {
 }
 
 .search_bar .form-control {
-  background-image: url('/laundry_system/images/search.png');
+  background-image: url('/laundry_system/icons/search-regular-24.png');
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 20px 20px;

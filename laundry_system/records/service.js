@@ -6,56 +6,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // add service 
-    const addModal = document.getElementById('addModal');
-    const addServiceButton = document.getElementById('addServiceButton');
-    const closeAddServiceButton = document.querySelector('.close');
     const clearButton = document.querySelector('.btn-info');
-
-    addServiceButton.addEventListener('click', () => {
-        console.log("Add Service Button Clicked");
-        addModal.style.display = 'block';
-    });
-
-    closeAddServiceButton.addEventListener('click', () => {
-        addModal.style.display = 'none';
-    });
 
     clearButton.addEventListener('click', () => {
         document.getElementById('form').reset();
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target === addModal) {
-            addModal.style.display = 'none';
-        }
     });
 
     const form = document.getElementById('form');
 
     form.addEventListener('submit', function (event) {
         event.preventDefault();
-
+    
         const formData = new FormData(form);
-
+    
         fetch('add_service.php', {
             method: 'POST',
             body: formData
         })
-
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('New laundry service option saved successfully!');
-                form.reset();
-                $('#addModal').modal('hide');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'New laundry service option saved successfully!',
+                    showConfirmButton: false,
+                    timer: 2500
+                }).then(() => {
+                    $('#addModal').hide;
+                    $('#form')[0].reset();
+                    location.reload();
+                });
             } else {
-                alert('Error: ' + data.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message || 'Failed to save the service option.'
+                });
             }
         })
-
         .catch(error => {
             console.error('Error:', error);
-            alert('There was an error submiting the form. Please try again.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'There was an error submitting the form. Please try again.'
+            });
         });
     });
 
