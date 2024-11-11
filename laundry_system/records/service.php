@@ -1,4 +1,5 @@
 <?php
+include 'connect.php';
 session_start();
 require_once('service_db.php');
 
@@ -33,14 +34,14 @@ if ($_SESSION['user_role'] !== 'admin') {
     <div class="progress"></div>
 
     <div class="wrapper">
-    <aside id="sidebar">
+        <aside id="sidebar">
             <div class="d-flex">
                 <button id="toggle-btn" type="button">
                     <i class="bx bx-menu-alt-left"></i>
                 </button>
 
                 <div class="sidebar-logo">
-                    <a href="#">Azia Skye</a>
+                    <a href="/laundry_system/dashboard/dashboard.php">Azia Skye</a>
                 </div>
             </div>
 
@@ -53,7 +54,7 @@ if ($_SESSION['user_role'] !== 'admin') {
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="/laundry_system/my_profile/profile.php" class="sidebar-link">
+                    <a href="/laundry_system/profile/profile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>Profile</span>
                     </a>
@@ -68,7 +69,7 @@ if ($_SESSION['user_role'] !== 'admin') {
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/records/records.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
                             data-bs-target="#records" aria-expanded="false" aria-controls="records">
                             <i class="lni lni-files"></i>
                             <span>Records</span>
@@ -104,9 +105,9 @@ if ($_SESSION['user_role'] !== 'admin') {
                     </a>
                 </li>
 
-                    <?php if ($user_role === 'admin') : ?>
+                <?php if ($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link">
+                        <a href="/laundry_system/settings/setting.php" class="sidebar-link">
                             <i class="lni lni-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -115,17 +116,35 @@ if ($_SESSION['user_role'] !== 'admin') {
                     <hr style="border: 1px solid #b8c1ec; margin: 8px">
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">
+                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#archived" aria-expanded="false" aria-controls="archived">
                             <i class='bx bxs-archive-in'></i>
-                            <span class="nav-item">Archived</span>
+                            <span>Archived</span>
                         </a>
+
+                        <ul id="archived" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">Archived Users</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_customer.php" class="sidebar-link">Archived Customer</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_service.php" class="sidebar-link">Archived Service</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_category.php" class="sidebar-link">Archived Category</a>
+                            </li>
+                        </ul>
                     </li>
                 <?php endif; ?>
-
             </ul>
 
             <div class="sidebar-footer">
-                <a href="#" id="btn_logout" class="sidebar-link">
+                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout">
                     <i class="lni lni-exit"></i>
                     <span>Logout</span>
                 </a>
@@ -222,24 +241,27 @@ if ($_SESSION['user_role'] !== 'admin') {
             </div>
 
             <div class="modal" id="addModal" style="display: none;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1>Add Service</h1>
-                        <span class="close">&times;</span>
-                    </div>
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Add Service</h2>
+                            <span class="close">&times;</span>
+                        </div>
 
-                    <div class="modal-body">
-                        <form method="POST" action="add_service.php" id="form">
-                            <div class="form-group">
-                                <h3>Laundry Service</h3>
-                                <input type="text" class="form-control" placeholder="Create laundry service option" name="laundry_service_option" required>
-                            </div>
+                        <div class="modal-body">
+                            <form method="POST" action="add_service.php" id="form">
+                                <div class="form-group">
+                                    <label for="service" class="form-label">Laundry Service</label>
+                                    <input type="text" class="form-control" placeholder="input laundry service" name="laundry_service_option" required>
+                                </div>
 
-                            <button type="submit" class="btn btn-success">Submit</button>
-                            <button type="button" class="btn btn-info">Clear</button>
-                        </form>    
-                    </div>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="button" class="btn btn-info">Clear</button>
+                            </form>    
+                        </div>
+                    </div> <!-- modal-dialog closing tag -->
                 </div> <!-- modal-content closing tag -->
+                
             </div> <!-- modal closing tag -->
 
             <div class="Archvmodal" id="archiveModal">
