@@ -255,22 +255,23 @@ if ($_SESSION['user_role'] !== 'admin') {
             <div id="logoutModal" class="modal" style="display: none;">
                 <div class="modal-cont">
                     <span class="close">&times;</span>
-                    <h2>Do you want to logout?</h2>
+                    <h2 id="logoutText">Do you want to logout?</h2>
                     <div class="modal-buttons">
-                        <a href="/laundry_system/homepage/logout.php" class="btns btn-yes">Yes</a>
-                        <button class="btns btn-no">No</button>
+                        <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
+                        <button class="btn btn-no">No</button>
                     </div>
                 </div>
             </div>
         </div> <!--main content-->
     </div> <!-- wrapper -->
-
-    <script type="text/javascript" src="category.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script type="text/javascript" src="category.js"></script>
 </body>
 
 </html>

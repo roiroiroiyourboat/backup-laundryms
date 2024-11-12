@@ -209,6 +209,21 @@ a.sidebar-link:hover {
   border: #b8c1ec;
 }
 
+/*responsiveness */
+@media (max-width: 768px) {
+  #navbar {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  #navbar {
+    display: flex;
+    flex-direction: column;
+  }
+} 
+
 /* anchor tag button */
 .buttons {
   display: flex;

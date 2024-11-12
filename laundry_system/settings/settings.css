@@ -328,14 +328,15 @@ a.sidebar-link:hover {
 }
 
 #logoutModal.show {
-  display: flex; /* Shows the modal */
+  display: flex; 
 }
 
 .modal-cont {
   position: relative;
   padding: 20px;
   background-color: white;
-  width: 35%;
+  width: 50%;
+  max-width: 500px; 
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -343,7 +344,7 @@ a.sidebar-link:hover {
 
 .modal-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .modal-buttons .btn {
@@ -373,3 +374,35 @@ a.sidebar-link:hover {
   font-size: 24px;
   cursor: pointer;
 } 
+
+@media (max-width: 768px) {
+  .modal-cont {
+    width: 70%;
+    padding: 15px;
+  }
+
+  .modal-buttons .btn {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-cont {
+    width: 90%;
+    padding: 10px;
+  }
+
+  #logoutText {
+    font-size: 20px;
+  }
+
+  .close {
+    font-size: 20px;
+    top: 5px;
+  }
+
+  .modal-buttons .btn {
+    padding: 10px;
+  }
+}

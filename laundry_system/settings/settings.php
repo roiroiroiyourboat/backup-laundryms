@@ -24,6 +24,11 @@ $resultDelivery = mysqli_query($conn, $sqlServiceOption);
 $rowDelivery = mysqli_fetch_assoc($resultDelivery);
 $delivery_charge = $rowDelivery['price'];
 
+$sqlServiceOption = "SELECT price FROM service_option_price WHERE service_option_type = 'Delivery (within gaya-gaya)'";
+$resultDelivery = mysqli_query($conn, $sqlServiceOption);
+$rowDelivery = mysqli_fetch_assoc($resultDelivery);
+$d_fee_gaya = $rowDelivery['price'];
+
 $sqlServiceOption = "SELECT price FROM service_option_price WHERE service_option_type = 'Rush'";
 $resultPickup = mysqli_query($conn, $sqlServiceOption);
 $rowPickup = mysqli_fetch_assoc($resultPickup);
@@ -39,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $delivery_day = $_POST['delivery_day'];
     $rush_delivery_day = $_POST['rush_delivery_day'];
     $delivery_charge = $_POST['delivery_charge'];
+    $d_fee_gaya = $_POST['d_fee_gaya'];
     $rush_charge = $_POST['rush_charge'];
 
     $success = true;
@@ -52,8 +58,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors .= "Error updating settings: " . mysqli_error($conn) . "\n";
     }
 
-    //to update delivery fee
+    //to update delivery fee outside gaya gaya
     $sql = "UPDATE service_option_price SET price='$delivery_charge' WHERE service_option_type='Delivery'";
+    $result = mysqli_query($conn, $sql);
+    if (!$result) {
+        $success = false;
+        $errors .= "Error updating delivery charge: " . mysqli_error($conn) . "\n";
+    }
+
+    //to update delivery fee within gaya gaya
+    $sql = "UPDATE service_option_price SET price='$d_fee_gaya' WHERE service_option_type='Delivery (within gaya-gaya)'";
     $result = mysqli_query($conn, $sql);
     if (!$result) {
         $success = false;
@@ -268,6 +282,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label for="min_kilos" class="form-label"><b>Minimum Kilos:</b></label>
                             <input type="number" class="form-control" id="min_kilos" name="min_kilos" value="<?php echo $minimum_kilos ?>">
                         </div>
+
+                        <div class="col">
+                            <label for="rush_charge" class="form-label"><b>Rush Fee:</b></label>
+                            <input type="number" class="form-control" id="rush_charge" name="rush_charge" value="<?php echo $rush_charge ?>">
+                        </div>
                     </div>
                     
                     <div class="row">
@@ -284,13 +303,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     <div class="row">
                         <div class="col">
-                            <label for="delivery_charge" class="form-label"><b>Delivery Fee: </b></label>
+                            <label for="delivery_charge" class="form-label"><b>Delivery Fee (outside Gaya-gaya): </b></label>
                             <input type="number" class="form-control" id="delivery_charge" name="delivery_charge" value="<?php echo $delivery_charge ?>">
                         </div>
 
                         <div class="col">
-                            <label for="rush_charge" class="form-label"><b>Rush Fee:</b></label>
-                            <input type="number" class="form-control" id="rush_charge" name="rush_charge" value="<?php echo $rush_charge ?>">
+                            <label for="gaya-gaya" class="form-label"><b>Delivery Fee (within Gaya-gaya): </b></label>
+                            <input type="number" class="form-control" id="d_fee_gaya" name="d_fee_gaya" 
+                                value="<?php echo $d_fee_gaya ?>">
                         </div>
                     </div>          
 
@@ -350,7 +370,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div id="logoutModal" class="modal" style="display:none;">
                 <div class="modal-cont">
                     <span class="close">&times;</span>
-                    <h2>Do you want to logout?</h2>
+                    <h2 id="logoutText">Do you want to logout?</h2>
                     <div class="modal-buttons">
                         <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
                         <button class="btn btn-no">No</button>

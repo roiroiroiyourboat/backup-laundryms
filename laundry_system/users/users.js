@@ -294,57 +294,58 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function setupPagination() {
-      paginationContainer.innerHTML = '';
-
-      // previous arrow
-      let prevPageLink = document.createElement('li');
-      prevPageLink.classList.add('page-item');
-      prevPageLink.innerHTML = `<a class="page-link" href="#"><<</a>`;
-      prevPageLink.addEventListener('click', function (e) {
-          e.preventDefault();
-          if (currentPage > 0) {
-              currentPage--;
-              displayRows(currentPage * rowsPerPage);
-              setActivePage(currentPage);
-          }
-      });
-
-      paginationContainer.appendChild(prevPageLink);
+        paginationContainer.innerHTML = '';
+    
+        // previous arrow
+        let prevPageLink = document.createElement('li');
+        prevPageLink.classList.add('page-item');
+        prevPageLink.innerHTML = `<a class="page-link" href="#"><<</a>`;
+        prevPageLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (currentPage > 0) {
+                currentPage--;
+                displayRows(currentPage * rowsPerPage);
+                setActivePage(currentPage);
+            }
+        });
+    
+        paginationContainer.appendChild(prevPageLink);
 
       // numbered page links
       for (let i = 0; i < totalPages; i++) {
-            let pageLink = document.createElement('li');
-            pageLink.classList.add('page-item');
-            pageLink.innerHTML = `<a class="page-link" href="#">${i + 1}</a>`;
+        let pageLink = document.createElement('li');
+        pageLink.classList.add('page-item');
+        pageLink.innerHTML = `<a class="page-link" href="#">${i + 1}</a>`;
 
-            pageLink.addEventListener('click', function (e) {
+        pageLink.addEventListener('click', function (e) {
             e.preventDefault();
+            currentPage = i;
             displayRows(i * rowsPerPage);
             setActivePage(i);
         });
 
         paginationContainer.appendChild(pageLink);
-      }
+    }
 
       // next arrow
       let nextPageLink = document.createElement('li');
-      nextPageLink.classList.add('page-item');
-      nextPageLink.innerHTML = `<a class="page-link" href="#">>></a>`;
-      nextPageLink.addEventListener('click', function (e) {
-          e.preventDefault();
-          if (currentPage < totalPages - 1) {
-              currentPage++;
-              displayRows(currentPage * rowsPerPage);
-              setActivePage(currentPage);
-          }
-      });
-      paginationContainer.appendChild(nextPageLink);
-  }
+        nextPageLink.classList.add('page-item');
+        nextPageLink.innerHTML = `<a class="page-link" href="#">>></a>`;
+        nextPageLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            displayRows(currentPage * rowsPerPage);
+            setActivePage(currentPage);
+        }
+    });
+    paginationContainer.appendChild(nextPageLink);
+    }
 
     function setActivePage(pageIndex) {
         const pageLinks = paginationContainer.querySelectorAll('.page-item');
         pageLinks.forEach(link => link.classList.remove('active'));
-        pageLinks[pageIndex].classList.add('active');
+        pageLinks[pageIndex + 1].classList.add('active'); // +1 to skip the prev arrow
     }
 
     // Initialization of table with first page and pagination links

@@ -224,7 +224,7 @@ if(!isset($_SESSION['user_role'])) {
                             </div>
                         </div>
                         
-                        <div class="text-center">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="button" class="btn btn-outline-secondary" id="btnBack">Back</button>
                             <button type="button" class="btn btn-primary" id="btnSaveChanges">Save Changes</button>
                         </div>
@@ -234,7 +234,7 @@ if(!isset($_SESSION['user_role'])) {
             <div id="logoutModal" class="modal" style="display:none;">
                 <div class="modal-cont">
                     <span class="close">&times;</span>
-                    <h2>Do you want to logout?</h2>
+                    <h2 id="logoutText">Do you want to logout?</h2>
                     <div class="modal-buttons">
                         <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
                         <button class="btn btn-no">No</button>

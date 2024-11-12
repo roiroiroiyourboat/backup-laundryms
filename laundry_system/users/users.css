@@ -193,11 +193,33 @@ transition: margin-left 0.5s ease;
   .table {
     font-size: 0.9rem;
   }
+
+  #navbar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .button {
+    height: 40px;
+    width: 300px;
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 480px) {
   .table {
     font-size: 0.8rem;
+  }
+  
+  #navbar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .button {
+    height: 40px;
+    width: 265px;
+    font-size: 18px;
   }
 } 
 
@@ -388,43 +410,6 @@ transition: margin-left 0.5s ease;
   background-size: 20px 20px;
 }
 
-/* pagination */
-.pagination {
-  display: flex;
-  justify-content: center;
-  padding-left: 0;
-  list-style: none;
-  border-radius: 0.25rem;
-  margin-top: 20px; 
-  position: absolute;
-  bottom: 20px; 
-  left: 0;
-  right: 0;
-}
-
-.pagination .page-item {
-  margin: 0 5px;
-}
-
-.pagination .page-link {
-  color: #007bff;
-  text-decoration: none;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #dee2e6;
-  border-radius: 0.25rem;
-}
-
-.pagination .page-item.active .page-link {
-  background-color: #007bff;
-  border-color: #007bff;
-  color: white;
-}
-
-.pagination .page-link:hover {
-  background-color: #f1f1f1;
-  color: #007bff;
-}
-
 /* logout */
 #logoutModal {
   position: fixed;
@@ -440,14 +425,15 @@ transition: margin-left 0.5s ease;
 }
 
 #logoutModal.show {
-  display: flex; /* Shows the modal */
+  display: flex; 
 }
 
 .modal-cont {
   position: relative;
   padding: 20px;
   background-color: white;
-  width: 35%;
+  width: 50%;
+  max-width: 500px; 
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -455,7 +441,7 @@ transition: margin-left 0.5s ease;
 
 .modal-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .modal-buttons .btn {
@@ -484,4 +470,36 @@ transition: margin-left 0.5s ease;
   right: 15px;
   font-size: 24px;
   cursor: pointer;
+} 
+
+@media (max-width: 768px) {
+  .modal-cont {
+    width: 70%;
+    padding: 15px;
+  }
+
+  .modal-buttons .btn {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-cont {
+    width: 90%;
+    padding: 10px;
+  }
+
+  #logoutText {
+    font-size: 20px;
+  }
+
+  .close {
+    font-size: 20px;
+    top: 5px;
+  }
+
+  .modal-buttons .btn {
+    padding: 10px;
+  }
 }

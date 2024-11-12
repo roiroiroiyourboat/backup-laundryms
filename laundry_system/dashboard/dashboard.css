@@ -723,7 +723,6 @@ transition: margin-left 0.5s ease;
   }
 }
 
-
 /* logout */
 #logoutModal {
   position: fixed;
@@ -739,23 +738,23 @@ transition: margin-left 0.5s ease;
 }
 
 #logoutModal.show {
-  display: flex; /* Shows the modal */
+  display: flex; 
 }
 
 .modal-cont {
   position: relative;
   padding: 20px;
   background-color: white;
-  text-align: center;
   width: 50%;
-  max-width: 450px;
+  max-width: 500px; 
+  text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
 }
 
 .modal-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .modal-buttons .btn {
@@ -784,4 +783,36 @@ transition: margin-left 0.5s ease;
   right: 15px;
   font-size: 24px;
   cursor: pointer;
+} 
+
+@media (max-width: 768px) {
+  .modal-cont {
+    width: 70%;
+    padding: 15px;
+  }
+
+  .modal-buttons .btn {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-cont {
+    width: 90%;
+    padding: 10px;
+  }
+
+  #logoutText {
+    font-size: 20px;
+  }
+
+  .close {
+    font-size: 20px;
+    top: 5px;
+  }
+
+  .modal-buttons .btn {
+    padding: 10px;
+  }
 }
