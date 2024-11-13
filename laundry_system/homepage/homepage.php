@@ -338,14 +338,14 @@ $conn->close();
 
                     <div class="row">
                         <div class="col">
-                            <select class="form-select" aria-label="province" name="province" id="provSelect">
+                            <select class="form-select" aria-label="province" name="province" id="province">
                                 <option selected disabled>Province</option>
                                 <option value="bulacan">Bulacan</option>
                             </select>
                         </div>
 
                         <div class="col">
-                            <select class="form-select" aria-label="city" name="city" id="citySelect">
+                            <select class="form-select" aria-label="city" name="city" id="city">
                                 <option selected disabled>City</option>
                                 <option value="sjdm">San Jose del Monte</option>
                             </select>

@@ -258,42 +258,6 @@ a.sidebar-link:hover {
   cursor: pointer;
 }
 
-/* pagination */
-.pagination {
-  display: flex;
-  justify-content: center;
-  padding-left: 0;
-  list-style: none;
-  border-radius: 0.25rem;
-  margin-top: 20px; 
-  position: absolute;
-  bottom: 20px; 
-  left: 0;
-  right: 0;
-}
-
-.pagination .page-item {
-  margin: 0 5px;
-}
-
-.pagination .page-link {
-  color: #007bff;
-  text-decoration: none;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #dee2e6;
-  border-radius: 0.25rem;
-}
-
-.pagination .page-item.active .page-link {
-  background-color: #007bff;
-  border-color: #007bff;
-  color: white;
-}
-
-.pagination .page-link:hover {
-  background-color: #f1f1f1;
-  color: #007bff;
-}
 
 /* search bar */
 .search_bar {

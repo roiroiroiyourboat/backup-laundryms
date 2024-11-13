@@ -137,7 +137,7 @@ if(!isset($_SESSION['user_role'])) {
             <div class="box">
                 <form action="users.php" method="POST">
                         <div class="add_button">
-                            <button type="button" class="btn btn-success" id="addUserButton"> 
+                            <button type="button" class="btn btn-success" id="addUserButton" data-bs-toggle="modal" data-bs-target="#addUserForm"> 
                             <i class='bx bxs-user-plus'></i>Add User</button>
                         </div>    
                 </form>  
@@ -219,85 +219,87 @@ if(!isset($_SESSION['user_role'])) {
                     <!--PAGINATION LINK-->
                 </ul>
             </nav>
+            
+            <div class="modal fade" id="addUserForm" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Add Users</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>    
 
-            <div class="modal" id="addUserModal" style="display: none;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1>Add Users</h1>
-                        <span class="close">&times;</span>
-                    </div>    
+                        <div class="modal-body">
+                            <?php if (isset($error_message)) { ?>
+                                <div class="alert alert-danger"><?= $error_message; ?></div>
+                            <?php } ?>
+                            <form method="POST" action="add_users.php" id="userForm">  
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="first_name" class="form-label">First name</label>
+                                        <input type="text" class="form-control" id="first_name" placeholder="Enter first name" name="fname" autocomplete="given-name" required>   
+                                    </div>
 
-                    <div class="modal-body">
-                        <?php
-                        if (isset($error_message)) {
-                            echo "<div class='alert alert-danger'>$error_message</div>";
-                        }
-                        ?>
-                        <form method="POST" action="add_users.php" id="userForm">  
-                            <div class="row">
-                                <div class="col">
-                                    <label for="first_name">First name</label>
-                                    <input type="text" class="form-control" id="first_name" placeholder="Enter first name" name="fname" autocomplete="given-name" required>   
-                                </div>
+                                    <div class="col">
+                                        <label for="last_name" class="form-label">Last name</label>
+                                        <input type="text" class="form-control" id="last_name" placeholder="Enter last name" name="lname" autocomplete="family-name" required>
+                                    </div>
+                                </div> 
 
-                                <div class="col">
-                                    <label for="last_name">Last name</label>
-                                    <input type="text" class="form-control" id="last_name" placeholder="Enter last name" name="lname" autocomplete="family-name" required>
-                                </div>
-                            </div> 
-
-                            <div class="form-group">
-                                    <label for="username">Username</label>
+                                <div class="form-group">
+                                    <label for="username" class="form-label">Username</label>
                                     <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" autocomplete="username" required>
-                            </div>
-                        
-                            <div class="form-group">
-                                <label for="question">Security Questions</label>
-                                    <select name="question" class="form-control">
-                                        <option selected>--Select Question--</option>
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label for="question" class="form-label">Security Questions</label>
+                                    <select name="question" class="form-select" required>
+                                        <option selected disabled>--Select Question--</option>
                                         <option value="In what province were you born?">In what province were you born?</option>
                                         <option value="What was your favorite food as a child?">What was your favorite food as a child?</option>
                                         <option value="What year were you born?">What year were you born?</option>
                                         <option value="What is the name of your favorite pet?">What is the name of your favorite pet?</option>
                                     </select>
-                            </div>
+                                </div>
 
-                            <div class="form-group">
-                                    <label for="answer">Answer</label>
-                                    <input type="text" class="form-control" id="answer" placeholder="Enter answer" name="answer" autocomplete="answer" required>
-                            </div>
+                                <div class="form-group">
+                                    <label for="answer" class="form-label">Answer</label>
+                                    <input type="text" class="form-control" id="answer" placeholder="Enter answer" name="answer" autocomplete="off" required>
+                                </div>
 
-                            <div class="form-group">
-                                    <label for="user_role">User Role</label>
-                                    <select class="form-control" name="user_role" id="user_role" autocomplete="role" required>
+                                <div class="form-group">
+                                    <label for="user_role" class="form-label">User Role</label>
+                                    <select class="form-select" name="user_role" id="user_role" autocomplete="role" required>
                                         <option value="admin">Admin</option>
                                         <option value="staff">Staff</option>
                                     </select>      
-                            </div>    
+                                </div>    
 
-                            <div class="form-group">
-                                <label for="password">Password</label>
+                                <div class="form-group">
+                                    <label for="password" class="form-label">Password</label>
                                     <div class="password-wrapper">
                                         <input type="password" class="form-control" placeholder="Create password" name="password" id="password" autocomplete="new-password" required>
-                                        <i class='bx bx-show toggle-password' data-target="#password"></i>
+                                        <i class='bx bx-show toggle-password'></i>
                                     </div>                       
-                                <div id="passwordHelp" class="alert alert-danger mt-2" style="display:none">
-                                <ul>
-                                    <li id="length" style="color:red;">At least 8 characters</li>
-                                    <li id="uppercase" style="color:red;">At least two uppercase letter</li>
-                                    <li id="lowercase" style="color:red;">At least two lowercase letter</li>
-                                    <li id="number" style="color:red;">At least four number</li>
-                                </ul>
+                                    <div id="passwordHelp" class="alert alert-danger mt-2" style="display:none">
+                                        <ul>
+                                            <li id="length" style="color:red;">At least 8 characters</li>
+                                            <li id="uppercase" style="color:red;">At least two uppercase letters</li>
+                                            <li id="lowercase" style="color:red;">At least two lowercase letters</li>
+                                            <li id="number" style="color:red;">At least four numbers</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
+                                
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="button" class="btn btn-info" id="clearBtn">Clear</button>
+                                </div>
+                            </form>
+                        </div>  
+                    </div>    
+                </div>
+            </div>
 
-                            <button type="submit" class="btn btn-success">Submit</button>
-                            <button type="button" class="btn btn-info">Clear</button>
-                        </form>
-                    </div>  
-                </div>    
-            </div>   <!-- closing tag add user modal body --> 
-            
             <!-- edit modal structure -->
             <div class="modal" id="editModal" style="display: none;">
                 <div class="modal-content"> <!--modal-content -->

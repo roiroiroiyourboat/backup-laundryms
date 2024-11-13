@@ -224,7 +224,7 @@ transition: margin-left 0.5s ease;
 } 
 
 /* second try for ADD user modal  */
-.modal {
+/* .modal {
   position: fixed;
   display: flex;
   align-items: center;
@@ -236,9 +236,9 @@ transition: margin-left 0.5s ease;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5); 
   
-}
+} */
 
-.modal-content {
+/* .modal-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -251,13 +251,13 @@ transition: margin-left 0.5s ease;
   box-sizing: border-box;
   border-radius: 8px;
   overflow: auto; margin-top: 10px;
-} 
+}  */
 
-.modal-open {
+/* .modal-open {
   overflow: hidden;
-}
+} */
 
-.modal-header {
+/* .modal-header {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -266,9 +266,9 @@ transition: margin-left 0.5s ease;
 .modal-body {
   text-align: center;
   margin-top: 1rem;
-}
+} */
 
-.modal-body, .btn-success, .btn-info {
+/* .modal-body, .btn-success, .btn-info {
   margin-top: 1rem;
   display: inline-block;
   margin-left: auto;
@@ -281,13 +281,13 @@ transition: margin-left 0.5s ease;
   font-size: 28px;
   font-weight: bold;
   color: #aaa;
-}
-
+} */
+/* 
 .close:hover, .close:focus, .close-btn:hover, .close-btn:focus{
   color: black;
   text-decoration: none;
   cursor: pointer;
-}
+} */
 
 .edit-btn {
   text-decoration: none;
@@ -336,7 +336,7 @@ transition: margin-left 0.5s ease;
   font-size: 1.2rem;
 }
 
-/* responsiveness */
+/* responsiveness
 @media (max-width: 768px) {  
   .modal-content {
     width: 80%;              
@@ -347,9 +347,9 @@ transition: margin-left 0.5s ease;
 
 @media (min-width: 769px) {
   .modal-content {
-    width: 45%; /* Keep a slim width */
+    width: 45%; 
   }
-}
+} */
 
 /* archive */
 .Archvmodal {

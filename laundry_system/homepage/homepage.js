@@ -170,9 +170,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 function validateContactNumber(input) {
-    const regex = /^[0-9]{11}$/;
+    const regex = /^09[0-9]{9}$/; 
     if (!regex.test(input.value)) {
-        input.setCustomValidity("Please enter a 11-digit number");
+        if (!input.value.startsWith("09")) {
+            input.setCustomValidity("Use 09 as number format");
+        } else {
+            input.setCustomValidity("Please enter an 11-digit number");
+        }
     } else {
         input.setCustomValidity("");
     }
@@ -258,17 +262,38 @@ function fetchCategories() {
         })
         .then(data => {
             console.log(data); // Debugging
-            let dropdown = document.getElementById('category');
-            dropdown.innerHTML = '<option selected disabled>--Select Category--</option>'; //clear existing options
-            data.forEach(category => {
-                let option = document.createElement('option');
-                option.value = category.category_id;
-                option.textContent = category.laundry_category_option;
-                dropdown.appendChild(option);
-            });
+            populateCategories(data); // Call function to populate categories
         })
         .catch(error => console.error('Error fetching categories:', error));
 }
+
+function populateCategories(data) {
+    let dropdown = document.getElementById('category');
+    let serviceDropdown = document.getElementById('service'); 
+    dropdown.innerHTML = '<option selected disabled>--Select Category--</option>'; 
+
+    if (serviceDropdown.value === "2") {
+        let filteredCategories = data.filter(category => 
+            category.laundry_category_option === 'Clothes/Table Napkin/Pillowcase' || 
+            category.laundry_category_option === 'Bedsheet/Table Cloths/Curtain'
+        );
+        filteredCategories.forEach(category => {
+            let option = document.createElement('option');
+            option.value = category.category_id;
+            option.textContent = category.laundry_category_option;
+            dropdown.appendChild(option);
+        });
+    } else {
+        data.forEach(category => {
+            let option = document.createElement('option');
+            option.value = category.category_id;
+            option.textContent = category.laundry_category_option;
+            dropdown.appendChild(option);
+        });
+    }
+}
+document.getElementById('service').addEventListener('change', fetchCategories);
+
 //fetch categories when the page loads
 document.addEventListener('DOMContentLoaded', fetchCategories);
 
@@ -365,6 +390,20 @@ $('#rush').change(function() {
         $('#rush_fee').val('');
         updateTotalAmount();
     }
+});
+
+/****REQUIRED FIELDS IN DELIVERY****/
+$("#service_option").change(function() {
+    const serviceOption = $("#service_option").val();
+    console.log("Selected Service Option:", serviceOption);
+    const isDelivery = serviceOption === "1";  //1: Delivery
+
+    const addressFields = $("#address, #province, #city, #barangaySelect");
+
+    addressFields.each(function() {
+        $(this).prop("required", isDelivery);
+        $(this).prop("disabled", !isDelivery); 
+    });
 });
 
 var timeoutId;
@@ -669,8 +708,8 @@ $(document).ready(function() {
         var amountTendered = parseFloat($('#amount_tendered').val()) || 0;
         var customerName = $('#customer_name_hidden').val();
         var contactNumber = $('#contact_number_hidden').val();
-        var province = $('#provSelect').val();
-        var city = $('#citySelect').val();
+        var province = $('#province').val();
+        var city = $('#city').val();
         var brgy = $('#barangaySelect').val();
          
     
@@ -704,9 +743,9 @@ $(document).ready(function() {
             change: change.toFixed(2),
             customer_name: customerName,
             contact_number: contactNumber,
-            customer_prov: province,
-            customer_city: city,
-            customer_brgy: brgy
+            province: province,
+            city: city,
+            brgy: brgy
         };
     
         $.ajax({

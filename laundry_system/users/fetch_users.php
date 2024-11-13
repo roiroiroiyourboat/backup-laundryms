@@ -1,14 +1,6 @@
 <?php
 require_once('users_db.php');
 
-// $search = "";
-// if (isset($_POST['search'])) {
-//     $search = $con->real_escape_string($_POST['search']);
-//     $query = "SELECT * FROM users WHERE username LIKE '%$search%' OR first_name LIKE '%$search%' OR last_name LIKE '%$search%'";
-// } else {
-//     $query = "SELECT * FROM users";
-// }
-
 $result = mysqli_query($con, $query);
 
 if (!$result) {

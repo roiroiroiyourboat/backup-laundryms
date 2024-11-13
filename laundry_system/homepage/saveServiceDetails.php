@@ -15,9 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rushFee = $_POST['rush_fee'] ?? null;
     $amountTendered = $_POST['amount_tendered'] ?? null;
     $change = $_POST['change'] ?? null;
-    $province = $_POST['customer_prov'] ?? null;
-    $city = $_POST['customer_city'] ?? null;
-    $brgy = $_POST['customer_brgy'] ?? null;
+    $province = $_POST['province'] ?? null;
+    $city = $_POST['city'] ?? null;
+    $brgy = $_POST['brgy'] ?? null;
 
     $conn = new mysqli('localhost', 'root', '', 'laundry_db');
 
@@ -28,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update customer address in tbl_customer
-    $sqlUpdateCustomer = "UPDATE customer SET address = ? WHERE customer_id = ?";
+    $sqlUpdateCustomer = "UPDATE customer SET province = ?, city = ?, address = ?, brgy = ? WHERE customer_id = ?";
     $stmtUpdateCustomer = $conn->prepare($sqlUpdateCustomer);
-    $stmtUpdateCustomer->bind_param('si', $address, $customerId);
+    $stmtUpdateCustomer->bind_param('ssssi', $province, $city, $address, $brgy, $customerId);
 
     if (!$stmtUpdateCustomer->execute()) {
         echo json_encode(['status' => 'error', 'message' => 'Failed to update customer address: ' . $stmtUpdateCustomer->error]);
