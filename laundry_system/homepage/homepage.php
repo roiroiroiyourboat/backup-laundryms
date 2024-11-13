@@ -159,13 +159,19 @@ $conn->close();
                 <div class="row">
                     <h5 class="text-center">Customer Details</h5>
                     <div class="col">
-                        <label for="name" class="form-label"><b>Customer Name</b></label>
+                        <label for="name" class="form-label">
+                            <b>Customer Name</b>
+                            <span class="info-icon" data-tooltip="Provide first and last name">i</span>
+                        </label>
                         <input type="text" class="form-control" id="customer_name" name="customer_name"
                             placeholder="Enter customer name" autocomplete="off" required>
                     </div>
 
                     <div class="col">
-                        <label for="contactNo" class="form-label"><b>Contact Number</b></label>
+                        <label for="contactNo" class="form-label">
+                            <b>Contact Number</b>
+                            <span class="info-icon" data-tooltip="Please use active phone number">i</span>
+                        </label>
                         <input type="tel" class="form-control" id="contact_number" name="contact_number"
                             placeholder="Enter contact number" autocomplete="off"  maxlength="11" oninput="validateContactNumber(this)" required>
                     </div>
@@ -217,7 +223,7 @@ $conn->close();
                 <div class="row">
                     <div class="col">
                         <label for="price" class="form-label"><b>Price</b></label>
-                        <input type="number" class="form-control" id="price" name="price" autocomplete="off" readonly>
+                        <input type="number" class="form-control" id="price" name="price" autocomplete="off" readonly required>
                     </div>
                 </div>
 
@@ -303,7 +309,7 @@ $conn->close();
                         <h5 class="text-center">Service Details</h5>
                         <div class="col">
                             <label for="service_option" class="form-label"><b>Service Option</b></label>
-                            <select name="service_option" class="form-control" id="service_option">
+                            <select name="service_option" class="form-select" id="service_option" required>
                                 <option selected>--Select Option--</option>
                             </select>
                         </div>
@@ -318,7 +324,7 @@ $conn->close();
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="row">
                         <div class="col">
                             <label for="address" class="form-label"><b>Address</b></label>
@@ -332,23 +338,24 @@ $conn->close();
 
                     <div class="row">
                         <div class="col">
-                            <select class="form-select" aria-label="province" name="province">
-                                <option selected>Province</option>
+                            <select class="form-select" aria-label="province" name="province" id="provSelect">
+                                <option selected disabled>Province</option>
                                 <option value="bulacan">Bulacan</option>
                             </select>
                         </div>
 
                         <div class="col">
-                            <select class="form-select" aria-label="city" name="city">
-                                <option selected>City</option>
+                            <select class="form-select" aria-label="city" name="city" id="citySelect">
+                                <option selected disabled>City</option>
+                                <option value="sjdm">San Jose del Monte</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col">
-                            <select class="form-select" aria-label="brygy" name="brgy">
-                                <option selected>Barangay</option>
+                            <select class="form-select" aria-label="brgy" name="brgy" id="barangaySelect" required>
+                                <option selected disabled>Barangay</option>
                             </select>
                         </div>
                     </div>
@@ -362,7 +369,6 @@ $conn->close();
 
                     <div class="row">
                         <h5 class="text-center">Charges</h5>
-                        
                         <div class="col">
                             <label for="delivery_fee" class="form-label"><b>Delivery Fee</b></label>
                             <input type="number" class="form-control" id="delivery_fee" name="delivery_fee"
@@ -371,8 +377,7 @@ $conn->close();
                         
                         <div class="col">
                             <label for="rush_fee" class="form-label"><b>Rush Fee</b></label>
-                            <input type="number" class="form-control" id="rush_fee" name="rush_fee"
-                            autocomplete="off" readonly>
+                            <input type="number" class="form-control" id="rush_fee" name="rush_fee" autocomplete="off" readonly>
                         </div>
                     </div>
 
@@ -617,6 +622,7 @@ $conn->close();
             const formattedDate = newDate.toISOString().split('T')[0];
             pickupDateInput.value = formattedDate;
         });
+        
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

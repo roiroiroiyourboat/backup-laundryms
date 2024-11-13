@@ -19,7 +19,7 @@ $sql = "SELECT min_kilos, delivery_day, rush_delivery_day FROM settings";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 
-$sqlServiceOption = "SELECT price FROM service_option_price WHERE service_option_type = 'Delivery'";
+$sqlServiceOption = "SELECT price FROM service_option_price WHERE service_option_type = 'Delivery (outside gaya-gaya)'";
 $resultDelivery = mysqli_query($conn, $sqlServiceOption);
 $rowDelivery = mysqli_fetch_assoc($resultDelivery);
 $delivery_charge = $rowDelivery['price'];
@@ -221,8 +221,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </nav>
             
-            <div class="container">
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <div class="container" id="priceSetting">
+                <div class="d-grid gap-2 d-md-block">
                     <button class="btn btn-success me-md-2" type="button" id="set_price" data-bs-toggle="modal" data-bs-target="#categ_price_modal">
                     <i class='bx bxs-purchase-tag' ></i>
                     Set Price</button>

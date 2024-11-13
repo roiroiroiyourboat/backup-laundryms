@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+// $_SESSION['loggedin'] = true;
+// echo json_encode(['success' => true]);
+
 header('Content-Type: application/json'); // Set the content type to JSON
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

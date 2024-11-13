@@ -4,14 +4,17 @@ $conn = mysqli_connect("localhost", "root", "", "laundry_db");
 
 // Check connection
 if (!$conn) {
-  die("Connection failed: ". mysqli_connect_error());
+  die("Connection failed: " . mysqli_connect_error());
 }
 
-if (isset($_GET['option_id'])) {
+// Check if option_id and d_categoryID are provided
+if (isset($_GET['option_id']) && isset($_GET['d_categoryID'])) {
   $serviceOptionId = $_GET['option_id'];
+  $deliveryCategoryId = $_GET['d_categoryID'];
 
-  $stmt = mysqli_prepare($conn, "SELECT price FROM service_option_price WHERE option_id =?");
-  mysqli_stmt_bind_param($stmt, "i", $serviceOptionId);
+  // Prepare the SQL statement to fetch price based on option_id and d_categoryID
+  $stmt = mysqli_prepare($conn, "SELECT price FROM service_option_price WHERE option_id = ? AND d_categoryID = ?");
+  mysqli_stmt_bind_param($stmt, "ii", $serviceOptionId, $deliveryCategoryId);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 
@@ -27,5 +30,6 @@ if (isset($_GET['option_id'])) {
   echo json_encode(['error' => 1, 'message' => 'Service or category ID not provided']);
 }
 
+// Close the database connection
 mysqli_close($conn);
 ?>

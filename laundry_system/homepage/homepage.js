@@ -19,6 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', (event) => {
+    const login_form = document.getElementById("form_container");
+    const closeBtn = document.getElementsByClassName("btnClose")[0];
+
+    //close the service form
+    closeBtn.onclick = function() {
+        login_form.style.display = "none";
+    }
+});
+
+document.addEventListener('DOMContentLoaded', (event) => {
     const btnLogin = document.getElementById('form_open');
     const btnLaundryService = document.getElementById('openService');
     const login_form = document.getElementById('form_container');
@@ -45,25 +55,6 @@ window.addEventListener('scroll', () => {
     document.body.style.setProperty('--scale', scaleValue);
 }, false);
 
-
-//POP-UP LOGIN FORM
-document.addEventListener('DOMContentLoaded', (event) => {
-    const login_form = document.getElementById("form_container");
-    const openLogin = document.getElementById("form_open");
-    const closeBtn = document.getElementsByClassName("btnClose")[0];
-
-    //open the service form
-    openLogin.onclick = function() {
-        login_form.style.display = "block";
-    }
-
-    //close the service form
-    closeBtn.onclick = function() {
-        login_form.style.display = "none";
-    }
-
-});
-
 document.addEventListener('DOMContentLoaded', (event) => {
     const service_form = document.getElementById("service_form");
     const login_form = document.getElementById("form_container");
@@ -84,11 +75,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 });
 
-//pop up for laundry service form
+//LOGIN IN SERVICE REQUEST
+let redirectToServiceRequest = false;
 document.addEventListener('DOMContentLoaded', (event) => {
+    //POP-UP LOGIN FORM IN SERVICE REQUEST
+    const login_form = document.getElementById("form_container");
+    const openLogin = document.getElementById("form_open");
+    const closeBtn = document.getElementsByClassName("btnClose")[1];
+
+    //open the service form
+    openLogin.onclick = function() {
+        login_form.style.display = "block";
+    }
+
+    //close the service form
+    closeBtn.onclick = function() {
+        login_form.style.display = "none";
+    }
+
+    //pop up for laundry service form
     const service_form = document.getElementById("service_form");
     const openBtn = document.getElementById("openService");
-    const closeBtn = document.getElementsByClassName("btnClose")[1];
+
+    let isLoggedIn = false;
 
     //open the service form
     openBtn.onclick = function() {
@@ -99,6 +108,39 @@ document.addEventListener('DOMContentLoaded', (event) => {
     closeBtn.onclick = function() {
         service_form.style.display = "none";
     }
+
+    openBtn.addEventListener('click', () => {
+        // Check if the user is logged in
+        if (isLoggedIn) {
+            // Directly show the service request form
+            service_form.style.display = "block";
+            login_form.style.display = 'none';
+        } else {
+            //if not logged in, show the warning and then the choice
+            service_form.style.display = 'none';
+
+            Swal.fire({
+                title: "Authorized users only have access to the service request.",
+                icon: "warning",
+                showConfirmButton: false,
+                timer: 3000,
+            }).then(() => {
+                Swal.fire({
+                    title: "Please log in to access the service request.",
+                    showConfirmButton: true,
+                    icon: "warning"
+                    // confirmButtonText: "Service Request",
+                    // confirmButtonColor: "#3085d6",  // Blue button for Service Request
+                }).then((choice) => {
+                    if (choice.isConfirmed) {
+                        redirectToServiceRequest = true;
+                        login_form.style.display = "block";
+                        service_form.style.display = 'none';
+                    }
+                });
+            });
+        }
+    });
 
 });
 
@@ -139,6 +181,7 @@ function validateContactNumber(input) {
 /*********************LOGIN FORM************************/
 document.getElementById('loginForm').addEventListener('submit', function (e) {
     e.preventDefault(); 
+    const service_form = document.getElementById("service_form");
 
     const formData = new FormData(this); 
 
@@ -149,8 +192,21 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
     .then(response => response.json()) // Parse the JSON response
     .then(data => {
         if (data.success) {
-            //redirect on successful login
-            window.location.href = '/laundry_system/dashboard/dashboard.php';
+            isLoggedIn = true;
+             Swal.fire({
+                title: "You have successfully logged in.",
+                icon: "success",
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => {
+                if (redirectToServiceRequest) {
+                    redirectToServiceRequest = false;
+                    service_form.style.display = "block";
+                } else {
+                     window.location.href = '/laundry_system/dashboard/dashboard.php';
+                }
+               
+            });
         } else {
             //error message
             Swal.fire({
@@ -179,7 +235,7 @@ function fetchServices() {
         .then(data => {
             console.log(data); // Debugging
             let dropdown = document.getElementById('service');
-            dropdown.innerHTML = '<option selected>--Select Service--</option>'; // Clear existing options
+            dropdown.innerHTML = '<option selected disabled>--Select Service--</option>'; // Clear existing options
             data.forEach(service => {
                 let option = document.createElement('option');
                 option.value = service.service_id;
@@ -203,7 +259,7 @@ function fetchCategories() {
         .then(data => {
             console.log(data); // Debugging
             let dropdown = document.getElementById('category');
-            dropdown.innerHTML = '<option selected>--Select Category--</option>'; //clear existing options
+            dropdown.innerHTML = '<option selected disabled>--Select Category--</option>'; //clear existing options
             data.forEach(category => {
                 let option = document.createElement('option');
                 option.value = category.category_id;
@@ -257,7 +313,7 @@ function fetchServiceOptions() {
         .then(data => {
             console.log(data);
             let dropdown = document.getElementById('service_option');
-            dropdown.innerHTML = '<option selected>--Select Option--</option>'; //clear existing options
+            dropdown.innerHTML = '<option selected disabled>--Select Option--</option>'; //clear existing options
             data.forEach(service_option => {
                 let option = document.createElement('option');
                 option.value = service_option.option_id;
@@ -281,43 +337,6 @@ function updateTotalAmount() {
     var finalTotalAmount = totalPrice + deliveryFee + rushFee;
     $('#total_amount').val(finalTotalAmount.toFixed(2));
 }
-
-//fetch service options price
-$('#service_option').change(function() {
-    const serviceOptionId = $(this).val();
-    const selectedOptionText = $(this).find('option:selected').text();
-  
-    if (selectedOptionText === 'Customer Pick-Up') {
-        $('#delivery_fee').val('');  
-        updateTotalAmount(); 
-    } else if (serviceOptionId) {
-        $.ajax({
-            type: 'GET',
-            url: '/laundry_system/homepage/home_configs/getServiceOptionRate.php',
-            data: { option_id: serviceOptionId },
-            dataType: 'json'
-        })
-        .done(function(data) {
-            console.log('Received data:', data);
-            if (data.error === 0) {
-                console.log('Setting price to:', data.price);
-                if (selectedOptionText === 'Delivery') {
-                    $('#delivery_fee').val(parseFloat(data.price).toFixed(2));  
-                }
-                updateTotalAmount();  // Update total amount after changes
-            } else {
-                console.log('Error:', data.message);
-            }
-        })
-        .fail(function(xhr, status, error) {
-            console.log('Ajax error:', error);
-        });
-    } else {
-        $('#delivery_fee').val(''); 
-        updateTotalAmount();
-    }
-});
-
 
 //FETCH RUSH PRICE
 $('#rush').change(function() {
@@ -650,6 +669,10 @@ $(document).ready(function() {
         var amountTendered = parseFloat($('#amount_tendered').val()) || 0;
         var customerName = $('#customer_name_hidden').val();
         var contactNumber = $('#contact_number_hidden').val();
+        var province = $('#provSelect').val();
+        var city = $('#citySelect').val();
+        var brgy = $('#barangaySelect').val();
+         
     
         var finalTotalAmount = totalPrice + deliveryFee + (isRush === 'Rush' ? rushFee : 0);
         var change = amountTendered - finalTotalAmount;
@@ -680,7 +703,10 @@ $(document).ready(function() {
             amount_tendered: amountTendered.toFixed(2),
             change: change.toFixed(2),
             customer_name: customerName,
-            contact_number: contactNumber
+            contact_number: contactNumber,
+            customer_prov: province,
+            customer_city: city,
+            customer_brgy: brgy
         };
     
         $.ajax({
@@ -768,82 +794,6 @@ $(document).ready(function() {
             }
         });
     })
-
-    function printInvoice() {
-        var printButton = document.getElementById('print_invoice_btn');
-        printButton.style.display = 'none';
-        
-        var printContents = document.querySelector('.print_invoice').outerHTML; 
-        
-        // Use a new window for printing
-        var newWindow = window.open('', '', 'height=600,width=800');
-        
-        // Write HTML and styles to the new window
-        newWindow.document.write('<html><head><title>Invoice</title>');
-        newWindow.document.write('<style>' +
-            '@media print {' +
-                '@page {' +
-                    'size: 58mm;' + //size of thermal paper
-                    'margin: 0;' +
-                '}' +
-                
-                '.print_invoice {' +
-                    'display: block;' +
-                    'position: static;' +
-                    'background-color: transparent;' +
-                    'padding: 10px;' + 
-                    'width: 100%;' +
-                    'max-width: 58mm;' +  
-                '}' + 
-
-                'hr{' + 
-                'border: 1px solid; margin: 5px 0}' +
-
-                '.logo_header, h3{' + 
-                'font-size: 14px;}' +
-                
-                '.text-center{' +
-                    'text-align: center;' +
-                    'font-size: 12px;' +
-                '}' +
-                
-                '#services-table {' +
-                    'width: 50mm;' + 
-                    'border-collapse: collapse;' +
-                    'margin: 0 auto;' + 
-                '}' +
-                
-                'th, td {' +
-                    'border: 1px solid black;' +
-                    'padding: 2px;' + 
-                    'text-align: left;' +
-                    'font-size: 8px;' + 
-                '}' +
-        
-                'body {' +
-                    'margin: 0;' + 
-                    'padding: 0;' +
-                    'font-size: 12px;' + 
-                '}' +
-            '}' +
-        '</style>');   
-        
-        newWindow.document.write('</head><body>');
-        newWindow.document.write(printContents);
-        newWindow.document.write('</body></html>');
-        
-        newWindow.document.close(); // Close the document to apply styles
-        newWindow.print(); // Trigger the print dialog
-        
-        // Reset UI elements
-        printButton.style.display = 'block';
-        $('#print_invoice tbody').empty();
-        $('#print_invoice').hide();
-        $('#service_details').hide();
-    }
-    
-    
-    $('#print_invoice_btn').click(printInvoice);
     
     $('#btnCancel_service_details').click(function() {
         swal.fire({
@@ -1051,5 +1001,68 @@ $(document).ready(function() {
             return '';
         });
     }
+
+    // Barangay names
+    const brgys = [
+        "Ciudad Real", "Dulong Bayan", "Francisco Homes - Guijo", "Francisco Homes - Mulawin", 
+        "Francisco Homes - Narra", "Francisco Homes - Yakal", "Gaya-gaya", "Graceville", "Gumaoc East", 
+        "Gumaoc Central", "Gumaoc West", "Kaybanban", "Kaypian", "Maharlika", "Muzon South", "Muzon Proper", 
+        "Muzon East", "Muzon West", "Paradise 3", "Poblacion", "Poblacion 1", "San Isidro", "San Manuel", 
+        "San Roque", "Sto. Cristo", "Tungkong Mangga"
+    ];
+
+    const barangaySelect = document.getElementById("barangaySelect");
+
+    //barangay options
+    brgys.forEach(brgy => {
+        const option = document.createElement("option");
+        option.value = brgy;
+        option.textContent = brgy;
+        barangaySelect.appendChild(option);
+    });
+
+    //fetch service options price and brgy price based on the selected brgy
+    $('#service_option').change(function() {
+        const serviceOptionId = $(this).val();
+        const selectedOptionText = $(this).find('option:selected').text();
+        const selectedBarangay = barangaySelect.value;
+        
+        if (selectedOptionText === 'Customer Pick-Up') {
+            $('#delivery_fee').val('');
+            updateTotalAmount();
+        } else if (serviceOptionId) {
+            const d_categoryID = (selectedBarangay === "Gaya-gaya") ? 2 : 1; //ID for "Gaya-gaya" : other barangay
+
+            $.ajax({
+                type: 'GET',
+                url: '/laundry_system/homepage/home_configs/getServiceOptionRate.php',
+                data: { option_id: serviceOptionId, d_categoryID: d_categoryID },
+                dataType: 'json'
+            })
+            .done(function(data) {
+                console.log('Received data:', data);
+                if (data.error === 0) {
+                    console.log('Setting price to:', data.price);
+                    if (selectedOptionText === 'Delivery') {
+                        $('#delivery_fee').val(parseFloat(data.price).toFixed(2));
+                    }
+                    updateTotalAmount(); 
+                } else {
+                    console.log('Error:', data.message);
+                }
+            })
+            .fail(function(xhr, status, error) {
+                console.log('Ajax error:', error);
+            });
+        } else {
+            $('#delivery_fee').val('');
+            updateTotalAmount();
+        }
+    });
+
+    barangaySelect.addEventListener('change', function() {
+        $('#service_option').trigger('change'); // to trigger the service option change
+    });
+
 
 });

@@ -15,6 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rushFee = $_POST['rush_fee'] ?? null;
     $amountTendered = $_POST['amount_tendered'] ?? null;
     $change = $_POST['change'] ?? null;
+    $province = $_POST['customer_prov'] ?? null;
+    $city = $_POST['customer_city'] ?? null;
+    $brgy = $_POST['customer_brgy'] ?? null;
 
     $conn = new mysqli('localhost', 'root', '', 'laundry_db');
 
@@ -63,10 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Process each active request_id
     foreach ($requestIds as $requestId) {
         // Insert transaction details into tbl_transaction
-        $sqlTransaction = "INSERT INTO transaction (request_id, customer_id, customer_name, service_option_id, service_option_name, laundry_cycle, customer_address, total_amount, delivery_fee, rush_fee, amount_tendered, money_change)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sqlTransaction = "INSERT INTO transaction (request_id, customer_id, customer_name, service_option_id, service_option_name, laundry_cycle, customer_address, total_amount, delivery_fee, rush_fee, 
+                                                    amount_tendered, money_change, province, city, brgy)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
         $stmtTransaction = $conn->prepare($sqlTransaction);
-        $stmtTransaction->bind_param('iisisssddddd', $requestId, $customerId, $customerName, $serviceId, $serviceOptionName, $isRush, $address, $totalAmount, $deliveryFee, $rushFee, $amountTendered, $change);
+        $stmtTransaction->bind_param('iisisssdddddsss', $requestId, $customerId, $customerName, $serviceId, $serviceOptionName, $isRush, $address, $totalAmount, $deliveryFee, $rushFee, $amountTendered, $change, $province, $city, $brgy);
 
         if (!$stmtTransaction->execute()) {
             $conn->rollback();
