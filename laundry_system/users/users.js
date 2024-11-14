@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function setupPagination() {
       paginationContainer.innerHTML = '';
-
+  
       // previous arrow
       let prevPageLink = document.createElement('li');
       prevPageLink.classList.add('page-item');
@@ -287,49 +287,50 @@ document.addEventListener('DOMContentLoaded', function() {
               setActivePage(currentPage);
           }
       });
-
+  
       paginationContainer.appendChild(prevPageLink);
 
-      // numbered page links
-      for (let i = 0; i < totalPages; i++) {
-            let pageLink = document.createElement('li');
-            pageLink.classList.add('page-item');
-            pageLink.innerHTML = `<a class="page-link" href="#">${i + 1}</a>`;
+    // numbered page links
+    for (let i = 0; i < totalPages; i++) {
+      let pageLink = document.createElement('li');
+      pageLink.classList.add('page-item');
+      pageLink.innerHTML = `<a class="page-link" href="#">${i + 1}</a>`;
 
-            pageLink.addEventListener('click', function (e) {
-            e.preventDefault();
-            displayRows(i * rowsPerPage);
-            setActivePage(i);
-        });
+      pageLink.addEventListener('click', function (e) {
+          e.preventDefault();
+          currentPage = i;
+          displayRows(i * rowsPerPage);
+          setActivePage(i);
+      });
 
-        paginationContainer.appendChild(pageLink);
-      }
+      paginationContainer.appendChild(pageLink);
+  }
 
-      // next arrow
-      let nextPageLink = document.createElement('li');
+    // next arrow
+    let nextPageLink = document.createElement('li');
       nextPageLink.classList.add('page-item');
       nextPageLink.innerHTML = `<a class="page-link" href="#">>></a>`;
       nextPageLink.addEventListener('click', function (e) {
-          e.preventDefault();
-          if (currentPage < totalPages - 1) {
-              currentPage++;
-              displayRows(currentPage * rowsPerPage);
-              setActivePage(currentPage);
-          }
-      });
+      e.preventDefault();
+      if (currentPage < totalPages - 1) {
+          currentPage++;
+          displayRows(currentPage * rowsPerPage);
+          setActivePage(currentPage);
+      }
+  });
       paginationContainer.appendChild(nextPageLink);
   }
 
-    function setActivePage(pageIndex) {
-        const pageLinks = paginationContainer.querySelectorAll('.page-item');
-        pageLinks.forEach(link => link.classList.remove('active'));
-        pageLinks[pageIndex].classList.add('active');
-    }
+  function setActivePage(pageIndex) {
+      const pageLinks = paginationContainer.querySelectorAll('.page-item');
+      pageLinks.forEach(link => link.classList.remove('active'));
+      pageLinks[pageIndex + 1].classList.add('active'); // +1 to skip the prev arrow
+  }
 
-    // Initialization of table with first page and pagination links
-    displayRows(0);
-    setupPagination();
-    setActivePage(0);
+  // Initialize table with first page and pagination links
+  displayRows(0);
+  setupPagination();
+  setActivePage(0);
 
     //Show Password
     $('.toggle-password').click(function() {

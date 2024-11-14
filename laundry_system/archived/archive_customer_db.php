@@ -1,81 +1,55 @@
 <?php
+header('Content-Type: application/json');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-header('Content-Type: application/json');
+$host = 'localhost'; 
+$db = 'laundry_db';
+$user = 'root'; 
+$pass = ''; 
+$charset = 'utf8mb4';
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+];
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+    // Handle connection error
+    $response = ["success" => false, "error" => "Database connection failed: " . $e->getMessage()];
+    echo json_encode($response);
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $input = json_decode(file_get_contents('php://input'), true);  // Decode JSON input
+    $data = json_decode(file_get_contents("php://input"), true);
+    
+    if (isset($data['id'])) {
+        $customerId = $data['id'];
 
-    if (isset($input['id'])) {  
-        $customerId = $input['id'];
+        // Prepare and execute your archiving query here
+        try {
+            $stmt = $pdo->prepare("INSERT INTO archived_customers (customer_id, customer_name, contact_number, province, city, address, brgy, archived_at) SELECT customer_id, customer_name, contact_number,province, city, address, brgy, NOW() FROM customer WHERE customer_id = :customer_id");
+            $stmt->bindParam(':customer_id', $customerId, PDO::PARAM_INT);
+            $stmt->execute();
 
-        $conn = new mysqli('localhost', 'root', '', 'laundry_db');
-        if ($conn->connect_error) {
-            error_log("Database connection failed: " . $conn->connect_error);
-            echo json_encode(['success' => false, 'error' => 'Database connection failed']);
-            exit();
+            // Optionally delete from the customer table
+            $deleteStmt = $pdo->prepare("DELETE FROM customer WHERE customer_id = :customer_id");
+            $deleteStmt->bindParam(':customer_id', $customerId, PDO::PARAM_INT);
+            $deleteStmt->execute();
+
+            $response['success'] = true;
+        } catch (Exception $e) {
+            $response['error'] = "Failed to archive customer: " . $e->getMessage();
         }
-
-        // Query customer table
-        $sql = "SELECT * FROM customer WHERE customer_id = ?";
-        $stmt = $conn->prepare($sql);
-        if (!$stmt) {
-            error_log("Prepare failed: " . $conn->error);
-            echo json_encode(['success' => false, 'error' => 'Failed to prepare SQL statement']);
-            exit();
-        }
-        
-        $stmt->bind_param("i", $customerId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $customer = $result->fetch_assoc();
-
-        if ($customer) {
-            // Insert into archived_customer table
-            $archiveSql = "INSERT INTO archived_customers (customer_id, customer_name, contact_number, address, archived_at) VALUES (?, ?, ?, ?, NOW())";
-            $archiveStmt = $conn->prepare($archiveSql);
-            if (!$archiveStmt) {
-                error_log("Prepare failed for archive: " . $conn->error);
-                echo json_encode(['success' => false, 'error' => 'Failed to prepare archive SQL']);
-                exit();
-            }
-            $archiveStmt->bind_param("isss", $customer['customer_id'], $customer['customer_name'], $customer['contact_number'], $customer['address']);
-            $archiveStmt->execute();
-
-            if ($archiveStmt->affected_rows > 0) {
-                // Delete customer from the customer table
-                $deleteSql = "DELETE FROM customer WHERE customer_id = ?";
-                $deleteStmt = $conn->prepare($deleteSql);
-                if (!$deleteStmt) {
-                    error_log("Prepare failed for delete: " . $conn->error);
-                    echo json_encode(['success' => false, 'error' => 'Failed to prepare delete SQL']);
-                    exit();
-                }
-                $deleteStmt->bind_param("i", $customerId);
-                $deleteStmt->execute();
-
-                if ($deleteStmt->affected_rows > 0) {
-                    echo json_encode(['success' => true]);
-                } else {
-                    echo json_encode(['success' => false, 'error' => 'Failed to delete customer']);
-                }
-            } else {
-                echo json_encode(['success' => false, 'error' => 'Failed to archive customer']);
-            }
-        } else {
-            echo json_encode(['success' => false, 'error' => 'Customer not found']);
-        }
-
-        $stmt->close();
-        $archiveStmt->close();
-        $deleteStmt->close();
-        $conn->close();
     } else {
-        echo json_encode(['success' => false, 'error' => 'Customer ID missing']);
+        $response['error'] = "Customer ID not provided.";
     }
-} else {
-    echo json_encode(['success' => false, 'error' => 'Invalid request method']);
+
+    echo json_encode($response);
 }
-?>

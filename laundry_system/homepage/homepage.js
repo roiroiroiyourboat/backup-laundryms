@@ -229,7 +229,7 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
 /***************************LAUNDRY SERVICE REQUEST****************************/
 //fetch laundry service
 function fetchServices() {
-    fetch('/laundry_system/homepage/home_configs/fetch_laundry_service.php')
+    fetch('/laundry_system/homepage/fetch_laundry_service.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', fetchServices);
 
 //fetch laundry category
 function fetchCategories() {
-    fetch('/laundry_system/homepage/home_configs/fetchLaundryCateg.php')
+    fetch('/laundry_system/homepage/fetchLaundryCateg.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -305,7 +305,7 @@ $('#service, #category').change(function() {
     if (serviceId && categoryId) {
       $.ajax({
         type: 'GET',
-        url: '/laundry_system/homepage/home_configs/getPrice.php',
+        url: '/laundry_system/homepage/getPrice.php',
         data: { service_id: serviceId, category_id: categoryId },
         dataType: 'json'
       })
@@ -328,7 +328,7 @@ $('#service, #category').change(function() {
 
 //fetch service option (rush/delivery/pick-up)
 function fetchServiceOptions() {
-    fetch('/laundry_system/homepage/home_configs/fetch_service_option.php')
+    fetch('/laundry_system/homepage/fetch_service_option.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -368,7 +368,7 @@ $('#rush').change(function() {
     if ($(this).is(':checked')) {
         $.ajax({
             type: 'GET',
-            url: '/laundry_system/homepage/home_configs/getRushFee.php',
+            url: '/laundry_system/homepage/getRushFee.php',
             data: {rush: 'Rush'},
             dataType: 'json'
         })
@@ -489,7 +489,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'GET',
-            url: '/laundry_system/homepage/home_configs/weight_limits.php',
+            url: '/laundry_system/homepage/weight_limits.php',
             success: function(response) {
                 if (response.status === 'success') {
                     var minWeight = parseFloat(response.minWeight);
@@ -526,7 +526,7 @@ $(document).ready(function() {
                 // Validate if the customer name or contact number already exists
                 $.ajax({
                     type: 'POST',
-                    url: '/laundry_system/homepage/home_configs/validate_customer.php',
+                    url: '/laundry_system/homepage/validate_customer.php',
                     data: {
                         customer_name: customerName,
                         contact_number: contactNumber
@@ -1074,7 +1074,7 @@ $(document).ready(function() {
 
             $.ajax({
                 type: 'GET',
-                url: '/laundry_system/homepage/home_configs/getServiceOptionRate.php',
+                url: '/laundry_system/homepage/getServiceOptionRate.php',
                 data: { option_id: serviceOptionId, d_categoryID: d_categoryID },
                 dataType: 'json'
             })

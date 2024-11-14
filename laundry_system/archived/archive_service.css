@@ -43,15 +43,16 @@ html {
   
 /*sidebar*/
 #sidebar {
+  display: flex;
+  height: 100%;
   width: 70px;
+  overflow: auto;
   min-width: 70px;
   z-index: 1000;
   transition: all .25s ease-in-out;
-  display: flex;
   flex-direction: column;
   background-color: #0e223e;
   border-radius: 0 20px 20px 0;
-  overflow: auto;
 }
   
 ::after,
@@ -195,16 +196,36 @@ a.sidebar-link:hover {
 
 /*responsiveness */
 @media (max-width: 768px) {
+  .table {
+    font-size: 0.9rem;
+  }
+
   #navbar {
     display: flex;
     flex-direction: column;
   }
+
+  .button {
+    height: 40px;
+    width: 300px;
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 480px) {
+  .table {
+    font-size: 0.8rem;
+  }
+  
   #navbar {
     display: flex;
     flex-direction: column;
+  }
+
+  .button {
+    height: 40px;
+    width: 265px;
+    font-size: 18px;
   }
 } 
 
@@ -223,14 +244,13 @@ a.sidebar-link:hover {
   align-items: center; 
   justify-content: center;
   height: 60px;
-  width: 155px;
   padding: 15px 25px;
   background-color: #b8c1ec;
   color: #000;
   text-align: center;
   text-decoration: none;
   border-radius: 10px;
-  font-size: 29px;
+  font-size: 30px;
   font-weight: 500;
   margin: 0; 
   gap: 10px;
@@ -240,43 +260,6 @@ a.sidebar-link:hover {
 .button:hover {
   background-color: #a0b0d9; 
   cursor: pointer;
-}
-
-/* pagination */
-.pagination {
-  display: flex;
-  justify-content: center;
-  padding-left: 0;
-  list-style: none;
-  border-radius: 0.25rem;
-  margin-top: 20px; 
-  position: absolute;
-  bottom: 20px; 
-  left: 0;
-  right: 0;
-}
-
-.pagination .page-item {
-  margin: 0 5px;
-}
-
-.pagination .page-link {
-  color: #007bff;
-  text-decoration: none;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #dee2e6;
-  border-radius: 0.25rem;
-}
-
-.pagination .page-item.active .page-link {
-  background-color: #007bff;
-  border-color: #007bff;
-  color: white;
-}
-
-.pagination .page-link:hover {
-  background-color: #f1f1f1;
-  color: #007bff;
 }
 
 /* search bar */
@@ -293,7 +276,7 @@ a.sidebar-link:hover {
 }
 
 .search_bar .form-control {
-  background-image: url('/laundry_system/icons/search-regular-24.png');
+  background-image: url('/laundry_system/icons/search.png');
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 20px 20px;

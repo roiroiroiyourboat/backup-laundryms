@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Query users table
-        $sql = "SELECT * FROM users WHERE user_id = ?";
+        $sql = "SELECT * FROM user WHERE user_id = ?";
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
             error_log("Prepare failed: " . $conn->error);
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($archiveStmt->affected_rows > 0) {
                 // Delete user from the users table
-                $deleteSql = "DELETE FROM users WHERE user_id = ?";
+                $deleteSql = "DELETE FROM user WHERE user_id = ?";
                 $deleteStmt = $conn->prepare($deleteSql);
                 if (!$deleteStmt) {
                     error_log("Prepare failed for delete: " . $conn->error);

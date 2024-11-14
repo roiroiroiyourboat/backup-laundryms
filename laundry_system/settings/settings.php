@@ -8,6 +8,11 @@ if(!isset($_SESSION['user_role'])) {
     exit();
 }
 
+if ($_SESSION['user_role'] !== 'admin') {
+    header('location: /laundry_system/homepage/homepage.php');
+    exit();
+} 
+
 $conn = new mysqli('localhost', 'root', '', 'laundry_db');
 
 if ($conn->connect_error) {
@@ -134,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="/laundry_system/my_profile/profile.php" class="sidebar-link">
+                    <a href="/laundry_system/profile/profile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>Profile</span>
                     </a>

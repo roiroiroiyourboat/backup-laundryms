@@ -44,7 +44,7 @@ $conn->close();
     <!--NAV BAR-->
     <header class="header">
         <nav class="navbar">
-            <img src="/laundry_system/images/laundry-logo.png" class="laundry_icon">
+            <img src="/laundry_system/images/laundry_logo.png" class="laundry_icon">
                 <div class="logo">Azia Skye's Laundry</div>
                     <ul class="nav-links">
                         <li><a href="#home">Home</a></li>
@@ -81,7 +81,7 @@ $conn->close();
                 <div class = "login_form">
                     <div class="logo_header">
                         <header>
-                            <img src="/laundry_system/images/laundry-logo.png" alt="logo">      
+                            <img src="/laundry_system/images/laundry_logo.png" alt="logo">      
                         </header>
                         <button type="button" class="btnClose" onclick="closeForm()"><i class='bx bx-x bx-rotate-90'></i></button>
                         <h4>Login</h3>
@@ -149,7 +149,7 @@ $conn->close();
             <form method="post" class="form-container" id="form_id">
                 <div class="logo_header">
                     <header>
-                        <img src="/laundry_system/images/laundry-logo.png" alt="logo">    
+                        <img src="/laundry_system/images/laundry_logo.png" alt="logo">    
                     </header>
                     <h5 class="text-center">Service Request</h5>
                     <button type="button" class="btnClose" onclick="closeForm()"><i class='bx bx-x bx-rotate-90'></i></button>
@@ -239,7 +239,7 @@ $conn->close();
             <div class="overview_container">
                 <div class="logo_header">
                     <header>
-                        <img src="/laundry_system/images/laundry-logo.png">     
+                        <img src="/laundry_system/images/laundry_logo.png">     
                     </header>
                     <h5 class="text-center">Service Request Overview</h5>
                     <button type="button" class="btnClose"><i class='bx bx-x bx-rotate-90'></i></button>
@@ -291,7 +291,7 @@ $conn->close();
                 <form method="post" class="form-container" id="form-service">
                     <div class="logo_header">
                         <header>
-                            <img src="/laundry_system/images/laundry-logo.png" alt="logo">
+                            <img src="/laundry_system/images/laundry_logo.png" alt="logo">
                         </header>
                         <h5 class="text-center">Service Request</h5>
                         <button type="button" class="btnClose"><i class='bx bx-x bx-rotate-90'></i></button>

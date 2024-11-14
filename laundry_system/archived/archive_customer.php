@@ -1,17 +1,24 @@
 <?php
-session_start(); 
-
-$user_role = $_SESSION['user_role'];
-
-if(!isset($_SESSION['user_role'])) {
-    header('location: /laundry_system/homepage/homepage.php');
-    exit();
-}
-
+session_start();
 $conn = new mysqli('localhost', 'root', '', 'laundry_db');
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+// check if user is logged in
+if (!isset($_SESSION['user_role'])) {
+    header('location: /laundry_system/homepage/homepage.php');
+    exit();  
+}
+
+// check if user is admin, restrict access based on role.
+if ($_SESSION['user_role'] !== 'admin') {
+    header('location: /laundry_system/homepage/homepage.php');
+    exit();
+} 
+
+$user_role = $_SESSION['user_role'];
 ?>
 
 <!DOCTYPE html>
@@ -32,33 +39,33 @@ if ($conn->connect_error) {
     <div class="progress"></div>
 
     <div class="wrapper">
-    <aside id="sidebar">
+        <aside id="sidebar">
             <div class="d-flex">
                 <button id="toggle-btn" type="button">
                     <i class="bx bx-menu-alt-left"></i>
                 </button>
 
                 <div class="sidebar-logo">
-                    <a href="#">Azia Skye</a>
+                    <a href="/laundry_system/dashboard/dashboard.php">Azia Skye</a>
                 </div>
             </div>
 
             <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link">
-                        <i class="lni lni-grid-alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a href="/laundry_system/my_profile/profile.php" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>Profile</span>
-                    </a>
-                </li>
-
                 <?php if ($user_role === 'admin') : ?>
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link">
+                            <i class="lni lni-grid-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/profile/profile.php" class="sidebar-link">
+                            <i class="lni lni-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+
                     <li class="sidebar-item">
                         <a href="/laundry_system/users/users.php" class="sidebar-link">
                             <i class="lni lni-users"></i>
@@ -67,7 +74,7 @@ if ($conn->connect_error) {
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/records/records.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
                             data-bs-target="#records" aria-expanded="false" aria-controls="records">
                             <i class="lni lni-files"></i>
                             <span>Records</span>
@@ -87,25 +94,23 @@ if ($conn->connect_error) {
                             </li>
                         </ul>
                     </li>
-                <?php endif; ?>
 
-                <li class="sidebar-item">
-                    <a href="/laundry_system/transaction/transaction.php" class="sidebar-link">
-                        <i class="lni lni-coin"></i>
-                        <span>Transaction</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a href="/laundry_system/sales_report/report.php" class="sidebar-link">
-                        <i class='bx bx-line-chart'></i>
-                        <span>Sales Report</span>
-                    </a>
-                </li>
-
-                    <?php if ($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link">
+                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link">
+                            <i class="lni lni-coin"></i>
+                            <span>Transaction</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link">
+                            <i class='bx bx-line-chart'></i>
+                            <span>Sales Report</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/settings/setting.php" class="sidebar-link">
                             <i class="lni lni-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -114,17 +119,35 @@ if ($conn->connect_error) {
                     <hr style="border: 1px solid #b8c1ec; margin: 8px">
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">
+                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#archived" aria-expanded="false" aria-controls="archived">
                             <i class='bx bxs-archive-in'></i>
-                            <span class="nav-item">Archived</span>
+                            <span>Archived</span>
                         </a>
+
+                        <ul id="archived" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">Archived Users</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_customer.php" class="sidebar-link">Archived Customer</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_service.php" class="sidebar-link">Archived Service</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_category.php" class="sidebar-link">Archived Category</a>
+                            </li>
+                        </ul>
                     </li>
                 <?php endif; ?>
-
             </ul>
 
             <div class="sidebar-footer">
-                <a href="#" id="btn_logout" class="sidebar-link">
+                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout">
                     <i class="lni lni-exit"></i>
                     <span>Logout</span>
                 </a>
@@ -134,7 +157,7 @@ if ($conn->connect_error) {
         <div class="main-content">
             <nav>
                 <div class="d-flex justify-content-between" id="navbar">
-                    <h2>Archived Customer</h2>
+                    <h1>Archived Customer</h1>
 
                     <div class="search_bar" m-1>
                         <input class="form-control" type="text" id="filter_customer" placeholder="Search customer...">
@@ -161,7 +184,7 @@ if ($conn->connect_error) {
             </div>
 
             <!-- table -->
-            <div class="card-body">
+            <div class="table-responsive">
                 <table class="table table-bordered text-center">
                         <thead>
                             <tr class="bg-dark text-white">
@@ -169,7 +192,10 @@ if ($conn->connect_error) {
                                 <th>Customer ID</th>
                                 <th>Customer Name</th>
                                 <th>Contact Number</th>
+                                <th>Province</th>
+                                <th>City</th>
                                 <th>Address</th>
+                                <th>Barangay</th>
                                 <th>Date Archived</th>
                             </tr>    
                         </thead>    
@@ -187,7 +213,10 @@ if ($conn->connect_error) {
                                         <td><?php echo $row['customer_id']; ?></td>
                                         <td><?php echo $row['customer_name']; ?></td>
                                         <td><?php echo $row['contact_number']; ?></td>
+                                        <td><?php echo $row['province']; ?></td>
+                                        <td><?php echo $row['city']; ?></td>
                                         <td><?php echo $row['address']; ?></td>
+                                        <td><?php echo $row['brgy']; ?></td>
                                         <td><?php echo $row['archived_at']; ?></td>
                                     </tr>
                                 <?php

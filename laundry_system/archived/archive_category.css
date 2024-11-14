@@ -1,37 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
-    font-family: "Poppins", sans-serif;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 .progress {
-    height: 3px;
-    width: 0%;
-    background-color: #fff;
-    position: fixed;
-    top: 0;
-    left: 0;
-    animation: progress 1s linear;
+  height: 3px;
+  width: 0%;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  animation: progress 1s linear;
 }
 
 @keyframes progress {
-    to {
-        background-color: rgb(20, 255, 226);
-        width: 100%;
-    }
+  to {
+    background-color: rgb(20, 255, 226);
+    width: 100%;
+  }
 }
 
 .wrapper {
   display: flex;
   width: 100%;
-  height:100vh;
+  height: 100vh;
 }
   
 .main-content {
@@ -43,11 +43,13 @@ html {
   
 /*sidebar*/
 #sidebar {
+  display: flex;
+  height: 100%;
   width: 70px;
+  overflow: auto;
   min-width: 70px;
   z-index: 1000;
   transition: all .25s ease-in-out;
-  display: flex;
   flex-direction: column;
   background-color: #0e223e;
   border-radius: 0 20px 20px 0;
@@ -65,17 +67,13 @@ a {
 }
   
 li {
-    list-style: none;
+  list-style: none;
 }
   
 h1 {
   font-weight: 600;
   font-size: 1.5 rem;
 }
-  
-/* body {
-   font-family: 'Poppins', sans-serif;
-} */
   
 .wrapper {
   display: flex;
@@ -98,7 +96,6 @@ h1 {
   flex-direction: column;
   background-color: #0e223e;
   border-radius: 0 20px 20px 0;
-  overflow: auto;
 }
   
 #sidebar.expand {
@@ -198,7 +195,7 @@ a.sidebar-link:hover {
 }
 
 /* table */
-.card-body {
+.card-responsive {
   padding: 20px;
 }
 
@@ -211,16 +208,36 @@ a.sidebar-link:hover {
 
 /*responsiveness */
 @media (max-width: 768px) {
+  .table {
+    font-size: 0.9rem;
+  }
+
   #navbar {
     display: flex;
     flex-direction: column;
   }
+
+  .button {
+    height: 40px;
+    width: 300px;
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 480px) {
+  .table {
+    font-size: 0.8rem;
+  }
+  
   #navbar {
     display: flex;
     flex-direction: column;
+  }
+
+  .button {
+    height: 40px;
+    width: 265px;
+    font-size: 18px;
   }
 } 
 
@@ -239,14 +256,13 @@ a.sidebar-link:hover {
   align-items: center; 
   justify-content: center;
   height: 60px;
-  width: 155px;
   padding: 15px 25px;
   background-color: #b8c1ec;
   color: #000;
   text-align: center;
   text-decoration: none;
   border-radius: 10px;
-  font-size: 29px;
+  font-size: 30px;
   font-weight: 500;
   margin: 0; 
   gap: 10px;
@@ -257,7 +273,6 @@ a.sidebar-link:hover {
   background-color: #a0b0d9; 
   cursor: pointer;
 }
-
 
 /* search bar */
 .search_bar {
@@ -273,7 +288,7 @@ a.sidebar-link:hover {
 }
 
 .search_bar .form-control {
-  background-image: url('/laundry_system/icons/search-regular-24.png');
+  background-image: url('/laundry_system/icons/search.png');
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 20px 20px;
@@ -294,14 +309,15 @@ a.sidebar-link:hover {
 }
 
 #logoutModal.show {
-  display: flex; /* Shows the modal */
+  display: flex; 
 }
 
 .modal-cont {
   position: relative;
   padding: 20px;
   background-color: white;
-  width: 35%;
+  width: 50%;
+  max-width: 500px; 
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -309,7 +325,7 @@ a.sidebar-link:hover {
 
 .modal-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .modal-buttons .btn {
@@ -338,4 +354,36 @@ a.sidebar-link:hover {
   right: 15px;
   font-size: 24px;
   cursor: pointer;
+} 
+
+@media (max-width: 768px) {
+  .modal-cont {
+    width: 70%;
+    padding: 15px;
+  }
+
+  .modal-buttons .btn {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-cont {
+    width: 90%;
+    padding: 10px;
+  }
+
+  #logoutText {
+    font-size: 20px;
+  }
+
+  .close {
+    font-size: 20px;
+    top: 5px;
+  }
+
+  .modal-buttons .btn {
+    padding: 10px;
+  }
 }

@@ -9,6 +9,11 @@ if(!isset($_SESSION['user_role'])) {
 
 $user_role = $_SESSION['user_role'];
 
+if ($_SESSION['user_role'] !== 'admin') {
+    header('location: /laundry_system/homepage/homepage.php');
+    exit();
+} 
+
 $search = "";
 if(isset($_POST['search'])) {
     $search = $con->real_escape_string($_POST['search']);
@@ -69,7 +74,7 @@ if ($result->num_rows > 0) {
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="/laundry_system/my_profile/profile.php" class="sidebar-link">
+                    <a href="/laundry_system/profile/profile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>Profile</span>
                     </a>

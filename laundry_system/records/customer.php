@@ -53,7 +53,7 @@ if ($_SESSION['user_role'] !== 'admin') {
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="/laundry_system/my_profile/profile.php" class="sidebar-link">
+                    <a href="/laundry_system/profile/profile.php" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>Profile</span>
                     </a>
