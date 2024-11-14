@@ -214,7 +214,7 @@ a.sidebar-link:hover {
 
 /* table */
 .table-responsive{
-  padding: 20px;
+  padding: 20px 0;
 }
 
 .table {
@@ -314,17 +314,14 @@ th, td {
 }
 
 .modal-cnt {
-  position: flex;
-  flex-direction: column; 
-  justify-content: center; 
-  align-items: center; 
   position: relative;
+  margin: auto;
   top: 50%;
   transform: translateY(-50%);
-  margin: auto;
   padding: 20px;
   background-color: white;
-  width: 30%;
+  width: 90%; 
+  max-width: 500px; 
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;

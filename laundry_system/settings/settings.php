@@ -348,7 +348,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 1500
-                            });
+                            })
+                            .then(data => {
+                                location.reload();
+                            }); 
                         } else {
                             Swal.fire({
                                 title: 'Error!',

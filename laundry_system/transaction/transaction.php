@@ -1,6 +1,11 @@
 <?php
 session_start();
-require_once('transaction_db.php');
+$conn = new mysqli('localhost', 'root', '', 'laundry_db');
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
 if(!isset($_SESSION['user_role'])) {
     header('location: /laundry_system/homepage/homepage.php');
@@ -25,7 +30,7 @@ if(isset($_POST['search'])) {
     $query = "SELECT * FROM transaction";
 }
 
-$result = mysqli_query($con, $query);
+$result = mysqli_query($conn, $query);
 
 if (!$result) {
     die("Query error: " . mysqli_error($con));
@@ -46,6 +51,7 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaction</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="transaction.css">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
@@ -156,7 +162,7 @@ if ($result->num_rows > 0) {
         <!-------------MAIN CONTENT------------->
         <div class="main-content">
             <nav>
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between" id="navbar">
                     <h1>Transaction</h1>
 
                     <div class="search_bar" m-1>
@@ -237,10 +243,10 @@ if ($result->num_rows > 0) {
             <div id="logoutModal" class="modal" style="display: none;">
                 <div class="modal-cont">
                     <span class="close">&times;</span>
-                    <h2>Do you want to logout?</h2>
+                    <h2 id="logoutText">Do you want to logout?</h2>
                     <div class="modal-buttons">
-                        <a href="/laundry_system/homepage/logout.php" class="btns btn-yes">Yes</a>
-                        <button class="btns btn-no">No</button>
+                        <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
+                        <button class="btn btn-no">No</button>
                     </div>
                 </div>
             </div>
@@ -248,7 +254,8 @@ if ($result->num_rows > 0) {
         </div> <!-- closing tag of main content -->
     </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script type="text/javascript" src="transaction.js"></script>
 
 </html>

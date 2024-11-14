@@ -42,19 +42,30 @@ document.addEventListener('DOMContentLoaded', function() {
             // Send user ID as JSON
             body: JSON.stringify({ id: customerIdToArchive })  
         })
-
-        
         .then(response => response.text()) // Change to text() to inspect raw response
         .then(data => {
         console.log("Raw response:", data); // Log raw data for inspection
         const parsedData = JSON.parse(data); // Now parse JSON from response
         if (parsedData.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Customer archived successfully!',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(function() {
+                location.reload();
+            });
             console.log("Customer archived successfully!");
-            alert('Customer archived successfully!');
-            location.reload();
+            
         } else {
             console.error("Archive failed:", parsedData.error);
-            alert('Archive failed: ' + parsedData.error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Archive Failed',
+                text: parsedData.error,
+                showConfirmButton: true
+            });
         }
     })
         .catch(error => {
@@ -76,82 +87,83 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
     /* pagination */
-      const rowsPerPage = 15;
-      const tableBody = document.querySelector('table tbody');
-      const rows = tableBody.querySelectorAll('tr');
-      const paginationContainer  = document.getElementById('pagination');
+    const rowsPerPage = 10;
+    const tableBody = document.querySelector('table tbody');
+    const rows = tableBody.querySelectorAll('tr');
+    const paginationContainer  = document.getElementById('pagination');
 
-      let totalRows = rows.length;
-      let totalPages = Math.ceil(totalRows / rowsPerPage);
-      let currentPage = 0;
+    let totalRows = rows.length;
+    let totalPages = Math.ceil(totalRows / rowsPerPage);
+    let currentPage = 0;
 
-      function displayRows(startIndex) {
-        rows.forEach(row => row.style.display = 'none');
+    function displayRows(startIndex) {
+      rows.forEach(row => row.style.display = 'none');
 
-        let endIndex = startIndex + rowsPerPage;
-        for (let i = startIndex; i < endIndex && i < totalRows; i++) {
-            rows[i].style.display = '';
-        }
+      let endIndex = startIndex + rowsPerPage;
+      for (let i = startIndex; i < endIndex && i < totalRows; i++) {
+          rows[i].style.display = '';
       }
-
-      function setupPagination() {
-        paginationContainer.innerHTML = '';
-
-        // previous arrow
-        let prevPageLink = document.createElement('li');
-        prevPageLink.classList.add('page-item');
-        prevPageLink.innerHTML = `<a class="page-link" href="#"><<</a>`;
-        prevPageLink.addEventListener('click', function (e) {
-            e.preventDefault();
-            if (currentPage > 0) {
-                currentPage--;
-                displayRows(currentPage * rowsPerPage);
-                setActivePage(currentPage);
-            }
-        });
-
-        paginationContainer.appendChild(prevPageLink);
-
-        // numbered page links
-        for (let i = 0; i < totalPages; i++) {
-            let pageLink = document.createElement('li');
-            pageLink.classList.add('page-item');
-            pageLink.innerHTML = `<a class="page-link" href="#">${i + 1}</a>`;
-
-            pageLink.addEventListener('click', function (e) {
-                e.preventDefault();
-                displayRows(i * rowsPerPage);
-                setActivePage(i);
-            });
-
-            paginationContainer.appendChild(pageLink);
-        }
-
-        // next arrow
-        let nextPageLink = document.createElement('li');
-        nextPageLink.classList.add('page-item');
-        nextPageLink.innerHTML = `<a class="page-link" href="#">>></a>`;
-        nextPageLink.addEventListener('click', function (e) {
-            e.preventDefault();
-            if (currentPage < totalPages - 1) {
-                currentPage++;
-                displayRows(currentPage * rowsPerPage);
-                setActivePage(currentPage);
-            }
-        });
-        paginationContainer.appendChild(nextPageLink);
     }
 
-    function setActivePage(pageIndex) {
-        const pageLinks = paginationContainer.querySelectorAll('.page-item');
-        pageLinks.forEach(link => link.classList.remove('active'));
-        pageLinks[pageIndex].classList.add('active');
-    }
+    function setupPagination() {
+      paginationContainer.innerHTML = '';
+  
+      // previous arrow
+      let prevPageLink = document.createElement('li');
+      prevPageLink.classList.add('page-item');
+      prevPageLink.innerHTML = `<a class="page-link" href="#"><<</a>`;
+      prevPageLink.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (currentPage > 0) {
+              currentPage--;
+              displayRows(currentPage * rowsPerPage);
+              setActivePage(currentPage);
+          }
+      });
+  
+      paginationContainer.appendChild(prevPageLink);
 
-    // Initialize table with first page and pagination links
-    displayRows(0);
-    setupPagination();
-    setActivePage(0);
+    // numbered page links
+    for (let i = 0; i < totalPages; i++) {
+      let pageLink = document.createElement('li');
+      pageLink.classList.add('page-item');
+      pageLink.innerHTML = `<a class="page-link" href="#">${i + 1}</a>`;
+
+      pageLink.addEventListener('click', function (e) {
+          e.preventDefault();
+          currentPage = i;
+          displayRows(i * rowsPerPage);
+          setActivePage(i);
+      });
+
+      paginationContainer.appendChild(pageLink);
+  }
+
+    // next arrow
+    let nextPageLink = document.createElement('li');
+      nextPageLink.classList.add('page-item');
+      nextPageLink.innerHTML = `<a class="page-link" href="#">>></a>`;
+      nextPageLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (currentPage < totalPages - 1) {
+          currentPage++;
+          displayRows(currentPage * rowsPerPage);
+          setActivePage(currentPage);
+      }
+  });
+      paginationContainer.appendChild(nextPageLink);
+  }
+
+  function setActivePage(pageIndex) {
+      const pageLinks = paginationContainer.querySelectorAll('.page-item');
+      pageLinks.forEach(link => link.classList.remove('active'));
+      pageLinks[pageIndex + 1].classList.add('active'); // +1 to skip the prev arrow
+  }
+
+  // Initialize table with first page and pagination links
+  displayRows(0);
+  setupPagination();
+  setActivePage(0);
 
     // for logout
     const logoutModal = document.getElementById('logoutModal');

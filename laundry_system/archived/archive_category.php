@@ -110,7 +110,7 @@ $user_role = $_SESSION['user_role'];
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/setting.php" class="sidebar-link">
+                        <a href="/laundry_system/settings/settings.php" class="sidebar-link">
                             <i class="lni lni-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -184,7 +184,7 @@ $user_role = $_SESSION['user_role'];
             </div>
             
             <!-- table -->
-            <div class="card-responsive">
+            <div class="table-responsive">
                 <table class="table table-bordered text-center">
                         <thead>
                             <tr class="bg-dark text-white">

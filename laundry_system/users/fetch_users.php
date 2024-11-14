@@ -1,6 +1,7 @@
 <?php
 require_once('users_db.php');
 
+
 $result = mysqli_query($con, $query);
 
 if (!$result) {

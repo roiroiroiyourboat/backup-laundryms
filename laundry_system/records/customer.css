@@ -208,7 +208,7 @@ a.sidebar-link:hover {
 
 /* table */
 .table-responsive {
-  padding: 20px;
+  padding: 20px 0;
 }
 
 .table {
@@ -278,7 +278,8 @@ th, td {
   transform: translateY(-50%);
   padding: 20px;
   background-color: white;
-  width: 30%;
+  width: 90%; 
+  max-width: 500px; 
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;

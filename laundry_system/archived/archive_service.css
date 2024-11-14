@@ -183,8 +183,8 @@ a.sidebar-link:hover {
 }
 
 /* table */
-.card-body {
-  padding: 20px;
+.table-responsive {
+  padding: 20px 0;
 }
 
 .table {
@@ -206,7 +206,6 @@ a.sidebar-link:hover {
   }
 
   .button {
-    height: 40px;
     width: 300px;
     font-size: 18px;
   }
@@ -223,7 +222,6 @@ a.sidebar-link:hover {
   }
 
   .button {
-    height: 40px;
     width: 265px;
     font-size: 18px;
   }
@@ -243,14 +241,14 @@ a.sidebar-link:hover {
   display: inline-flex; 
   align-items: center; 
   justify-content: center;
-  height: 60px;
+  height: 50px;
   padding: 15px 25px;
   background-color: #b8c1ec;
   color: #000;
   text-align: center;
   text-decoration: none;
   border-radius: 10px;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 500;
   margin: 0; 
   gap: 10px;

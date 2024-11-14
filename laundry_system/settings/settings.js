@@ -83,7 +83,7 @@ $(document).ready(function() {
             .catch(error => console.error('Error fetching services:', error));
     }
     fetchCategories();
-
+ 
     $('#saveChangesBtn').on('click', function () {
         console.log("Button clicked!");
         var serviceId = $('#service_id').val();
@@ -99,8 +99,7 @@ $(document).ready(function() {
                 icon: 'error',
                 title: 'Error',
                 text: 'Please fill out all fields.',
-                showConfrimButton: false,
-                timer: 2500
+                showConfirmButton: false
             });
             return;
         }
@@ -113,32 +112,34 @@ $(document).ready(function() {
                 categ_id: categoryId,
                 categ_price: categoryPrice
             },
+            dataType: 'json',
             success: function (response) {
                 console.log("Response:", response); 
                 if (response.status === 'success') {
-                    swal.fire({
+                    Swal.fire({
                         icon: 'success',
                         title: 'Success',
                         text: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
                     }).then(() => {
                         $('#categ_price_modal').hide();
                         $('#modal_set_price')[0].reset();
                         location.reload();
                     });
                 } else {
-                    swal.fire({
+                    Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: response.message,
-                        timer: 2000
+                        text: response.message
                     });
                 }
             },
             error: function (xhr, status, error) {
-                console.log("XHR:", xhr); // Logs full response
+                console.log("XHR:", xhr);
                 console.log("Status:", status);
                 console.log("Error:", error);
-                swal.fire({
+                Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'AJAX error: ' + error,
@@ -149,7 +150,7 @@ $(document).ready(function() {
         });
     });
     
-    //for logout
+    
     const logoutModal = document.getElementById("logoutModal");
     const closeBtn = logoutModal.querySelector(".close");
     const noBtn = logoutModal.querySelector(".btn-no");
