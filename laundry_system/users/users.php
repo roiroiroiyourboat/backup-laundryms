@@ -70,7 +70,7 @@ $user_role = $_SESSION['user_role'];
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/records/records.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
                             data-bs-target="#records" aria-expanded="false" aria-controls="records">
                             <i class="lni lni-files"></i>
                             <span>Records</span>
@@ -296,8 +296,9 @@ $user_role = $_SESSION['user_role'];
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-success">Submit</button>
                             <button type="button" class="btn btn-info">Clear</button>
+                            <button type="button" class="btn btn-success">Submit</button>
+                            
                         </form>
                     </div>  
                 </div>    
@@ -351,8 +352,8 @@ $user_role = $_SESSION['user_role'];
                 <div class="modal-cnt">
                     <span class="close" id="closeArchiveModal">&times;</span>
                     <p>Do you want to archive this user?</p>
-                    <button type="button" id="confirmArchiveButton" class="btn btn-success">Yes</button>
                     <button type="button" id="cancelArchiveButton" class="btn btn-danger">No</button>
+                    <button type="submit" id="confirmArchiveButton" class="btn btn-success">Yes</button>
                 </div>
             </div>
 
@@ -369,8 +370,8 @@ $user_role = $_SESSION['user_role'];
                     <span class="close">&times;</span>
                     <h2 id="logoutText">Do you want to logout?</h2>
                     <div class="modal-buttons">
-                        <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
                         <button class="btn btn-no">No</button>
+                        <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
                     </div>
                 </div>
             </div>

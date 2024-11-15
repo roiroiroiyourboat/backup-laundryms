@@ -101,7 +101,7 @@ $(document).ready(function(){
         }
     
         try {
-            const response = await fetch('/laundry_system/my_profile/update_user_data.php', {
+            const response = await fetch('/laundry_system/profile/update_user_data.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

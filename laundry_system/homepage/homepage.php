@@ -279,8 +279,9 @@ $conn->close();
                 </div>
                 <div class="buttons">
                     <button type="button" class="btn btn-danger" id="btnCancel_service">Cancel</button>
-                     <button type="button" class="btn btn-success" id="btnProceed">Proceed</button>
                     <button type="button" class="btn btn-secondary" id="btnBack">Order Again</button>
+                    <button type="button" class="btn btn-success" id="btnProceed">Proceed</button>
+                    
                 </div>
             </div>
         </div>

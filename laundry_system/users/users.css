@@ -469,13 +469,13 @@ transition: all 0.2s ease-out;
 }
 
 .btn-yes {
-  background-color: green;
+  background-color: #232946;
   color: white;
 }
 
 .btn-no {
-  background-color: red;
-  color: white;
+  background-color: #b8c1ec;
+  color: #232946;
 }
 
 .close {

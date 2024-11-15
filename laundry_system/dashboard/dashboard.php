@@ -7,6 +7,8 @@ if(!isset($_SESSION['user_role'])) {
     header('location: /laundry_system/homepage/homepage.php');
     exit();
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +72,7 @@ if(!isset($_SESSION['user_role'])) {
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/records/records.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        <a href="/laundry_system/records/customer.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
                             data-bs-target="#records" aria-expanded="false" aria-controls="records">
                             <i class="lni lni-files"></i>
                             <span>Records</span>

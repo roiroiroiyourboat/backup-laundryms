@@ -73,13 +73,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 });
 
-//LOGIN IN SERVICE REQUEST
-let redirectToServiceRequest = false;
+//POP-UP LOGIN FORM
 document.addEventListener('DOMContentLoaded', (event) => {
-    //POP-UP LOGIN FORM IN SERVICE REQUEST
     const login_form = document.getElementById("form_container");
     const openLogin = document.getElementById("form_open");
-    const closeBtn = document.getElementsByClassName("btnClose")[1];
+    const closeBtn = document.getElementsByClassName("btnClose")[0];
 
     //open the service form
     openLogin.onclick = function() {
@@ -91,11 +89,74 @@ document.addEventListener('DOMContentLoaded', (event) => {
         login_form.style.display = "none";
     }
 
-    //pop up for laundry service form
+});
+
+
+
+//LOGIN IN SERVICE REQUEST
+// let redirectToServiceRequest = false;
+// document.addEventListener('DOMContentLoaded', (event) => {
+//     //POP-UP LOGIN FORM IN SERVICE REQUEST
+//     const login_form = document.getElementById("form_container");
+//     const openLogin = document.getElementById("form_open");
+//     const closeBtn = document.getElementsByClassName("btnClose")[1];
+
+//     //open the service form
+//     openLogin.onclick = function() {
+//         login_form.style.display = "block";
+//     }
+
+//     //close the service form
+//     closeBtn.onclick = function() {
+//         login_form.style.display = "none";
+//     }
+
+//     //pop up for laundry service form
+//     const service_form = document.getElementById("service_form");
+//     const openBtn = document.getElementById("openService");
+
+//     let isLoggedIn = false;
+
+//     //open the service form
+//     openBtn.onclick = function() {
+//         service_form.style.display = "block";
+//     }
+
+//     //close the service form
+//     closeBtn.onclick = function() {
+//         service_form.style.display = "none";
+//     }
+
+//     openBtn.addEventListener('click', () => {
+//         // Check if the user is logged in
+//         if (isLoggedIn) {
+//             // Directly show the service request form
+//             service_form.style.display = "block";
+//             login_form.style.display = 'none';
+//         } else {
+//             //if not logged in, show the warning and then the choice
+//             service_form.style.display = 'none';
+
+//             Swal.fire({
+//                 title: "Authorized users only have access to the service request",
+//                 test: "Please log in to access the service request.",
+//                 icon: "warning",
+//                 showConfirmButton: false,
+//                 timer: 3000,
+//             }).then(() => {
+//                 redirectToServiceRequest = true;
+//                 login_form.style.display = "block";
+//                 service_form.style.display = 'none';
+//             });
+//         }
+//     });
+// });
+
+//pop up for laundry service form
+document.addEventListener('DOMContentLoaded', (event) => {
     const service_form = document.getElementById("service_form");
     const openBtn = document.getElementById("openService");
-
-    let isLoggedIn = false;
+    const closeBtn = document.getElementsByClassName("btnClose")[1];
 
     //open the service form
     openBtn.onclick = function() {
@@ -107,29 +168,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         service_form.style.display = "none";
     }
 
-    openBtn.addEventListener('click', () => {
-        // Check if the user is logged in
-        if (isLoggedIn) {
-            // Directly show the service request form
-            service_form.style.display = "block";
-            login_form.style.display = 'none';
-        } else {
-            //if not logged in, show the warning and then the choice
-            service_form.style.display = 'none';
-
-            Swal.fire({
-                title: "Authorized users only have access to the service request",
-                test: "Please log in to access the service request.",
-                icon: "warning",
-                showConfirmButton: false,
-                timer: 3000,
-            }).then(() => {
-                redirectToServiceRequest = true;
-                login_form.style.display = "block";
-                service_form.style.display = 'none';
-            });
-        }
-    });
 });
 
 //OVERVIEW PANEL
@@ -144,6 +182,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         service_overview.style.display = "none";
     }
 });
+
 
 //LAUNNDRY SERVICE DETAILS
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -183,22 +222,34 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
     })
     .then(response => response.json()) // Parse the JSON response
     .then(data => {
-        if (data.success) {
-            isLoggedIn = true;
-             Swal.fire({
-                title: "You have successfully logged in.",
-                icon: "success",
-                timer: 2000,
-                showConfirmButton: false
-            }).then(() => {
-                if (redirectToServiceRequest) {
-                    redirectToServiceRequest = false;
-                    service_form.style.display = "block";
-                } else {
-                     window.location.href = '/laundry_system/dashboard/dashboard.php';
-                }
+        // if (data.success) {
+        //     isLoggedIn = true;
+        //      Swal.fire({
+        //         title: "You have successfully logged in.",
+        //         icon: "success",
+        //         timer: 2000,
+        //         showConfirmButton: false
+        //     }).then(() => {
+        //         if (redirectToServiceRequest) {
+        //             redirectToServiceRequest = false;
+        //             service_form.style.display = "block";
+        //         } else {
+        //              window.location.href = '/laundry_system/dashboard/dashboard.php';
+        //         }
                
-            });
+        //     });
+        // } else {
+        //     //error message
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: data.title,
+        //         text: data.message,
+        //     });
+        // }
+
+        if (data.success) {
+            //redirect on successful login
+            window.location.href = '/laundry_system/dashboard/dashboard.php';
         } else {
             //error message
             Swal.fire({

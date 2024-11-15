@@ -135,17 +135,17 @@ if(!isset($_SESSION['user_role'])) {
                         <div class="row">
                             <h4 class="text-center">Personal Details</h4>
                             <div class="col">
-                                <label for="form-label">First Name</label>
+                                <label for="first_name" class="form-label">First Name</label>
                                 <input type="text" id="fname" name="fname" class="form-control" readonly>
                             </div>
                             <div class="col">
-                                <label for="form-label">Last Name</label>
+                                <label for="last_name" class="form-label">Last Name</label>
                                 <input type="text" name="lname" id="lname" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="form-label">Username</label>
+                                <label for="username" class="form-label">Username</label>
                                 <input type="text" id="username" name="username" class="form-control" readonly>
                             </div>
                         </div>
@@ -153,7 +153,7 @@ if(!isset($_SESSION['user_role'])) {
                         <div class="row">
                             <h4 class="text-center">Password</h4>
                             <div class="col">
-                                <label for="form-label">Password</label>
+                                <label for="password" class="form-label">Password</label>
                                 <input type="password" id="password" name="password" class="form-control" readonly>
                             </div>
                         </div>
