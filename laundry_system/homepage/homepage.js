@@ -118,22 +118,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
             service_form.style.display = 'none';
 
             Swal.fire({
-                title: "Authorized users only have access to the service request.",
+                title: "Authorized users only have access to the service request",
+                test: "Please log in to access the service request.",
                 icon: "warning",
                 showConfirmButton: false,
                 timer: 3000,
             }).then(() => {
-                Swal.fire({
-                    title: "Please log in to access the service request.",
-                    showConfirmButton: true,
-                    icon: "warning"
-                }).then((choice) => {
-                    if (choice.isConfirmed) {
-                        redirectToServiceRequest = true;
-                        login_form.style.display = "block";
-                        service_form.style.display = 'none';
-                    }
-                });
+                redirectToServiceRequest = true;
+                login_form.style.display = "block";
+                service_form.style.display = 'none';
             });
         }
     });

@@ -220,8 +220,8 @@ if ($_SESSION['user_role'] !== 'admin') {
                                 </div>
 
                                 <div class="mx-auto p-3" style="width: 200px;">
-                                    <button type="submit" class="btn btn-success">Submit</button>
                                     <button type="button" class="btn btn-info">Clear</button>
+                                    <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </form>    
                         </div>
