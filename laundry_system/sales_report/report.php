@@ -22,6 +22,7 @@ if(!isset($_SESSION['user_role'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js" 
     integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="report.css">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
@@ -297,19 +298,21 @@ if(!isset($_SESSION['user_role'])) {
             <div class="table-container">
                 <h3>Transaction Summary</h3>
                 <div class="btns">
-                    <button class="btn btn-primary" data-filter="daily" id="btnDaily">
+                    <button class="btn btn-primary" id="btnDaily" data-bs-toggle="modal" data-bs-target="#dailyTransac">
                         <img src="/laundry_system/icons/calendar-regular-24.png" alt="Calendar Icon">    
                         Daily
                     </button>
-                    <button class="btn btn-primary" data-filter="weekly" id="btnWeekly">
+                    
+                    <button class="btn btn-primary" id="btnWeekly" data-bs-toggle="modal" data-bs-target="#weeklyTransac">
                         <img src="/laundry_system/icons/calendar-regular-24.png" alt="Calendar Icon">    
                         Weekly
                     </button>
-                    <button class="btn btn-primary" data-filter="monthly" id="btnMonthly">
+                    
+                    <button class="btn btn-primary" id="btnMonthly" data-bs-toggle="modal" data-bs-target="#monthlyTransac">
                         <img src="/laundry_system/icons/calendar-regular-24.png" alt="Calendar Icon">    
                         Monthly
                     </button>
-                    <button class="btn btn-primary" data-filter="yearly" id="btnYearly">
+                    <button class="btn btn-primary" id="btnYearly" data-bs-toggle="modal" data-bs-target="#yearlyTransac">
                         <img src="/laundry_system/icons/calendar-regular-24.png" alt="Calendar Icon">
                         Yearly
                     </button>
@@ -321,6 +324,119 @@ if(!isset($_SESSION['user_role'])) {
 
                 <div class="search_bar m-1">
                     <input class="form-control" type="text" id="filter_transac" placeholder="Search transactions...">
+                </div>
+
+                <!----MODAL FOR DAILY TRANSAC---->
+                <div class="modal fade" id="dailyTransac" tabindex="-1" aria-labelledby="Daily" aria-hidden="true">
+                    <div class="modal-dialog  modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="dailyTitle">What day do you want to see?</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <label for="day" class="form-label">Select Date</label>
+                                <input type="date" class="form-control" id="daily_date" name="daily_date" value="">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-filter="daily">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!----MODAL FOR WEEKLY TRANSAC---->
+                <div class="modal fade" id="weeklyTransac" tabindex="-1" aria-labelledby="Weekly" aria-hidden="true">
+                    <div class="modal-dialog  modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="weeklyTitle">What week do you want to see?</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row my-4">
+                                    <div class="col">
+                                         <label for="startDate" class="form-label">Start Date:</label>
+                                        <input type="date" class="form-control" id="startDate" name="startDate" value="">
+                                    </div>
+                                </div>
+
+                                <div class="row my-4">
+                                    <div class="col">
+                                         <label for="endDate" class="form-label">End Date:</label>
+                                        <input type="date" class="form-control" id="endDate" name="endDate" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-filter="weekly">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!----MODAL FOR MONTHLY TRANSAC---->
+                <div class="modal fade" id="monthlyTransac" tabindex="-1" aria-labelledby="Monthly" aria-hidden="true">
+                    <div class="modal-dialog  modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="monthlyTitle">What month do you want to see?</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-select" id="filter_month">
+                                            <option value="" selected disabled>Select Month</option>
+                                            <!-- <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option> -->
+                                        </select>
+                                    </div>
+                                    </div>
+                                </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-filter="monthly">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!----MODAL FOR YEARLY TRANSAC---->
+                <div class="modal fade" id="yearlyTransac" tabindex="-1" aria-labelledby="Yearly" aria-hidden="true">
+                    <div class="modal-dialog  modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="yearlyTitle">What year do you want to see?</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-select" id="filter_year">
+                                            <option value=""  selected disabled>Select Year</option>
+                                        </select>
+                                    </div>
+                                    </div>
+                                </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-filter="yearly">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="table-responsive">
@@ -365,8 +481,8 @@ if(!isset($_SESSION['user_role'])) {
                     <span class="close">&times;</span>
                     <h2 id="logoutText">Do you want to logout?</h2>
                     <div class="modal-buttons">
-                        <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
                         <button class="btn btn-no">No</button>
+                        <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
                     </div>
                 </div>
             </div>

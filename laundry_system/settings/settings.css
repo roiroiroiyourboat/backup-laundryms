@@ -362,13 +362,13 @@ a.sidebar-link:hover {
 }
 
 .btn-yes {
-  background-color: green;
-  color: white;
+  background-color: #b8c1ec;
+  color: #232946;
 }
 
 .btn-no {
-  background-color: red;
-  color: white;
+  background-color: #eebbc3;
+  color: #232946;
 }
 
 .close {

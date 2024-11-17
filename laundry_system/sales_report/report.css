@@ -294,7 +294,7 @@ transition: margin-left 0.5s ease;
 }
 
 .search_bar .form-control {
-  background-image: url('/laundry_system/images/search.png'); 
+  background-image: url('/laundry_system/icons/search.png'); 
   background-repeat: no-repeat;
   background-position: 10px center; 
   background-size: 20px 20px; 
@@ -389,13 +389,13 @@ transition: margin-left 0.5s ease;
 }
 
 .btn-yes {
-  background-color: green;
-  color: white;
+  background-color: #b8c1ec;
+  color: #232946;
 }
 
 .btn-no {
-  background-color: red;
-  color: white;
+  background-color: #eebbc3;
+  color: #232946;
 }
 
 .close {

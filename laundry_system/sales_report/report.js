@@ -714,17 +714,149 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     //filter table by day, week, month, and year
-    document.querySelectorAll('.btns button').forEach(button => {
+    document.querySelectorAll('.modal-footer button').forEach(button => {
         button.addEventListener('click', function() {
             const filter = this.getAttribute('data-filter');
             fetchTransactionSummary(filter);
         });
     });
 
+    //daily
+    document.getElementById("dailyTransac").querySelector(".btn-primary").addEventListener("click", function () {
+        const selectedDate = document.getElementById("daily_date").value;
+        if (selectedDate) {
+            fetchTransactionSummary("daily", 1, { date: selectedDate });
+            $("#dailyTransac").modal("hide");
+        } else {
+            Swal.fire({
+                title: "Error!",
+                text: "Please select a valid date.",
+                icon: "warning",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    });
+
+    //weekly
+    document.getElementById("weeklyTransac").querySelector(".btn-primary").addEventListener("click", function () {
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+        if (startDate && endDate && startDate <= endDate) {
+            fetchTransactionSummary("weekly", 1, { start_date: startDate, end_date: endDate });
+            $("#weeklyTransac").modal("hide");
+        } else {
+            Swal.fire({
+                title: "Error!",
+                text: "Please select a valid date range.",
+                icon: "warning",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    });
+
+    //monthly
+    const monthSelect = document.getElementById('filter_month');
+    const currentMonth = new Date().getMonth() + 1;
+
+        for (let month = 1; month <= 12; month++) {
+            const monthName = new Date(0, month - 1).toLocaleString('en-US', { month: 'long' });
+            const option = document.createElement('option');
+            option.value = month;
+            option.text = monthName;
+            if (month === currentMonth) {
+                option.selected = true;
+            }
+            monthSelect.appendChild(option);
+        }
+    document.getElementById("monthlyTransac").querySelector(".btn-primary").addEventListener("click", function () {
+        const selectedMonth = document.getElementById("filter_month").value;
+        if (selectedMonth) {
+            fetchTransactionSummary("monthly", 1, { month: selectedMonth });
+            $("#monthlyTransac").modal("hide");
+        } else {
+            Swal.fire({
+                title: "Error!",
+                text: "Please select a valid month.",
+                icon: "warning",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    });
+
+    //yearly
+      const filterYearDropdown = document.getElementById("filter_year");
+      for (let year = currentYear; year >= currentYear - 3; year--) {
+          const option = document.createElement("option");
+          option.value = year;
+          option.textContent = year;
+          filterYearDropdown.appendChild(option);
+      }
+
+      document.getElementById("yearlyTransac").querySelector(".btn-primary").addEventListener("click", function () {
+        const selectedYear = filterYearDropdown.value;
+        if (selectedYear) {
+            fetchTransactionSummary("yearly", 1, { year: selectedYear });
+            $("#yearlyTransac").modal("hide");
+        } else {
+            Swal.fire({
+                title: "Error!",
+                text: "Please select a valid year.",
+                icon: "warning",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    });
+
+    function fetchTransactionSummary(filter, page = 1, additionalParams = {}) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/laundry_system/sales_report/sales_config/transaction_summary.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+        xhr.onload = function () {
+            if (this.status === 200) {
+                const response = JSON.parse(this.responseText);
+    
+                // Update transaction table and total revenue
+                document.getElementById("transaction-table-body").innerHTML = response.table_data;
+                document.getElementById("total-revenue").innerText = response.total_revenue;
+    
+                // Update pagination
+                let pagination = "";
+                if (response.page > 1) {
+                    pagination += `<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${response.page - 1})">&laquo;</a></li>`;
+                }
+    
+                for (let i = 1; i <= response.total_pages; i++) {
+                    pagination += `<li class="page-item ${i === response.page ? "active" : ""}"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${i})">${i}</a></li>`;
+                }
+    
+                if (response.page < response.total_pages) {
+                    pagination += `<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${response.page + 1})">&raquo;</a></li>`;
+                }
+    
+                document.getElementById("pagination").innerHTML = pagination;
+            }
+        };
+    
+        // Prepare POST data
+        const postData = new URLSearchParams({ filter, page });
+        for (const key in additionalParams) {
+            postData.append(key, additionalParams[key]);
+        }
+    
+        xhr.send(postData.toString());
+    }
+
+    
     //print table
     function printTransactionTable() {
+
         //get the current filtered table data
-        const filter = document.querySelector('.btns button.clicked') ? document.querySelector('.btns button.clicked').getAttribute('data-filter') : 'all';
+        const filter = document.querySelector('.modal-footer button.clicked') ? document.querySelector('.modal-footer button.clicked').getAttribute('data-filter') : 'all';
         
         //AJAX request to fetch the filtered table data for printing
         const xhr = new XMLHttpRequest();
@@ -779,9 +911,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     'th, td { font-size: 10px; padding: 5px; }' + 
                     '.table-responsive { margin: 0 auto; padding: 5px 5px; }' +
                     '}' + 
-                    '.header { font-size: 16px; font-weight: bold; text-align: center; margin-top: 20px; }' +
-                    '</style>');
+                    '.header { font-size: 16px; font-weight: bold; text-align: center; margin-top: 20px 0; }' +
+                    '.title_header {' +
+                        'font-size: 18px; font-weight: bold; text-align: center; margin: 8px 0' +
+                    '} + </style>');
                 newWindow.document.write('</head><body>');
+                newWindow.document.write('<h1 class="title_header">Azia Skye Laundry Shop</h1>');
                 newWindow.document.write('<h2 class="header">Transaction Summary</h2>');
                 newWindow.document.write(tableContent);
                 newWindow.document.write('</body></html>');
@@ -847,37 +982,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function fetchTransactionSummary(filter, page = 1) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/laundry_system/sales_report/sales_config/transaction_summary.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
-        if (this.status === 200) {
-            const response = JSON.parse(this.responseText);
 
-            // Update transaction table and total revenue
-            document.getElementById('transaction-table-body').innerHTML = response.table_data;
-            document.getElementById('total-revenue').innerText = response.total_revenue;
-
-            // Update pagination
-            let pagination = '';
-            if (response.page > 1) {
-                pagination += `<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${response.page - 1})">&laquo;</a></li>`;
-            }
-
-            for (let i = 1; i <= response.total_pages; i++) {
-                pagination += `<li class="page-item ${i === response.page ? 'active' : ''}"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${i})">${i}</a></li>`;
-            }
-
-            if (response.page < response.total_pages) {
-                pagination += `<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${response.page + 1})">&raquo;</a></li>`;
-            }
-
-            document.getElementById('pagination').innerHTML = pagination;
-        }
-    };
-
-    // Send filter and page data
-    xhr.send('filter=' + filter + '&page=' + page);
-}
 
