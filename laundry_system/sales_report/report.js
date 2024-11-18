@@ -577,7 +577,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentYear = new Date().getFullYear();
 
     //year dropdown for the last 5 years
-    for (let year = currentYear; year >= currentYear - 5; year--) {
+    for (let year = currentYear; year >= currentYear - 3; year--) {
         const option = document.createElement('option');
         option.value = year;
         option.text = year;
@@ -810,65 +810,110 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-
-    function fetchTransactionSummary(filter, page = 1, additionalParams = {}) {
+    document.querySelectorAll('.modal-footer button').forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove 'clicked' class from all buttons
+            document.querySelectorAll('.modal-footer button').forEach(btn => btn.classList.remove('clicked'));
+            
+            // Add 'clicked' class to the clicked button
+            this.classList.add('clicked');
+        });
+    });
+    
+    //print table
+    function printTransactionTable() {
+        const activeFilter = document.querySelector('.modal-footer button.clicked')
+            ? document.querySelector('.modal-footer button.clicked').getAttribute('data-filter')
+            : 'all';
+    
+        let filterDetails = '';
+        const filterParams = { filter: activeFilter, print_all: true };
+    
+        if (activeFilter === 'daily') {
+            const selectedDate = document.getElementById('daily_date').value;
+            if (!selectedDate) {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Please select a valid date for the daily filter.",
+                    icon: "warning",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                return;
+            }
+            filterParams.date = selectedDate;
+            filterDetails = `Date: ${selectedDate}`;
+        } else if (activeFilter === 'weekly') {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            if (!startDate || !endDate || startDate > endDate) {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Please select a valid date range for the weekly filter.",
+                    icon: "warning",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                return;
+            }
+            filterParams.start_date = startDate;
+            filterParams.end_date = endDate;
+            filterDetails = `Week Range: ${startDate} to ${endDate}`;
+        } else if (activeFilter === 'monthly') {
+            const selectedMonth = document.getElementById('filter_month').value;
+            if (!selectedMonth) {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Please select a valid month for the monthly filter.",
+                    icon: "warning",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                return;
+            }
+            const monthName = new Date(0, selectedMonth - 1).toLocaleString('en-US', { month: 'long' });
+            filterParams.month = selectedMonth;
+            filterDetails = `Month: ${monthName}`;
+        } else if (activeFilter === 'yearly') {
+            const selectedYear = document.getElementById('filter_year').value;
+            if (!selectedYear) {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Please select a valid year for the yearly filter.",
+                    icon: "warning",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                return;
+            }
+            filterParams.year = selectedYear;
+            filterDetails = `Year: ${selectedYear}`;
+        } else {
+            filterDetails = 'All Transactions';
+        }
+    
+        // Send AJAX request to fetch filtered data
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", "/laundry_system/sales_report/sales_config/transaction_summary.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.open('POST', '/laundry_system/sales_report/sales_config/transaction_summary.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     
         xhr.onload = function () {
             if (this.status === 200) {
                 const response = JSON.parse(this.responseText);
     
-                // Update transaction table and total revenue
-                document.getElementById("transaction-table-body").innerHTML = response.table_data;
-                document.getElementById("total-revenue").innerText = response.total_revenue;
-    
-                // Update pagination
-                let pagination = "";
-                if (response.page > 1) {
-                    pagination += `<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${response.page - 1})">&laquo;</a></li>`;
+                if (!response.table_data.trim()) {
+                    Swal.fire({
+                        title: "No Records Found!",
+                        text: "No data is available for the selected filter.",
+                        icon: "info",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    return;
                 }
     
-                for (let i = 1; i <= response.total_pages; i++) {
-                    pagination += `<li class="page-item ${i === response.page ? "active" : ""}"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${i})">${i}</a></li>`;
-                }
-    
-                if (response.page < response.total_pages) {
-                    pagination += `<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${response.page + 1})">&raquo;</a></li>`;
-                }
-    
-                document.getElementById("pagination").innerHTML = pagination;
-            }
-        };
-    
-        // Prepare POST data
-        const postData = new URLSearchParams({ filter, page });
-        for (const key in additionalParams) {
-            postData.append(key, additionalParams[key]);
-        }
-    
-        xhr.send(postData.toString());
-    }
-
-    
-    //print table
-    function printTransactionTable() {
-
-        //get the current filtered table data
-        const filter = document.querySelector('.modal-footer button.clicked') ? document.querySelector('.modal-footer button.clicked').getAttribute('data-filter') : 'all';
-        
-        //AJAX request to fetch the filtered table data for printing
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/laundry_system/sales_report/sales_config/transaction_summary.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        
-        xhr.onload = function() {
-            if (this.status === 200) {
-                const response = JSON.parse(this.responseText);
-                
-                // table content with the returned data
-                var tableContent = `
+                //table content
+                const tableContent = `
                     <table id="table_summary">
                         <thead>
                             <tr>
@@ -876,11 +921,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <th>Request Date</th>
                                 <th>Customer Order ID</th>
                                 <th>Customer Name</th>
-                                <th>Laundry Service Option</th>
-                                <th>Laundry Category Option</th>
+                                <th>Service</th>
+                                <th>Category</th>
                                 <th>Price</th>
                                 <th>Weight</th>
-                                <th>Service Option</th>
+                                <th>Service Type</th>
                                 <th>Laundry Cycle</th>
                                 <th>Service Fee</th>
                                 <th>Total Amount</th>
@@ -897,40 +942,36 @@ document.addEventListener('DOMContentLoaded', function() {
                             </tr>
                         </tfoot>
                     </table>`;
-                
-                //open a new window for printing
-                var newWindow = window.open('', '', 'height=600,width=800');
+    
+                //new window for printing
+                const newWindow = window.open('', '', 'height=600,width=800');
                 newWindow.document.write('<html><head><title>Transaction_Summary</title>');
                 newWindow.document.write('<style>' +
-                    'table {' + 
-                    'width: 95%;' + 
-                    'border-collapse: collapse; margin: 20px auto;}' + 
-                    'th, td { border: 1px solid black; padding: 5px; text-align: left; }' + 
-                    '@media print { ' +
-                    '#table_summary { width: 95%; border-collapse: collapse; margin: 0 auto;}' + 
-                    'th, td { font-size: 10px; padding: 5px; }' + 
-                    '.table-responsive { margin: 0 auto; padding: 5px 5px; }' +
-                    '}' + 
-                    '.header { font-size: 16px; font-weight: bold; text-align: center; margin-top: 20px 0; }' +
-                    '.title_header {' +
-                        'font-size: 18px; font-weight: bold; text-align: center; margin: 8px 0' +
-                    '} + </style>');
+                    'table { width: 95%; border-collapse: collapse; margin: 20px auto; }' +
+                    'th, td { border: 1px solid black; padding: 5px; text-align: left; }' +
+                    '@media print { th, td { font-size: 10px; padding: 5px; } }' +
+                    '.header { font-size: 18px; font-weight: bold; text-align: center; margin: 8px 1rem; }' +
+                    '.filter-details { font-size: 16px; text-align: center; margin-bottom: 20px 0; }' +
+                    '</style>');
                 newWindow.document.write('</head><body>');
-                newWindow.document.write('<h1 class="title_header">Azia Skye Laundry Shop</h1>');
+                newWindow.document.write('<h1 class="header">Azia Skye Laundry Shop</h1>');
                 newWindow.document.write('<h2 class="header">Transaction Summary</h2>');
+                newWindow.document.write(`<div class="filter-details">${filterDetails}</div>`);
                 newWindow.document.write(tableContent);
                 newWindow.document.write('</body></html>');
                 newWindow.document.close();
                 newWindow.focus();
-                
+    
                 // Trigger the print
                 newWindow.print();
             }
         };
-        
-        //send the filter to get the table data for the selected filter
-        xhr.send('filter=' + filter + '&print_all=true');
+    
+        // Prepare POST data and send
+        const postData = new URLSearchParams(filterParams);
+        xhr.send(postData.toString());
     }
+    
 
      //dynamic search bar
      $(document).ready(function(){
@@ -983,4 +1024,43 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+function fetchTransactionSummary(filter, page = 1, additionalParams = {}) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/laundry_system/sales_report/sales_config/transaction_summary.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onload = function () {
+        if (this.status === 200) {
+            const response = JSON.parse(this.responseText);
+
+            // Update transaction table and total revenue
+            document.getElementById("transaction-table-body").innerHTML = response.table_data;
+            document.getElementById("total-revenue").innerText = response.total_revenue;
+
+            // Update pagination
+            let pagination = "";
+            if (response.page > 1) {
+                pagination += `<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${response.page - 1})">&laquo;</a></li>`;
+            }
+
+            for (let i = 1; i <= response.total_pages; i++) {
+                pagination += `<li class="page-item ${i === response.page ? "active" : ""}"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${i})">${i}</a></li>`;
+            }
+
+            if (response.page < response.total_pages) {
+                pagination += `<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${response.page + 1})">&raquo;</a></li>`;
+            }
+
+            document.getElementById("pagination").innerHTML = pagination;
+        }
+    };
+
+    // Prepare POST data
+    const postData = new URLSearchParams({ filter, page });
+    for (const key in additionalParams) {
+        postData.append(key, additionalParams[key]);
+    }
+
+    xhr.send(postData.toString());
+}
 

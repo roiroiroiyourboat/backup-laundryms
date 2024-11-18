@@ -313,12 +313,12 @@ if(!isset($_SESSION['user_role'])) {
                                 <div class="legend-container">
                                     <div class="legend-item">
                                         <i class='bx bxs-circle' style='color:#0758ff'></i>
-                                        <span>Past events</span>
+                                        <span>Past Requests</span>
                                     </div>
 
                                     <div class="legend-item">
                                         <i class='bx bxs-circle' style='color:#ff0707'></i>
-                                        <span>Upcoming events</span>
+                                        <span>Upcoming Requests</span>
                                     </div>
                                 </div>
                             </div>
@@ -326,7 +326,7 @@ if(!isset($_SESSION['user_role'])) {
                     </div>
 
                     <div class="right">
-                        <div class="event-title">Events</div>
+                        <div class="event-title">Requests</div>
                         <hr>
                         <div class="events"></div>
                     </div>
