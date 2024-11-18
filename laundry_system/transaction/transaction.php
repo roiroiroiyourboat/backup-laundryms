@@ -51,6 +51,7 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaction</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="transaction.css">
@@ -67,35 +68,44 @@ if ($result->num_rows > 0) {
                 </button>
 
                 <div class="sidebar-logo">
-                    <a href="#">Azia Skye</a>
+                    <a href="/laundry_system/dashboard/dashboard.php">Azia Skye</a>
                 </div>
             </div>
 
             <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link">
-                        <i class="lni lni-grid-alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a href="/laundry_system/profile/profile.php" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>Profile</span>
-                    </a>
-                </li>
-
-                <?php if ($user_role === 'admin') : ?>
+                <?php if($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/users/users.php" class="sidebar-link">
+                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Dashboard">
+                            <i class="lni lni-grid-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/profile/profile.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Profile">
+                            <i class="lni lni-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/users/users.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Users">
                             <i class="lni lni-users"></i>
                             <span>Users</span>
                         </a>
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/records/records.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
                             data-bs-target="#records" aria-expanded="false" aria-controls="records">
                             <i class="lni lni-files"></i>
                             <span>Records</span>
@@ -115,25 +125,32 @@ if ($result->num_rows > 0) {
                             </li>
                         </ul>
                     </li>
-                <?php endif; ?>
 
-                <li class="sidebar-item">
-                    <a href="/laundry_system/transaction/transaction.php" class="sidebar-link">
-                        <i class="lni lni-coin"></i>
-                        <span>Transaction</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a href="/laundry_system/sales_report/report.php" class="sidebar-link">
-                        <i class='bx bx-line-chart'></i>
-                        <span>Sales Report</span>
-                    </a>
-                </li>
-
-                    <?php if ($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link">
+                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Transactions">
+                            <i class="lni lni-coin"></i>
+                            <span>Transaction</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Sales Report">
+                            <i class='bx bx-line-chart'></i>
+                            <span>Sales Report</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Settings">
                             <i class="lni lni-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -142,17 +159,38 @@ if ($result->num_rows > 0) {
                     <hr style="border: 1px solid #b8c1ec; margin: 8px">
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">
+                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#archived" aria-expanded="false" aria-controls="archived">
                             <i class='bx bxs-archive-in'></i>
-                            <span class="nav-item">Archived</span>
+                            <span>Archived</span>
                         </a>
+
+                        <ul id="archived" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">Archived Users</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_customer.php" class="sidebar-link">Archived Customer</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_service.php" class="sidebar-link">Archived Service</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_category.php" class="sidebar-link">Archived Category</a>
+                            </li>
+                        </ul>
                     </li>
                 <?php endif; ?>
-
             </ul>
 
             <div class="sidebar-footer">
-                <a href="#" id="btn_logout" class="sidebar-link">
+                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="right" 
+                    data-bs-title="Logout">
                     <i class="lni lni-exit"></i>
                     <span>Logout</span>
                 </a>
@@ -255,7 +293,6 @@ if ($result->num_rows > 0) {
     </div>
 </body>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script type="text/javascript" src="transaction.js"></script>
 
 </html>

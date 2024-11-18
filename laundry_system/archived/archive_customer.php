@@ -28,6 +28,7 @@ $user_role = $_SESSION['user_role'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archived Customer</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
@@ -37,9 +38,8 @@ $user_role = $_SESSION['user_role'];
 
 <body>
     <div class="progress"></div>
-
     <div class="wrapper">
-        <aside id="sidebar">
+    <aside id="sidebar">
             <div class="d-flex">
                 <button id="toggle-btn" type="button">
                     <i class="bx bx-menu-alt-left"></i>
@@ -51,23 +51,32 @@ $user_role = $_SESSION['user_role'];
             </div>
 
             <ul class="sidebar-nav">
-                <?php if ($user_role === 'admin') : ?>
+                <?php if($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link">
+                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Dashboard">
                             <i class="lni lni-grid-alt"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/profile/profile.php" class="sidebar-link">
+                        <a href="/laundry_system/profile/profile.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Profile">
                             <i class="lni lni-user"></i>
                             <span>Profile</span>
                         </a>
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/users/users.php" class="sidebar-link">
+                        <a href="/laundry_system/users/users.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Users">
                             <i class="lni lni-users"></i>
                             <span>Users</span>
                         </a>
@@ -96,21 +105,30 @@ $user_role = $_SESSION['user_role'];
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link">
+                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Transactions">
                             <i class="lni lni-coin"></i>
                             <span>Transaction</span>
                         </a>
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link">
+                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Sales Report">
                             <i class='bx bx-line-chart'></i>
                             <span>Sales Report</span>
                         </a>
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link">
+                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Settings">
                             <i class="lni lni-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -147,13 +165,16 @@ $user_role = $_SESSION['user_role'];
             </ul>
 
             <div class="sidebar-footer">
-                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout">
+                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="right" 
+                    data-bs-title="Logout">
                     <i class="lni lni-exit"></i>
                     <span>Logout</span>
                 </a>
             </div>
         </aside>
-
+        
         <div class="main-content">
             <nav>
                 <div class="d-flex justify-content-between" id="navbar">

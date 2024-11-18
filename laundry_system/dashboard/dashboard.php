@@ -17,7 +17,8 @@ if(!isset($_SESSION['user_role'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
@@ -44,35 +45,44 @@ if(!isset($_SESSION['user_role'])) {
                 </button>
 
                 <div class="sidebar-logo">
-                    <a href="#">Azia Skye</a>
+                    <a href="/laundry_system/dashboard/dashboard.php">Azia Skye</a>
                 </div>
             </div>
 
             <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link">
-                        <i class="lni lni-grid-alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a href="/laundry_system/profile/profile.php" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>Profile</span>
-                    </a>
-                </li>
-
-                <?php if ($user_role === 'admin') : ?>
+                <?php if($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/users/users.php" class="sidebar-link">
+                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Dashboard">
+                            <i class="lni lni-grid-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/profile/profile.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Profile">
+                            <i class="lni lni-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/users/users.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Users">
                             <i class="lni lni-users"></i>
                             <span>Users</span>
                         </a>
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/records/customer.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
                             data-bs-target="#records" aria-expanded="false" aria-controls="records">
                             <i class="lni lni-files"></i>
                             <span>Records</span>
@@ -92,25 +102,32 @@ if(!isset($_SESSION['user_role'])) {
                             </li>
                         </ul>
                     </li>
-                <?php endif; ?>
 
-                <li class="sidebar-item">
-                    <a href="/laundry_system/transaction/transaction.php" class="sidebar-link">
-                        <i class="lni lni-coin"></i>
-                        <span>Transaction</span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a href="/laundry_system/sales_report/report.php" class="sidebar-link">
-                        <i class='bx bx-line-chart'></i>
-                        <span>Sales Report</span>
-                    </a>
-                </li>
-
-                    <?php if ($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link">
+                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Transactions">
+                            <i class="lni lni-coin"></i>
+                            <span>Transaction</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Sales Report">
+                            <i class='bx bx-line-chart'></i>
+                            <span>Sales Report</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Settings">
                             <i class="lni lni-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -119,17 +136,38 @@ if(!isset($_SESSION['user_role'])) {
                     <hr style="border: 1px solid #b8c1ec; margin: 8px">
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">
+                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#archived" aria-expanded="false" aria-controls="archived">
                             <i class='bx bxs-archive-in'></i>
-                            <span class="nav-item">Archived</span>
+                            <span>Archived</span>
                         </a>
+
+                        <ul id="archived" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">Archived Users</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_customer.php" class="sidebar-link">Archived Customer</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_service.php" class="sidebar-link">Archived Service</a>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/archived/archive_category.php" class="sidebar-link">Archived Category</a>
+                            </li>
+                        </ul>
                     </li>
                 <?php endif; ?>
-
             </ul>
 
             <div class="sidebar-footer">
-                <a href="#" id="btn_logout" class="sidebar-link">
+                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="right" 
+                    data-bs-title="Logout">
                     <i class="lni lni-exit"></i>
                     <span>Logout</span>
                 </a>
@@ -525,8 +563,9 @@ if(!isset($_SESSION['user_role'])) {
     </div><!--end of wrapper--->
     
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script type="text/javascript" src="dashboard.js"></script>
 </body>
 </html>

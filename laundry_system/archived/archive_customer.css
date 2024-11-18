@@ -8,7 +8,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 .progress {
@@ -23,8 +23,8 @@ html {
 
 @keyframes progress {
   to {
-    background-color: rgb(20, 255, 226);
-    width: 100%;
+  background-color: rgb(20, 255, 226);
+  width: 100%;
   }
 }
 
@@ -35,10 +35,10 @@ html {
 }
   
 .main-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  transition: margin-left 0.5s ease; 
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  transition: all 0.35s ease-in-out;
 }
   
 /*sidebar*/
@@ -65,7 +65,7 @@ a {
 }
   
 li {
-  list-style: none;
+    list-style: none;
 }
   
 h1 {
@@ -78,7 +78,7 @@ h1 {
   width: 100%;
   height: 100vh;
 }
-  
+
 .main-content {
   flex: 1;
   overflow-y: auto;
@@ -88,15 +88,14 @@ h1 {
   
 #sidebar {
   display: flex;
-  height: 100%;
   width: 70px;
-  overflow: auto;
   min-width: 70px;
   z-index: 1000;
   transition: all 0.25s ease-in-out;
   flex-direction: column;
   background-color: #0e223e;
   border-radius: 0 20px 20px 0;
+  overflow: auto;
 }
   
 #sidebar.expand {

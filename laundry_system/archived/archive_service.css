@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
-    font-family: "Poppins", sans-serif;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
 html {
@@ -23,33 +23,31 @@ html {
 
 @keyframes progress {
   to {
-    background-color: rgb(20, 255, 226);
-    width: 100%;
+  background-color: rgb(20, 255, 226);
+  width: 100%;
   }
 }
 
 .wrapper {
   display: flex;
   width: 100%;
-  height:100vh;
+  height: 100vh;
 }
   
 .main-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  transition: margin-left 0.5s ease; 
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  transition: all 0.35s ease-in-out;
 }
   
 /*sidebar*/
 #sidebar {
-  display: flex;
-  height: 100%;
   width: 70px;
-  overflow: auto;
   min-width: 70px;
   z-index: 1000;
   transition: all .25s ease-in-out;
+  display: flex;
   flex-direction: column;
   background-color: #0e223e;
   border-radius: 0 20px 20px 0;
@@ -75,6 +73,19 @@ h1 {
   font-size: 1.5 rem;
 }
   
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  transition: margin-left 0.5s ease; 
+}
+  
 #sidebar {
   display: flex;
   width: 70px;
@@ -84,6 +95,7 @@ h1 {
   flex-direction: column;
   background-color: #0e223e;
   border-radius: 0 20px 20px 0;
+  overflow: auto;
 }
   
 #sidebar.expand {

@@ -4,6 +4,29 @@ hamburger.addEventListener("click", function(){
     document.querySelector("#sidebar").classList.toggle("expand");
 })
 
+//for tooltips
+const sidebar = document.getElementById('sidebar');
+const toggleBtn = document.getElementById('toggle-btn');
+const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+
+const tooltips = tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+toggleBtn.addEventListener('click', function () {
+    sidebar.classList.toggle('collapsed');
+
+    tooltips.forEach(tooltip => {
+        if (sidebar.classList.contains('collapsed')) {
+            tooltip.disable();
+        } else {
+            tooltip.enable();
+        }
+    });
+});
+
+if (!sidebar.classList.contains('collapsed')) {
+    tooltips.forEach(tooltip => tooltip.enable());
+}
+
 $(document).ready(function() {
     //fetch service(s) in settings
     function fetchServices() {
