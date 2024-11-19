@@ -404,6 +404,7 @@ if(!isset($_SESSION['user_role'])) {
                     ?>
 
                     <script>
+
                         const calendar = document.querySelector(".calendar"),
                             date = document.querySelector(".date"),
                             daysContainer = document.querySelector(".days"),
@@ -429,6 +430,17 @@ if(!isset($_SESSION['user_role'])) {
                             "November",
                             "December",
                         ];
+
+                        //highlight the clicked day(s) in calendar
+                        daysContainer.addEventListener('click', function(event) {
+                            if (event.target.classList.contains('day')) {
+                                const allDays = daysContainer.querySelectorAll('.day');
+                                allDays.forEach(function(day) {
+                                    day.classList.remove('clicked');
+                                });
+                                event.target.classList.add('clicked');
+                            }
+                        });
                         
                         function initCalendar() {
                             const firstDay = new Date(year, month, 1);
