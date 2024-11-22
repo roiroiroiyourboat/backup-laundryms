@@ -152,23 +152,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-// //pop up for laundry service form
-// document.addEventListener('DOMContentLoaded', (event) => {
-//     const service_form = document.getElementById("service_form");
-//     const openBtn = document.getElementById("openService");
-//     const closeBtn = document.getElementsByClassName("btnClose")[1];
-
-//     //open the service form
-//     openBtn.onclick = function() {
-//         service_form.style.display = "block";
-//     }
-
-//     //close the service form
-//     closeBtn.onclick = function() {
-//         service_form.style.display = "none";
-//     }
-
-// });
 
 //OVERVIEW PANEL
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -872,6 +855,12 @@ $(document).ready(function() {
                 Swal.fire("Service details not saved!", "An error occurred while saving the service details. Please try again.", "error");
             }
         });
+    });
+
+    $("#print_invoice_btn").click(function(){
+        $('#print_invoice').hide();
+        $('#service_details').hide();
+        $('#service_form').show();
     });
     
     $('#btnCancel_service_details').click(function() {

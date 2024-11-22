@@ -378,7 +378,7 @@ if(!isset($_SESSION['user_role'])) {
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" data-filter="daily">Save changes</button>
+                                <button type="button" class="btn btn-primary" id="btnFilterSave" data-bs-dismiss="modal" data-filter="daily">Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -409,7 +409,7 @@ if(!isset($_SESSION['user_role'])) {
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" data-filter="weekly">Save changes</button>
+                                <button type="button" class="btn btn-primary" id="btnFilterSave" data-bs-dismiss="modal" data-filter="weekly">Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -434,7 +434,7 @@ if(!isset($_SESSION['user_role'])) {
                                 </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" data-filter="monthly">Save changes</button>
+                                <button type="button" class="btn btn-primary" id="btnFilterSave" data-bs-dismiss="modal" data-filter="monthly">Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -459,7 +459,7 @@ if(!isset($_SESSION['user_role'])) {
                                 </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" data-filter="yearly">Save changes</button>
+                                <button type="button" class="btn btn-primary"  id="btnFilterSave" data-bs-dismiss="modal" data-filter="yearly">Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -471,6 +471,7 @@ if(!isset($_SESSION['user_role'])) {
                             <tr>
                                 <th scope="col">Transaction ID</th>
                                 <th scope="col">Date</th>
+                                <th scope="col">Customer No.</th>
                                 <th scope="col">Session ID</th>
                                 <th scope="col">Customer Name</th>
                                 <th scope="col">Service</th>
@@ -518,6 +519,7 @@ if(!isset($_SESSION['user_role'])) {
 </body>
     
     <!--JAVASCRIPT-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

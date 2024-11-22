@@ -75,7 +75,7 @@
     // Query to fetch filtered transactions
     $query = "SELECT DISTINCT t.transaction_id, sr.service_request_date, c.customer_name, sr.laundry_service_option, sr.laundry_category_option,
                     sr.price, sr.weight, t.service_option_name, t.laundry_cycle, (t.delivery_fee + t.rush_fee) AS service_fee, 
-                    t.total_amount, sr.order_status, sr.customer_order_id
+                    t.total_amount, sr.order_status, sr.customer_order_id, t.customer_id
             FROM transaction t
             JOIN service_request sr ON t.request_id = sr.request_id
             JOIN customer c ON t.customer_id = c.customer_id
@@ -113,6 +113,7 @@
             $table_data .= "<tr>
                                 <td>{$row['transaction_id']}</td>
                                 <td>{$row['service_request_date']}</td>
+                                <td>{$row['customer_id']}</td>
                                 <td>{$row['customer_order_id']}</td>
                                 <td>{$row['customer_name']}</td>
                                 <td>{$row['laundry_service_option']}</td>

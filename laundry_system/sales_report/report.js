@@ -745,7 +745,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     //daily
-    document.getElementById("dailyTransac").querySelector(".btn-primary").addEventListener("click", function () {
+    document.getElementById("dailyTransac").querySelector("#btnFilterSave").addEventListener("click", function () {
         const selectedDate = document.getElementById("daily_date").value;
         if (selectedDate) {
             fetchTransactionSummary("daily", 1, { date: selectedDate });
@@ -762,7 +762,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     //weekly
-    document.getElementById("weeklyTransac").querySelector(".btn-primary").addEventListener("click", function () {
+    document.getElementById("weeklyTransac").querySelector("#btnFilterSave").addEventListener("click", function () {
         const startDate = document.getElementById("startDate").value;
         const endDate = document.getElementById("endDate").value;
         if (startDate && endDate && startDate <= endDate) {
@@ -793,7 +793,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             monthSelect.appendChild(option);
         }
-    document.getElementById("monthlyTransac").querySelector(".btn-primary").addEventListener("click", function () {
+    document.getElementById("monthlyTransac").querySelector("#btnFilterSave").addEventListener("click", function () {
         const selectedMonth = document.getElementById("filter_month").value;
         if (selectedMonth) {
             fetchTransactionSummary("monthly", 1, { month: selectedMonth });
@@ -818,7 +818,7 @@ document.addEventListener('DOMContentLoaded', function() {
           filterYearDropdown.appendChild(option);
       }
 
-      document.getElementById("yearlyTransac").querySelector(".btn-primary").addEventListener("click", function () {
+      document.getElementById("yearlyTransac").querySelector("#btnFilterSave").addEventListener("click", function () {
         const selectedYear = filterYearDropdown.value;
         if (selectedYear) {
             fetchTransactionSummary("yearly", 1, { year: selectedYear });
@@ -942,6 +942,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <tr>
                                 <th>Transaction ID</th>
                                 <th>Request Date</th>
+                                <th>Customer No.</th>
                                 <th>Customer Order ID</th>
                                 <th>Customer Name</th>
                                 <th>Service</th>
@@ -1045,7 +1046,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
 
 function fetchTransactionSummary(filter, page = 1, additionalParams = {}) {
     const xhr = new XMLHttpRequest();
