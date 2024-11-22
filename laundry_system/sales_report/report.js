@@ -737,12 +737,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     //filter table by day, week, month, and year
-    document.querySelectorAll('.modal-footer button').forEach(button => {
-        button.addEventListener('click', function() {
-            const filter = this.getAttribute('data-filter');
-            fetchTransactionSummary(filter);
-        });
-    });
+    // document.querySelectorAll('.modal-footer button').forEach(button => {
+    //     button.addEventListener('click', function() {
+    //         const filter = this.getAttribute('data-filter');
+    //         fetchTransactionSummary(filter);
+    //     });
+    // });
 
     //daily
     document.getElementById("dailyTransac").querySelector("#btnFilterSave").addEventListener("click", function () {
