@@ -488,7 +488,7 @@ if(!isset($_SESSION['user_role'])) {
                         <tbody class="table-group-divider" id="transaction-table-body"></tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="11" style="text-align: right;"><strong>Total Revenue:</strong></td>
+                                <td colspan="12" style="text-align: right;"><strong>Total Revenue:</strong></td>
                                 <td colspan="2"><strong>₱<span id="total-revenue">0.00</span></strong></td>
                             </tr>
                         </tfoot>

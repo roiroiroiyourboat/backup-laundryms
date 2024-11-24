@@ -838,3 +838,176 @@ a.sidebar-link:hover {
   }
 }
 
+/*************  NOTIFICATION  ****************/
+
+/* Cards */
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: center;  /* Centers the header horizontally */
+  align-items: center;      /* Vertically aligns the items */
+  position: relative;       /* To allow absolute positioning of the button */
+}
+
+.header-title {
+  margin: 0;                /* Remove default margins for centering */
+  flex-grow: 1;             /* Allows the header to take up available space */
+  text-align: center;       /* Centers the header text */
+}
+/* Title Styling */
+.card h4 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.card h5 {/* count coolor*/
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #021325;
+}
+
+.btn-notify,
+.btn-outline,
+.btn-hamberger {
+  font-size: 1.5rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  position: absolute;       /* Absolutely position the bell button */
+  right: 0;                 /* Align the button to the right side */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size:1.4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-notify:hover,
+.btn-outline:hover,
+.btn-hamberger {
+  color: #007bff;
+}
+
+/* Notification Modal */
+.modal-content {
+  border-radius: 10px; /* Rounded corners for the modal */
+  box-shadow:  2px 1px rgb(133, 133, 133); /* Subtle shadow effect */
+  background-color: white; /* Ensure modal content remains solid */
+
+}
+.modal-header .modal-title{
+  font-size: 2.1rem;
+}
+.modal-header {
+  background-color: #ffffff;
+  color: rgb(0, 7, 12); /*text color*/
+  border-radius: 10px 10px 0 0;
+  padding: 15px;
+}
+
+.modal-header .btn-close {
+  background-color: transparent;
+  border: none;
+  font-size: 1.3rem;
+  color: rgb(255, 7, 7);
+  opacity: 2;
+  transition: opacity 0.1s ease;
+}
+
+.modal-body {
+  padding: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-family: Arial, sans-serif;
+}
+
+.notification-item {
+  margin-bottom: 10px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.notification-item p {
+  margin: 2px 0;
+  font-size: 0.9rem;
+}
+
+.notification-item input[type="checkbox"] {
+  margin: 4px; /* Adds some space between checkboxes */
+  margin-top: 15px;
+}
+
+.notification-item .remarks {
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+/* Checkbox Styles */
+input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+/*checkbox*/
+
+.notification-item.delivery-checkbox {
+  justify-content: center;
+  margin-left: 90px;
+  transform: scale(1.0); /*checkboxes sizze */
+}
+
+.modal-body.notification-item.delivery-checkbox {
+  justify-content: center;
+  margin-left: 900px;
+  transform: scale(1.0); /* checkboxes sizze */
+}
+
+/* Modal Footer */
+.modal-footer {
+  border-top: none;
+}
+
+/*modal outside color*/
+.modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.37); /* Adjust the alpha value for the transparency level (0.3 means 30% opacity) */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .card-body {
+      padding: 15px;
+      
+  }
+
+  .header-container {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .btn-notify,
+  .btn-outline {
+      font-size: 1.2rem;
+      margin-top: 10px;
+  }
+}

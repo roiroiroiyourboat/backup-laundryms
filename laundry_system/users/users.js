@@ -1,11 +1,10 @@
 const hamburger = document.querySelector("#toggle-btn");
 
-hamburger.addEventListener("click", function(){
+hamburger.addEventListener("click", function() {
     document.querySelector("#sidebar").classList.toggle("expand");
-})
+});
 
 document.addEventListener('DOMContentLoaded', function() {
-    //for tooltips
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggle-btn');
     const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -24,6 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    if (!sidebar.classList.contains('collapsed')) {
+        tooltips.forEach(tooltip => tooltip.enable());
+    }
+    
     // Add User Modal functionality
     const addUserModal = document.getElementById('addUserModal');
     const addUserButton = document.getElementById('addUserButton');
@@ -41,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     clearButton.addEventListener('click', () => {
         document.getElementById('userForm').reset();
         document.getElementById('passwordHelp').style.display = 'none';
-    })
+    });
 
     window.addEventListener('click', (event) => {
         if (event.target === addUserModal) {
@@ -49,49 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    //add user
-    document.getElementById('userForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the form from submitting in the default way
-    
-        const formData = new FormData(this); // Get the form data
-        
-        fetch('add_users.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'User added successfully!',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    //redirect after showing the success message
-                    window.location.href = 'users.php';
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.message
-                });
-            }
-        })
-        .catch(error => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Unexpected error',
-                text: 'Something went wrong!'
-            });
-        });
-    });
-
     // Edit User Modal functionality
     const editModal = document.getElementById('editModal');
     const closeEditButton = editModal.querySelector('.close-btn');
-    const editForm = document.getElementById('editForm');
 
     document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -111,50 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    //update info
-    document.getElementById('editForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-    
-        const formData = new FormData(this);
-        
-        fetch('update_user.php', { 
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                //success message
-                Swal.fire({
-                    icon: 'success',
-                    title: 'User Updated!',
-                    text: 'The user details have been successfully updated.',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(function() {
-                    window.location.href = 'users.php';
-                });
-            } else {
-                //error message
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: data.error || 'There was a problem updating the user.',
-                    confirmButtonText: 'OK'
-                });
-            }
-        })
-        .catch(error => {
-            //handle error
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong! Please try again.',
-            });
-            console.error('Error:', error);
-        });
-    });
-
     closeEditButton.addEventListener('click', () => {
         editModal.style.display = 'none';
     });
@@ -165,6 +84,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Add user
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        const formData = new FormData(this); 
+        
+        fetch('add_users.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'User added successfully!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    window.location.href = 'users.php';
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Unexpected error',
+                text: 'Something went wrong!'
+            });
+        });
+    });
 
     // Password Validation and Form Submission Handling
     const passwordField = document.getElementById('password');
@@ -172,18 +128,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const userForm = document.getElementById('userForm');
 
     if (passwordField && passwordHelpText && userForm) {
-        // Password validation criteria
         const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
-         // Validate password on input
-         passwordField.addEventListener('input', function () {
+        passwordField.addEventListener('input', function () {
             const passwordValue = passwordField.value;
             const lengthCheck = passwordValue.length >= 8;
             const uppercaseCheck = /[A-Z]/.test(passwordValue);
             const lowercaseCheck = /[a-z]/.test(passwordValue);
             const numberCheck = /\d/.test(passwordValue);
 
-            // Update the color and text for each requirement
             document.getElementById('length').style.color = lengthCheck ? 'green' : 'red';
             document.getElementById('uppercase').style.color = uppercaseCheck ? 'green' : 'red';
             document.getElementById('lowercase').style.color = lowercaseCheck ? 'green' : 'red';
@@ -196,7 +149,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Validate form on submit
         userForm.addEventListener('submit', function (event) {
             const passwordValue = passwordField.value;
             const isValid = passwordRequirements.test(passwordValue);
@@ -213,164 +165,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("Password field or user form not found in the DOM.");
     }
 
-    // for archive
-    const archiveModal = document.getElementById('archiveModal');
-    const confirmArchiveButton = document.getElementById('confirmArchiveButton');
-    const cancelArchiveButton = document.getElementById('cancelArchiveButton');
-    const closeArchiveModal = document.getElementById('closeArchiveModal');
-
-    // success
-    const successModal = document.getElementById('successModal');
-    const closeSuccessModal = document.getElementById('closeSuccessModal');
-    const closeSuccessButton = document.getElementById('closeSuccessButton');
-
-    let userIdToArchive = null;
-
-    document.querySelectorAll('.archive-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            userIdToArchive = btn.dataset.id;
-            archiveModal.style.display = 'block';
-        });
-    });
-
-    closeArchiveModal.addEventListener('click', () => {
-        archiveModal.style.display = 'none';
-    });
-
-    cancelArchiveButton.addEventListener('click', () => {
-        archiveModal.style.display = 'none';
-    });
-
-    confirmArchiveButton.addEventListener('click', () => {
-        fetch('/laundry_system/archived/archive_users_db.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: userIdToArchive })  
-        })
-
-        .then(response => response.text())  
-        .then(data => {
-            console.log('Raw response:', data);  
-    
-            // Check if response is JSON or an HTML error page
-            if (data.trim().startsWith('<')) {
-                console.error('Received HTML instead of JSON:', data);
-                return;  
-            }
-    
-            try {
-                const jsonData = JSON.parse(data);
-
-                if (jsonData.success) {
-                    archiveModal.style.display = 'none';
-                    successModal.style.display = 'block';
-                } else {
-                    alert('Error archiving user: ' + jsonData.error);
-                }
-            } catch (error) {
-                console.error('Error parsing JSON:', error, data);
-            }
-        })
-        
-        .catch(error => {
-            console.error('Fetch error:', error);
-        });
-    });
-
-    closeSuccessButton.addEventListener('click', () => {
-        successModal.style.display = 'none';
-        location.reload();
-    });
-
-    /* search */
-    $("#filter_user").on("keyup", function() {
-      var value = $(this).val().toLowerCase();
-      $("#user_table tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-
-     /* pagination */
-     const rowsPerPage = 10;
-     const tableBody = document.querySelector('table tbody');
-     const rows = tableBody.querySelectorAll('tr');
-     const paginationContainer  = document.getElementById('pagination');
- 
-     let totalRows = rows.length;
-     let totalPages = Math.ceil(totalRows / rowsPerPage);
-     let currentPage = 0;
- 
-     function displayRows(startIndex) {
-       rows.forEach(row => row.style.display = 'none');
- 
-       let endIndex = startIndex + rowsPerPage;
-       for (let i = startIndex; i < endIndex && i < totalRows; i++) {
-           rows[i].style.display = '';
-       }
-     }
- 
-     function setupPagination() {
-       paginationContainer.innerHTML = '';
-   
-       // previous arrow
-       let prevPageLink = document.createElement('li');
-       prevPageLink.classList.add('page-item');
-       prevPageLink.innerHTML = `<a class="page-link" href="#"><<</a>`;
-       prevPageLink.addEventListener('click', function (e) {
-           e.preventDefault();
-           if (currentPage > 0) {
-               currentPage--;
-               displayRows(currentPage * rowsPerPage);
-               setActivePage(currentPage);
-           }
-       });
-   
-       paginationContainer.appendChild(prevPageLink);
- 
-     // numbered page links
-     for (let i = 0; i < totalPages; i++) {
-       let pageLink = document.createElement('li');
-       pageLink.classList.add('page-item');
-       pageLink.innerHTML = `<a class="page-link" href="#">${i + 1}</a>`;
- 
-       pageLink.addEventListener('click', function (e) {
-           e.preventDefault();
-           currentPage = i;
-           displayRows(i * rowsPerPage);
-           setActivePage(i);
-       });
- 
-       paginationContainer.appendChild(pageLink);
-   }
- 
-     // next arrow
-     let nextPageLink = document.createElement('li');
-       nextPageLink.classList.add('page-item');
-       nextPageLink.innerHTML = `<a class="page-link" href="#">>></a>`;
-       nextPageLink.addEventListener('click', function (e) {
-       e.preventDefault();
-       if (currentPage < totalPages - 1) {
-           currentPage++;
-           displayRows(currentPage * rowsPerPage);
-           setActivePage(currentPage);
-       }
-   });
-       paginationContainer.appendChild(nextPageLink);
-   }
- 
-   function setActivePage(pageIndex) {
-       const pageLinks = paginationContainer.querySelectorAll('.page-item');
-       pageLinks.forEach(link => link.classList.remove('active'));
-       pageLinks[pageIndex + 1].classList.add('active'); // +1 to skip the prev arrow
-   }
- 
-   // Initialize table with first page and pagination links
-   displayRows(0);
-   setupPagination();
-   setActivePage(0);
-
     //Show Password
     $('.toggle-password').click(function() {
         var target = $(this).data('target');
@@ -384,6 +178,159 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // 23:45
+    // Archive User Modal functionality
+    const archiveUser = (userId) => {
+        const archiveModal = document.getElementById('archiveModal');
+        const confirmButton = document.getElementById('confirmArchiveButton');
+        const cancelButton = document.getElementById('cancelArchiveButton');
+        const hiddenInput = document.getElementById('archiveUserId');
+        const closeArchiveModalButton = document.getElementById('closeArchiveModal');
+    
+        hiddenInput.value = userId;
+        archiveModal.style.display = 'flex';
+    
+        confirmButton.onclick = () => {
+            archiveModal.style.display = 'none';
+            fetch('/laundry_system/archived/archive_users_db.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: userId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'User Archived!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        archiveModal.style.display = 'none';
+                        fetchUsers();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: data.error || 'There was a problem archiving the user.'
+                    });
+                }
+            });
+        };
+
+        cancelButton.addEventListener('click', () => {
+            archiveModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === archiveModal) {
+                archiveModal.style.display = 'none';
+            }
+        });
+
+        closeArchiveModalButton.addEventListener('click', () => {
+        archiveModal.style.display = 'none';
+    });
+
+    };
+
+    const fetchUsers = () => {
+        fetch('fetch_users.php')
+            .then(response => response.text())
+            .then(html => {
+                const userTable = document.querySelector('#user_table');
+                userTable.innerHTML = html;
+                attachButtonListeners();
+            });
+    };
+
+    const attachButtonListeners = () => {
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const userId = button.dataset.id;
+                const username = button.dataset.username;
+                document.getElementById('editUserId').value = userId;
+                document.getElementById('editUsername').value = username;
+                editModal.style.display = 'flex';
+            });
+        });
+        document.querySelectorAll('.archive-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const userId = button.dataset.id;
+                archiveUser(userId);
+            });
+        });
+    };
+
+    attachButtonListeners(); 
+
+    /* search */
+    $("#filter_user").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#user_table tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
+    
+    document.getElementById('editForm').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+    
+        const formData = new FormData(this); 
+        
+        fetch('update_user.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'User updated successfully!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    // Get the updated values from the form
+                    const updatedUserId = document.getElementById('editUserId').value;
+                    const updatedUsername = document.getElementById('editUsername').value;
+                    const updatedFirstName = document.getElementById('editFirstName').value;
+                    const updatedLastName = document.getElementById('editLastName').value;
+                    const updatedUserRole = document.getElementById('editUserRole').value;
+    
+                    // Find the corresponding table row by user ID
+                    const row = document.querySelector(`#user_table tr[data-id="${updatedUserId}"]`);
+    
+                    // Update the row with the new values
+                    if (row) {
+                        row.querySelector('.username').textContent = updatedUsername;
+                        row.querySelector('.first-name').textContent = updatedFirstName;
+                        row.querySelector('.last-name').textContent = updatedLastName;
+                        row.querySelector('.user-role').textContent = updatedUserRole;
+                    }
+    
+                    // Close the edit modal
+                    location.reload();
+                    document.getElementById('editModal').style.display = 'none';
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.error || 'Something went wrong!'
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Unexpected error',
+                text: 'Something went wrong!'
+            });
+        });
+    });
+    
     // for logout
     const logoutModal = document.getElementById("logoutModal");
     const closeBtn = logoutModal.querySelector(".close");

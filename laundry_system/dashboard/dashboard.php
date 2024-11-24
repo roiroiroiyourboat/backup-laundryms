@@ -1,13 +1,90 @@
 <?php
-session_start(); 
+session_start();
 
-$user_role = $_SESSION['user_role'];
+$servername = "localhost"; 
+$username = "root";         
+$password = "";            
+$dbname = "laundry_db";  
 
-if(!isset($_SESSION['user_role'])) {
+// Database connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Database connection failed: " . $conn->connect_error);
+}
+
+if (!isset($_SESSION['user_role'])) {
     header('location: /laundry_system/homepage/homepage.php');
     exit();
 }
 
+$user_role = $_SESSION['user_role'];
+
+// Queries
+$pickup_sql = "SELECT sr.customer_name, sr.customer_id,
+    SUM(sr.weight) AS total_weight, 
+    SUM(sr.quantity) AS total_quantity, 
+    sr.request_date, sr.service_req_time, sr.remarks, 
+    tr.customer_address, tr.brgy, tr.total_amount
+    FROM service_request sr
+    JOIN transaction tr ON sr.request_id = tr.request_id
+    WHERE sr.remarks IN ('Unclaimed', 'Pending')
+    AND tr.service_option_name = 'Customer Pick-Up'
+    AND sr.request_date <= CURRENT_TIMESTAMP
+    GROUP BY sr.customer_name, sr.customer_id, sr.request_date, sr.remarks, 
+    tr.customer_address, tr.brgy, tr.total_amount
+    ORDER BY sr.request_date DESC";
+
+$delivery_sql = "SELECT sr.customer_name, sr.customer_id,
+    SUM(sr.weight) AS total_weight, 
+    SUM(sr.quantity) AS total_quantity, 
+    sr.request_date, sr.service_req_time, sr.remarks, 
+    tr.customer_address, tr.brgy, tr.total_amount
+    FROM service_request sr
+    JOIN transaction tr ON sr.request_id = tr.request_id
+    WHERE sr.remarks IN ('Undelivered', 'Pending') 
+    AND tr.service_option_name = 'Delivery'
+    AND sr.request_date <= CURRENT_DATE
+    GROUP BY sr.customer_name, sr.customer_id, sr.request_date, sr.remarks, 
+    tr.customer_address, tr.brgy, tr.total_amount
+    ORDER BY sr.request_date DESC";
+
+$rush_sql = "SELECT sr.customer_name, sr.customer_id, 
+    SUM(sr.weight) AS total_weight, 
+    SUM(sr.quantity) AS total_quantity, 
+    sr.request_date, sr.service_req_time, sr.remarks, 
+    tr.customer_address, tr.brgy, tr.total_amount
+    FROM service_request sr
+    JOIN transaction tr ON sr.request_id = tr.request_id
+    WHERE sr.remarks IN ('Undelivered', 'Unclaimed', 'Pending')
+    AND tr.laundry_cycle = 'Rush'
+    AND sr.request_date <= CURRENT_DATE
+    GROUP BY sr.customer_name, sr.customer_id, sr.request_date, sr.remarks, 
+    tr.customer_address, tr.brgy, tr.total_amount
+    ORDER BY sr.request_date DESC";
+
+// Execute queries
+$pickup_result = $conn->query($pickup_sql);
+$delivery_result = $conn->query($delivery_sql);
+$rush_result = $conn->query($rush_sql);
+
+// Error checking
+if (!$pickup_result) {
+    die("Error executing pickup SQL query: " . $conn->error . "<br>Query: " . $pickup_sql);
+}
+
+if (!$delivery_result) {
+    die("Error executing delivery SQL query: " . $conn->error . "<br>Query: " . $delivery_sql);
+}
+
+if (!$rush_result) {
+    die("Error executing rush SQL query: " . $conn->error . "<br>Query: " . $rush_sql);
+}
+
+// Count rows
+$pickup_count = $pickup_result->num_rows;
+$delivery_count = $delivery_result->num_rows;
+$rush_count = $rush_result->num_rows;
 
 ?>
 
@@ -30,6 +107,8 @@ if(!isset($_SESSION['user_role'])) {
     <!---CHART--->
     <script src ="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="dashboard.css">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     
@@ -183,118 +262,132 @@ if(!isset($_SESSION['user_role'])) {
             </nav>
                  <!----CARDS FOR SERVICE TYPE ORDERS (RUSH/PICK UP/DELIVERY) ---->
                 <div class="cards">
-                    <div class="card card-body p-3">
-                        <h4>Customer Pick-Up</h4>
+                    <div class="card card-body p-3 mb-3">
+                        <div class="header-container">
+                            <h4>Customer Pick-Up</h4>
+                            <button class="btn-notify" data-bs-toggle="modal" data-bs-target="#pickupModal">
+                                <i class="bi bi-bell"></i>🔔
+                            </button>
+                        </div>
+
                         <h5 id="pickup-orders">
-                        <?php 
-                            $conn = new mysqli('localhost', 'root', '', 'laundry_db');
-
-                            if ($conn->connect_error) {
-                                echo json_encode(['status' => 'error', 'message' => 'Database connection failed']);
-                                exit;
-                            }
-
-                            //query to count pick up requests for today
-                            $qry = "
-                                SELECT COUNT(DISTINCT sr.customer_id) AS total_requests
-                                FROM service_request sr
-                                JOIN transaction t 
-                                ON sr.customer_id = t.customer_id
-                                WHERE DATE(sr.request_date) = CURDATE()
-                                AND t.service_option_name = 'Customer Pick-Up'
-                            ";
-                            $qry_run = $conn->query($qry);
-
-                            if (!$qry_run) {
-                                echo json_encode(['status' => 'error', 'message' => 'Query failed: ' . $conn->error]);
-                                exit;
-                            }
-
-                            $row = $qry_run->fetch_assoc();
-
-                            echo '<h2>' . $row['total_requests'] . '</h2>';
-                            
-                            $conn->close();
-                        ?>
-                        </p>
+                            <?php echo $pickup_count; ?> 
+                        </h5>
                     </div>
 
-                    <div class="card card-body p-3">
-                        <h4>Delivery Requests</h4>
+                    <!-- Pickup Notification Modal -->
+                    <div class="modal fade" id="pickupModal" tabindex="-1" aria-labelledby="pickupModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="pickupModalLabel">Pickup Requests</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <?php while($row = $pickup_result->fetch_assoc()): ?>
+                                        <div class="notification-item">
+                                        <p><h4><strong><?php echo $row['customer_name']; ?></strong></h4></p>
+                                            <p>Address: <?php echo $row['customer_address'].'  '.' , '. $row['brgy']; ?></p>
+                                            <p>Weight: <?php echo $row['total_weight']; ?>kg</p>
+                                            <p>Quantity: <?php echo $row['total_quantity']; ?></p>
+                                            <p>Request Date: <?php echo $row['request_date'].'  '.' at '. $row['service_req_time'] ?>
+                                            <p>Total Amount: <?php echo $row['total_amount']; ?></p>
+                                            
+                                            <!-- Checkboxes for Remarks -->
+                                            <input type="checkbox" class="pickup-checkbox" data-id="<?php echo $row['customer_id']; ?>" data-remark="Claimed"> Claimed
+                                            <input type="checkbox" class="pickup-checkbox" data-id="<?php echo $row['customer_id']; ?>" data-remark="Unclaimed"> Unclaimed
+                                            <input type="checkbox" class="pickup-checkbox" data-id="<?php echo $row['customer_id']; ?>" data-remark="Pending"> Pending
+                                        </div>
+                                    <?php endwhile; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Requests Card -->
+                    <div class="card card-body p-3 mb-3">
+                        <div class="header-container">
+                            <h4>Delivery Requests</h4>
+                            <button class="btn-outline" data-bs-toggle="modal" data-bs-target="#deliveryModal">
+                                <i class="bi bi-bell"></i> 🔔
+                            </button>
+                        </div>
                         <h5 id="delivery-orders">
-                        <?php 
-                            $conn = new mysqli('localhost', 'root', '', 'laundry_db');
-
-                            if ($conn->connect_error) {
-                                echo json_encode(['status' => 'error', 'message' => 'Database connection failed']);
-                                exit;
-                            }
-
-                            //query to count delivery requests for today
-                            $qry = "
-                                SELECT COUNT(DISTINCT sr.customer_id) AS total_requests
-                                FROM service_request sr
-                                JOIN transaction t 
-                                ON sr.customer_id = t.customer_id
-                                WHERE DATE(sr.request_date) = CURDATE()
-                                AND t.service_option_name = 'Delivery'
-                            ";
-
-                            $qry_run = $conn->query($qry);
-
-                            if (!$qry_run) {
-                                echo json_encode(['status' => 'error', 'message' => 'Query failed: ' . $conn->error]);
-                                exit;
-                            }
-
-                            $row = $qry_run->fetch_assoc();
-
-                            echo '<h2>' . $row['total_requests'] . '</h2>';
-  
-                            $conn->close();
-                        ?>
+                            <?php echo $delivery_count; ?> 
                         </h5>
                     </div>
 
-                    <div class="card card-body p-3">
-                        <h4>Rush Requests</h4>
+                     <!-- Delivery Notification Modal -->
+                    <div class="modal fade" id="deliveryModal" tabindex="-1" aria-labelledby="deliveryModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deliveryModalLabel">Delivery Requests</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <?php while($row = $delivery_result->fetch_assoc()): ?>
+                                        <div class="notification-item">
+                                        <p><h4><strong><?php echo $row['customer_name']; ?></strong></h4></p>
+                                            <p>Address: <?php echo $row['customer_address'].'  '.' , '. $row['brgy']; ?></p>
+                                            <p>Weight: <?php echo $row['total_weight']; ?>kg</p>
+                                            <p>Quantity: <?php echo $row['total_quantity']; ?></p>
+                                            <p>Request Date: <?php echo $row['request_date'].'  '.' at '. $row['service_req_time'] ?>
+                                            <p>Total Amount: <?php echo $row['total_amount']; ?></p>
+                                            
+                                            
+                                            <!-- Checkboxes for Remarks -->
+                                            <input type="checkbox" class="delivery-checkbox" data-id="<?php echo $row['customer_id']; ?>" data-remark="Delivered"> Delivered
+                                            <input type="checkbox" class="delivery-checkbox" data-id="<?php echo $row['customer_id']; ?>" data-remark="Undelivered"> Undelivered
+                                            <input type="checkbox" class="delivery-checkbox" data-id="<?php echo $row['customer_id']; ?>" data-remark="Pending"> Pending
+                                        </div>
+                                    <?php endwhile; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-body p-3 mb-3">
+                        <div class="header-container">
+                            <h4>Rush Requests</h4>
+                            <button class="btn-hamberger" data-bs-toggle="modal" data-bs-target="#rushModal">
+                                <i class="fas fa-bars" style="font-size: 19px"></i> 
+                            </button>
+                        </div>
                         <h5 id="rush-orders">
-                        <?php 
-                            $conn = new mysqli('localhost', 'root', '', 'laundry_db');
-
-                            if ($conn->connect_error) {
-                                echo json_encode(['status' => 'error', 'message' => 'Database connection failed']);
-                                exit;
-                            }
-
-                            //query to count rush requests for today
-                            $qry = "
-                                SELECT COUNT(DISTINCT sr.customer_id) AS total_requests
-                                FROM service_request sr
-                                JOIN transaction t 
-                                ON sr.customer_id = t.customer_id
-                                WHERE DATE(sr.request_date) = CURDATE()
-                                AND t.laundry_cycle = 'Rush'
-                            ";
-
-                            $qry_run = $conn->query($qry);
-
-                            //check for query errors
-                            if (!$qry_run) {
-                                echo json_encode(['status' => 'error', 'message' => 'Query failed: ' . $conn->error]);
-                                exit;
-                            }
-
-                            //fetch result
-                            $row = $qry_run->fetch_assoc();
-
-                            //display the count of rush requests
-                            echo '<h2>' . $row['total_requests'] . '</h2>';
-
-                            $conn->close();
-                        ?>
+                            <?php echo $rush_count; ?> <!-- Active Delivery Requests -->
                         </h5>
                     </div>
+
+                    <!-- Rush Notification Modal -->
+                    <div class="modal fade" id="rushModal" tabindex="-1" aria-labelledby="rushModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="rushModalLabel"> Rush Requests</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <?php while($row = $rush_result->fetch_assoc()): ?>
+                                        <div class="notification-item">
+                                        <p><h4><strong><?php echo $row['customer_name']; ?></strong></h4></p>
+                                            <p>Address: <?php echo $row['customer_address'].'  '.' , '. $row['brgy']; ?></p>
+                                            <p>Weight: <?php echo $row['total_weight']; ?>kg</p>
+                                            <p>Quantity: <?php echo $row['total_quantity']; ?></p>
+                                            <p>Request Date: <?php echo $row['request_date'].'  '.' at '. $row['service_req_time'] ?>
+                                            <p>Total Amount: <?php echo $row['total_amount']; ?></p>
+                                            
+                                            <!-- Checkboxes for Remarks -->
+                                        <!--   <input type="checkbox" class="delivery-checkbox" data-id="<php echo $row['customer_id']; ?>" data-remark="Delivered"> Delivered
+                                            <input type="checkbox" class="delivery-checkbox" data-id="<php echo $row['customer_id']; ?>" data-remark="Undelivered"> Undelivered
+                                            <input type="checkbox" class="delivery-checkbox" data-id="<php echo $row['customer_id']; ?>" data-remark="Pending"> Pending-->
+                                        </div>
+                                    <?php endwhile; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!------------------CHARTS----------------------->

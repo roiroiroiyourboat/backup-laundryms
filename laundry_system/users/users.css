@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 * {
   margin: 0;
@@ -8,7 +8,7 @@
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 .progress {
@@ -23,69 +23,38 @@ html {
 
 @keyframes progress {
   to {
-  background-color: rgb(20, 255, 226);
-  width: 100%;
+    background-color: rgb(20, 255, 226);
+    width: 100%;
   }
 }
 
-.wrapper {
-  display: flex;
-  width: 100%;
-  height: 100vh;
-}
-  
-.main-content {
-  min-height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  transition: all 0.35s ease-in-out;
-}
-  
 /*sidebar*/
-#sidebar {
-  width: 70px;
-  min-width: 70px;
-  z-index: 1000;
-  transition: all .25s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  background-color: #0e223e;
-  border-radius: 0 20px 20px 0;
-}
-  
 ::after,
 ::before {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-  
+
 a {
   text-decoration: none;
 }
-  
+
 li {
-    list-style: none;
+  list-style: none;
 }
-  
+
 h1 {
   font-weight: 600;
   font-size: 1.5 rem;
 }
-  
+
 .wrapper {
   display: flex;
   width: 100%;
   height: 100vh;
 }
 
-.main-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  transition: margin-left 0.5s ease; 
-}
-  
 #sidebar {
   display: flex;
   width: 70px;
@@ -94,46 +63,47 @@ h1 {
   transition: all 0.25s ease-in-out;
   flex-direction: column;
   background-color: #0e223e;
-  border-radius: 0 20px 20px 0; 
+  border-radius: 0 20px 20px 0;
 }
-  
+
 #sidebar.expand {
   width: 260px;
   min-width: 260px;
+  overflow: auto;
 }
-  
+
 #toggle-btn {
   background-color: transparent;
   cursor: pointer;
   border: 0;
   padding: 1rem 1.5rem;
 }
-  
+
 #toggle-btn i {
   font-size: 1.5 rem;
   color: #fff;
 }
-  
+
 .sidebar-logo {
   margin: auto 0;
 }
-  
+
 .sidebar-logo a {
   color: #fff;
   font-size: 1.15rem;
   font-weight: 600;
 }
-  
+
 #sidebar:not(.expand) .sidebar-logo,
 #sidebar:not(.expand) a.sidebar-link span {
   display: none;
 }
-  
+
 .sidebar-nav {
   padding: 2rem 0;
   flex: 1 1 auto;
 }
-  
+
 a.sidebar-link {
   padding: 0.625rem 1.625rem;
   color: #fff;
@@ -143,21 +113,21 @@ a.sidebar-link {
   border-left: 3px solid transparent;
   text-decoration: none;
 }
-  
+
 .sidebar-link i {
   font-size: 1.1rem;
   margin-right: 0.75rem;
 }
-  
+
 a.sidebar-link:hover {
   background-color: #232946;
   border-left: 3px solid #eebbc3;
 }
-  
+
 .sidebar-item {
   position: relative;
 }
-  
+
 #sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
   position: absolute;
   top: 0;
@@ -167,14 +137,14 @@ a.sidebar-link:hover {
   min-width: 15rem;
   display: none;
 }
-  
+
 #sidebar:not(.expand) .sidebar-item:hover .has-dropdown + .sidebar-dropdown {
   display: block;
   max-width: 15em;
   width: 100%;
   opacity: 1;
 }
-  
+
 #sidebar.expand .sidebar-link [data-bs-toggle="collapse"]::after {
   border: solid;
   border-width: 0 0.075rem 0.075rem 0;
@@ -187,24 +157,23 @@ a.sidebar-link:hover {
   transform: rotate(-135deg);
   transition: all 0.2s ease-out;
 }
-  
+
 #sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
   transform: rotate(45deg);
   transition: all 0.2s ease-out;
 }
 
-/*main content */
+/*main content*/
 .main-content {
   flex: 1;
   overflow-y: auto;
   padding: 20px;
-  transition: margin-left 0.5s ease; 
+  transition: margin-left 0.5s ease;
 }
 
-/*implement to other  */
 .table-responsive {
-  padding: 20px 0;
-} 
+  padding: 20px;
+}
 
 .box {
   display: flex;
@@ -221,13 +190,19 @@ a.sidebar-link:hover {
 
 /*responsiveness */
 @media (max-width: 768px) {
-   .table {
+  .table {
     font-size: 0.9rem;
   }
 
   #navbar {
     display: flex;
     flex-direction: column;
+  }
+
+  .button {
+    height: 40px;
+    width: 300px;
+    font-size: 18px;
   }
 }
 
@@ -241,9 +216,14 @@ a.sidebar-link:hover {
     flex-direction: column;
   }
 
+  .button {
+    height: 40px;
+    width: 265px;
+    font-size: 18px;
+  }
 }
 
-/*ADD USER*/
+/* second try for ADD user modal  */
 .modal {
   position: fixed;
   display: flex;
@@ -254,7 +234,7 @@ a.sidebar-link:hover {
   top: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
@@ -267,7 +247,7 @@ a.sidebar-link:hover {
   width: 90%;
   max-width: 500px;
   max-height: 90vh;
-  overflow-y: auto;
+  overflow: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   border-radius: 8px;
@@ -275,7 +255,14 @@ a.sidebar-link:hover {
   position: relative;
 }
 
+.modal-open {
+  overflow: hidden;
+}
+
 .modal-header {
+  /* display: flex;
+  justify-content: space-between;
+  width: 100%; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -285,18 +272,12 @@ a.sidebar-link:hover {
   margin-bottom: 20px;
 }
 
-.modal-header .close {
-  font-size: 24px;
-  cursor: pointer;
-  font-weight: bold;
+.modal-body {
+  text-align: center;
+  margin-top: 1rem;
 }
 
-.modal-header h1 {
-  font-size: 1.5em;
-  margin: 0;
-}
-
-
+/* responsiveness */
 @media (min-width: 600px) {
   .modal-content {
     width: 80%;
@@ -315,24 +296,17 @@ a.sidebar-link:hover {
   }
 }
 
-.modal-open {
-  overflow: hidden;
-}
-
-
-.modal-body {
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.modal-body, .btn-success, .btn-info {
+.modal-body,
+.btn-success,
+.btn-info {
   margin-top: 1rem;
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
 }
 
-.close, .close-btn {
+.close,
+.close-btn {
   cursor: pointer;
   float: right;
   font-size: 28px;
@@ -340,7 +314,10 @@ a.sidebar-link:hover {
   color: #aaa;
 }
 
-.close:hover, .close:focus, .close-btn:hover, .close-btn:focus{
+.close:hover,
+.close:focus,
+.close-btn:hover,
+.close-btn:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
@@ -348,7 +325,7 @@ a.sidebar-link:hover {
 
 .edit-btn {
   text-decoration: none;
-  color: #000; 
+  color: #000;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -360,8 +337,8 @@ a.sidebar-link:hover {
 }
 
 .edit-btn:hover i {
-  color: #007BFF;
-} 
+  color: #007bff;
+}
 
 /* adjust the form group to match the layout */
 .form-group {
@@ -373,16 +350,18 @@ a.sidebar-link:hover {
   margin-bottom: 0.5rem;
 }
 
-.form-group input, .form-group select {
+.form-group input,
+.form-group select {
   width: 100%;
   padding: 0.5rem;
   box-sizing: border-box;
 }
 
-.password-wrapper  {
+.password-wrapper {
   position: relative;
 }
 
+/* show password */
 .password-wrapper .toggle-password {
   position: absolute;
   right: 10px;
@@ -392,6 +371,20 @@ a.sidebar-link:hover {
   font-size: 1.2rem;
 }
 
+/* responsiveness */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 80%;
+
+    max-width: 300px;
+  }
+}
+
+@media (min-width: 769px) {
+  .modal-content {
+    width: 45%; /* Keep a slim width */
+  }
+}
 
 /* archive */
 .Archvmodal {
@@ -402,27 +395,35 @@ a.sidebar-link:hover {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1000;
+  z-index: 9999; 
+  justify-content: center; 
+  align-items: center;
 }
 
 /* for archive */
 .modal-cnt {
-  position: relative;
-  margin: auto;
+  /* display:flex; */
+  position: relative; 
+  /* margin: auto;
   top: 50%;
   transform: translateY(-50%);
   padding: 20px;
   background-color: white;
-  width: 90%; 
-  max-width: 500px; 
+  width: 30%;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  border-radius: 8px; */
+  padding: 20px;
+    background-color: white;
+    width: 30%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
 }
 
 .modal-cnt button {
- display: inline-block;
- margin: 10px;
+  display: inline-block;
+  margin: 10px;
 }
 
 .close {
@@ -448,10 +449,37 @@ a.sidebar-link:hover {
 }
 
 .search_bar .form-control {
-  background-image: url('/laundry_system/icons/search.png');
+  background-image: url("/laundry_system/images/search.png");
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 20px 20px;
+}
+
+@media (max-width: 768px) {
+  .modal-cnt {
+    width: 70%;
+    padding: 15px;
+  }
+
+  .modal-cnt .btn {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-cnt {
+    width: 90%;
+    padding: 10px;
+  }
+
+  .modal-cnt h4 {
+    font-size: 1rem;
+  }
+
+  .modal-cnt .btn {
+    padding: 10px;
+  }
 }
 
 /* logout */
@@ -546,5 +574,4 @@ a.sidebar-link:hover {
   .modal-buttons .btn {
     padding: 10px;
   }
-}
-
+} 

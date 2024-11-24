@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            echo json_encode(['status' => 'error', 'message' => "Error: Username already exists!"]);
+            echo json_encode(['status' => 'error', 'message' => "Username is already existing. Please try another username."]);
         } else {
             // Hash the password
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);

@@ -859,8 +859,10 @@ $(document).ready(function() {
 
     $("#print_invoice_btn").click(function(){
         $('#print_invoice').hide();
+        $('#print_invoice').reset();
         $('#service_details').hide();
         $('#service_form').show();
+
     });
     
     $('#btnCancel_service_details').click(function() {

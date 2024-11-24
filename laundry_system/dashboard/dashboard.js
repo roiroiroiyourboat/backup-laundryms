@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }, 1000);
 
-    //for tooltips
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggle-btn');
     const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -36,7 +35,8 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!sidebar.classList.contains('collapsed')) {
         tooltips.forEach(tooltip => tooltip.enable());
     }
-
+    
+    
   //DAILY CHART
   fetch('/laundry_system/dashboard/configs_db/daily.php')
   .then(response => response.json())
@@ -259,29 +259,163 @@ document.addEventListener("DOMContentLoaded", function() {
     const closeBtn = logoutModal.querySelector(".close");
     const noBtn = logoutModal.querySelector(".btn-no");
 
-    $("#btn_logout").click(function(){
+   $("#btn_logout").click(function() {
         $('#logoutModal').show();
-    });
+   });
 
     // Close the modal when clicking the close button (×)
     if (closeBtn) {
         closeBtn.addEventListener("click", function() {
-            logoutModal.style.display = "none"; // Hide the modal
+            logoutModal.style.display = "none"; 
         });
     }
 
     // Close the modal when clicking the 'No' button
     if (noBtn) {
         noBtn.addEventListener("click", function() {
-            logoutModal.style.display = "none"; // Hide the modal
+            logoutModal.style.display = "none"; 
         });
     }
 
     // Close the modal when clicking outside the modal content
     window.addEventListener("click", function(event) {
         if (event.target === logoutModal) {
-            logoutModal.style.display = "none"; // Hide the modal
+            logoutModal.style.display = "none";
         }
     });
-  
 });
+
+        
+
+    // ********* Notification MOdal ********* //
+
+$('.pickup-checkbox').on('change', function() {
+        var $checkbox = $(this);  
+        var customerId = $checkbox.data('id');
+        var remark = $checkbox.data('remark');
+
+        $.ajax({
+            url: 'update_remark.php',
+            type: 'POST',
+            data: {
+                customer_id: customerId,
+                remark: remark,
+                type: 'pickup' 
+            },
+            success: function(response) {
+                console.log(response);  
+                if (response === "Success") {
+                    $checkbox.closest('.notification-item').remove(); 
+                    updateActiveCounts();  
+                } else {
+                    alert('Error: ' + response);  
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("AJAX Error: " + error);  
+            }
+        });
+    });
+
+    // Update Delivery Remarks
+    $('.delivery-checkbox').on('change', function() {
+        var $checkbox = $(this);  
+        var customerId = $checkbox.data('id');
+        var remark = $checkbox.data('remark');
+
+        $.ajax({
+            url: 'update_remark.php',
+            type: 'POST',
+            data: {
+                customer_id: customerId,
+                remark: remark,
+                type: 'delivery'
+            },
+            success: function(response) {
+                console.log(response);  
+                if (response === "Success") {
+                    
+                    $checkbox.closest('.notification-item').remove(); 
+                    updateActiveCounts();  
+                } else {
+                    alert('Error: ' + response);  
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("AJAX Error: " + error);  
+            }
+        });
+    });
+
+
+    // Update Pickup Remarks
+    $('.pickup-checkbox').on('change', function() {
+        var $checkbox = $(this);  
+        var customerId = $checkbox.data('id');
+        var remark = $checkbox.data('remark');
+
+        console.log('Updating Pickup remark for Customer ID:', customerId, 'with remark:', remark);
+
+        $.ajax({
+            url: 'update_remark.php',
+            type: 'POST',
+            data: {
+                customer_id: customerId,
+                remark: remark,
+                type: 'pickup'  
+            },
+            success: function(response) {
+                console.log('Response from update_remark.php:', response); 
+
+                if (remark === 'Claimed') {
+                    $checkbox.closest('.notification-item').remove(); 
+                    updateActiveCounts();  
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', error); 
+            }
+        });
+    });
+
+    // Update Delivery Remarks
+    $('.delivery-checkbox').on('change', function() {
+        var $checkbox = $(this);  
+        var customerId = $checkbox.data('id');
+        var remark = $checkbox.data('remark');
+
+        console.log('Updating Delivery remark for Customer ID:', customerId, 'with remark:', remark);
+
+        $.ajax({
+            url: 'update_remark.php',
+            type: 'POST',
+            data: {
+                customer_id: customerId,
+                remark: remark,
+                type: 'delivery'
+            },
+            success: function(response) {
+                console.log('Response from update_remark.php:', response);
+
+                if (remark === 'Delivered') {
+                    $checkbox.closest('.notification-item').remove(); 
+                    updateActiveCounts();  
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', error);
+            }
+        });
+    });
+
+    $('#pickupModal').on('hidden.bs.modal', function () {
+        location.reload();
+    });
+
+    $('#deliveryModal').on('hidden.bs.modal', function () {
+        location.reload();
+    });
+
+    $('#rushModal').on('hidden.bs.modal', function () {
+        location.reload();
+    });

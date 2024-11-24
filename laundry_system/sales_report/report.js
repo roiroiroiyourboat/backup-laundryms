@@ -737,12 +737,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     //filter table by day, week, month, and year
-    document.querySelectorAll('.modal-footer button').forEach(button => {
-        button.addEventListener('click', function() {
-            const filter = this.getAttribute('data-filter');
-            fetchTransactionSummary(filter);
-        });
-    });
+    // document.querySelectorAll('.modal-footer button').forEach(button => {
+    //     button.addEventListener('click', function() {
+    //         const filter = this.getAttribute('data-filter');
+    //         fetchTransactionSummary(filter);
+    //     });
+    // });
 
     //daily
     document.getElementById("dailyTransac").querySelector("#btnFilterSave").addEventListener("click", function () {
@@ -961,7 +961,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="11" style="text-align: right;"><strong>Total Revenue:</strong></td>
+                                <td colspan="12" style="text-align: right;"><strong>Total Revenue:</strong></td>
                                 <td colspan="2"><strong>₱${response.total_revenue}</strong></td>
                             </tr>
                         </tfoot>
@@ -1062,28 +1062,75 @@ function fetchTransactionSummary(filter, page = 1, additionalParams = {}) {
 
             // Update pagination
             let pagination = "";
+
+            // Previous Page Button
             if (response.page > 1) {
-                pagination += `<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${response.page - 1})">&laquo;</a></li>`;
+                pagination += `<li class="page-item" id="prev-page">
+                                   <a class="page-link" href="javascript:void(0)">&laquo;</a>
+                               </li>`;
             }
 
-            for (let i = 1; i <= response.total_pages; i++) {
-                pagination += `<li class="page-item ${i === response.page ? "active" : ""}"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${i})">${i}</a></li>`;
+            const totalPages = response.total_pages;
+            const currentPage = response.page;
+            const maxPagesToShow = 5;  
+
+            let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            if (endPage - startPage < maxPagesToShow - 1) {
+                startPage = Math.max(1, endPage - maxPagesToShow + 1);
             }
 
+            //loop page links
+            for (let i = startPage; i <= endPage; i++) {
+                pagination += `<li class="page-item ${i === currentPage ? "active" : ""}" data-page="${i}">
+                                   <a class="page-link" href="javascript:void(0)">${i}</a>
+                               </li>`;
+            }
+
+            //next
             if (response.page < response.total_pages) {
-                pagination += `<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="fetchTransactionSummary('${filter}', ${response.page + 1})">&raquo;</a></li>`;
+                pagination += `<li class="page-item" id="next-page">
+                                   <a class="page-link" href="javascript:void(0)">&raquo;</a>
+                               </li>`;
             }
 
+            // Update pagination HTML
             document.getElementById("pagination").innerHTML = pagination;
+
+            attachPaginationListeners(filter, additionalParams);
         }
     };
 
-    // Prepare POST data
-    const postData = new URLSearchParams({ filter, page });
-    for (const key in additionalParams) {
-        postData.append(key, additionalParams[key]);
-    }
+    //prepare POST data, including any additional parameters
+    const postData = new URLSearchParams({ filter, page, ...additionalParams });
 
     xhr.send(postData.toString());
+}
+
+function attachPaginationListeners(filter, additionalParams) {
+    const prevPageButton = document.getElementById("prev-page");
+    if (prevPageButton) {
+        prevPageButton.addEventListener("click", function () {
+            const currentPage = parseInt(document.querySelector(".page-item.active .page-link").innerText);
+            fetchTransactionSummary(filter, currentPage - 1, additionalParams);
+        });
+    }
+
+    const nextPageButton = document.getElementById("next-page");
+    if (nextPageButton) {
+        nextPageButton.addEventListener("click", function () {
+            const currentPage = parseInt(document.querySelector(".page-item.active .page-link").innerText);
+            fetchTransactionSummary(filter, currentPage + 1, additionalParams);
+        });
+    }
+
+    const pageLinks = document.querySelectorAll("#pagination .page-item[data-page]");
+    pageLinks.forEach(function (pageLink) {
+        pageLink.addEventListener("click", function () {
+            const page = parseInt(pageLink.getAttribute("data-page"));
+            fetchTransactionSummary(filter, page, additionalParams);
+        });
+    });
 }
 

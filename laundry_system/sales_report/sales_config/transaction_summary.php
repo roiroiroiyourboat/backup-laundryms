@@ -128,7 +128,7 @@
                             </tr>";
         }
     } else {
-        $table_data = "<tr><td colspan='13'>No records found</td></tr>";
+        $table_data = "<tr><td colspan='14'>No records found</td></tr>";
     }
     
     // Return data as JSON
