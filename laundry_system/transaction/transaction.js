@@ -1,8 +1,8 @@
-const hamburger = document.querySelector("#toggle-btn");
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector("#toggle-btn");
     hamburger.addEventListener("click", function() {
         document.querySelector("#sidebar").classList.toggle("expand");
     });
-document.addEventListener('DOMContentLoaded', function() {
 
     //for tooltips
     const sidebar = document.getElementById('sidebar');

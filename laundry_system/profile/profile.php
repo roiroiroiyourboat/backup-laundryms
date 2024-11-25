@@ -31,32 +31,32 @@ if(!isset($_SESSION['user_role'])) {
                 </button>
 
                 <div class="sidebar-logo">
-                    <a href="/laundry_system/dashboard/dashboard.php">Azia Skye</a>
+                    <a href="#">Azia Skye</a>
                 </div>
             </div>
 
             <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Dashboard">
+                        <i class="lni lni-grid-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/laundry_system/profile/profile.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Profile">
+                        <i class="lni lni-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
                 <?php if($user_role === 'admin') : ?>
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Dashboard">
-                            <i class="lni lni-grid-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/profile/profile.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Profile">
-                            <i class="lni lni-user"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-
                     <li class="sidebar-item">
                         <a href="/laundry_system/users/users.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
@@ -86,31 +86,41 @@ if(!isset($_SESSION['user_role'])) {
                             <li class="sidebar-item">
                                 <a href="/laundry_system/records/category.php" class="sidebar-link">Category</a>
                             </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/delivery.php" class="sidebar-link">Delivery</a>
+                            </li>
+                            
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/pickup.php" class="sidebar-link">Pick-up</a>
+                            </li>
                         </ul>
                     </li>
+                <?php endif; ?>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Transactions">
-                            <i class="lni lni-coin"></i>
-                            <span>Transaction</span>
-                        </a>
-                    </li>
+                <li class="sidebar-item">
+                    <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Transactions">
+                        <i class="lni lni-coin"></i>
+                        <span>Transaction</span>
+                    </a>
+                </li>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Sales Report">
-                            <i class='bx bx-line-chart'></i>
-                            <span>Sales Report</span>
-                        </a>
-                    </li>
+                <li class="sidebar-item">
+                    <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Sales Report">
+                        <i class='bx bx-line-chart'></i>
+                        <span>Sales Report</span>
+                    </a>
+                </li>
 
+                <?php if($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                        <a href="/laundry_system/settings/setting.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Settings">
@@ -150,7 +160,7 @@ if(!isset($_SESSION['user_role'])) {
             </ul>
 
             <div class="sidebar-footer">
-                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
+            <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
                     data-bs-toggle="tooltip"
                     data-bs-placement="right" 
                     data-bs-title="Logout">
@@ -173,17 +183,17 @@ if(!isset($_SESSION['user_role'])) {
                         <div class="row">
                             <h4 class="text-center">Personal Details</h4>
                             <div class="col">
-                                <label for="first_name" class="form-label">First Name</label>
+                                <label for="form-label">First Name</label>
                                 <input type="text" id="fname" name="fname" class="form-control" readonly>
                             </div>
                             <div class="col">
-                                <label for="last_name" class="form-label">Last Name</label>
+                                <label for="form-label">Last Name</label>
                                 <input type="text" name="lname" id="lname" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="username" class="form-label">Username</label>
+                                <label for="form-label">Username</label>
                                 <input type="text" id="username" name="username" class="form-control" readonly>
                             </div>
                         </div>
@@ -191,7 +201,7 @@ if(!isset($_SESSION['user_role'])) {
                         <div class="row">
                             <h4 class="text-center">Password</h4>
                             <div class="col">
-                                <label for="password" class="form-label">Password</label>
+                                <label for="form-label">Password</label>
                                 <input type="password" id="password" name="password" class="form-control" readonly>
                             </div>
                         </div>
@@ -274,8 +284,9 @@ if(!isset($_SESSION['user_role'])) {
                     <span class="close">&times;</span>
                     <h2 id="logoutText">Do you want to logout?</h2>
                     <div class="modal-buttons">
-                        <button class="btn btn-no">No</button>
+                         <button class="btn btn-no">No</button>
                         <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
+                       
                     </div>
                 </div>
             </div>

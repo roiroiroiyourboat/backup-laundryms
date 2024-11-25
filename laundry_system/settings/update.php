@@ -19,11 +19,9 @@ if (isset($_POST['price']) && isset($_POST['service_id']) && isset($_POST['categ
       echo json_encode(['status' => 'success', 'message' => 'Data updated successfully!']);
         
     } else {
-       // echo 'Error updating data: ' . mysqli_error($conn);
        echo json_encode(['status' => 'error', 'message' => 'Error updating data: ' . mysqli_error($conn)]);
     }
 } else {
-  //  echo 'Invalid data sent to the server.';
   echo json_encode(['status' => 'error', 'message' => 'Invalid data sent to the server.']);
 }
 

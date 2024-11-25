@@ -15,7 +15,7 @@
         $user_id = $_SESSION['user_id'];
         
         //SQL query
-        $query = "SELECT first_name, last_name, username, password FROM users WHERE user_id = ?";
+        $query = "SELECT first_name, last_name, username, password FROM user WHERE user_id = ?";
         $stmt = $conn->prepare($query);
         
         //check if prepare() succeeded

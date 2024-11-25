@@ -369,7 +369,8 @@ $('.pickup-checkbox').on('change', function() {
 
                 if (remark === 'Claimed') {
                     $checkbox.closest('.notification-item').remove(); 
-                    updateActiveCounts();  
+                    //updateActiveCounts();  
+                    // updatePickupRemarks();  
                 }
             },
             error: function(xhr, status, error) {
@@ -399,7 +400,8 @@ $('.pickup-checkbox').on('change', function() {
 
                 if (remark === 'Delivered') {
                     $checkbox.closest('.notification-item').remove(); 
-                    updateActiveCounts();  
+                    //updateActiveCounts();  
+                    updateDeliveryRemarks();  
                 }
             },
             error: function(xhr, status, error) {
@@ -408,14 +410,26 @@ $('.pickup-checkbox').on('change', function() {
         });
     });
 
-    $('#pickupModal').on('hidden.bs.modal', function () {
-        location.reload();
-    });
+    // Function to update Pickup remarks in the UI
+    function updatePickupRemarks() {
+        console.log('Updating Pickup remarks...');
+    }
 
-    $('#deliveryModal').on('hidden.bs.modal', function () {
-        location.reload();
-    });
+    // Function to update Delivery remarks in the UI
+    function updateDeliveryRemarks() {
+        console.log('Updating Delivery remarks...');
+    }
 
-    $('#rushModal').on('hidden.bs.modal', function () {
+    $(document).ready(function() {
+        $('#pickupModal').on('hidden.bs.modal', function () {
+        location.reload();
+        });
+
+        $('#deliveryModal').on('hidden.bs.modal', function () {
+        location.reload();
+        });
+
+        $('#rushModal').on('hidden.bs.modal', function () {
         location.reload();
     });
+});

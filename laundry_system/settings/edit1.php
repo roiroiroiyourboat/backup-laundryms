@@ -97,6 +97,14 @@
                             <li class="sidebar-item">
                                 <a href="/laundry_system/records/category.php" class="sidebar-link">Category</a>
                             </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/delivery.php" class="sidebar-link">Delivery</a>
+                            </li>
+                            
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/pickup.php" class="sidebar-link">Pick-up</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -121,7 +129,7 @@
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                        <a href="/laundry_system/settings/setting.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Settings">

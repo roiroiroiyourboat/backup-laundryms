@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
 
     //to update the password in the database
-    $query = $conn->prepare("UPDATE users SET password = ? WHERE username = ?");
+    $query = $conn->prepare("UPDATE user SET password = ? WHERE username = ?");
     $query->bind_param("ss", $hashed_password, $username);
 
     if ($query->execute()) {

@@ -42,34 +42,34 @@ if ($_SESSION['user_role'] !== 'admin') {
                 </button>
 
                 <div class="sidebar-logo">
-                    <a href="/laundry_system/dashboard/dashboard.php">Azia Skye</a>
+                    <a href="#">Azia Skye</a>
                 </div>
             </div>
 
             <ul class="sidebar-nav">
-                <?php if($user_role === 'admin') : ?>
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
+                <li class="sidebar-item">
+                <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Dashboard">
                             <i class="lni lni-grid-alt"></i>
                             <span>Dashboard</span>
                         </a>
-                    </li>
+                </li>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/profile/profile.php" class="sidebar-link"
+                <li class="sidebar-item">
+                <a href="/laundry_system/profile/profile.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Profile">
                             <i class="lni lni-user"></i>
                             <span>Profile</span>
                         </a>
-                    </li>
+                </li>
 
+                <?php if ($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/users/users.php" class="sidebar-link"
+                    <a href="/laundry_system/users/users.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Users">
@@ -79,7 +79,7 @@ if ($_SESSION['user_role'] !== 'admin') {
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        <a href="/laundry_system/records/records.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
                             data-bs-target="#records" aria-expanded="false" aria-controls="records">
                             <i class="lni lni-files"></i>
                             <span>Records</span>
@@ -97,21 +97,40 @@ if ($_SESSION['user_role'] !== 'admin') {
                             <li class="sidebar-item">
                                 <a href="/laundry_system/records/category.php" class="sidebar-link">Category</a>
                             </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/delivery.php" class="sidebar-link">Delivery</a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/pickup.php" class="sidebar-link">Pick-up</a>
+                            </li>
                         </ul>
                     </li>
+                <?php endif; ?>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
+                <li class="sidebar-item">
+                <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Transactions">
                             <i class="lni lni-coin"></i>
                             <span>Transaction</span>
                         </a>
-                    </li>
+                </li>
 
+                <li class="sidebar-item">
+                <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="right" 
+                            data-bs-title="Sales Report">
+                            <i class='bx bx-line-chart'></i>
+                            <span>Sales Report</span>
+                        </a>
+                </li>
+
+                    <?php if ($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
+                    <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Sales Report">
@@ -120,48 +139,20 @@ if ($_SESSION['user_role'] !== 'admin') {
                         </a>
                     </li>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Settings">
-                            <i class="lni lni-cog"></i>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-
                     <hr style="border: 1px solid #b8c1ec; margin: 8px">
 
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
-                        data-bs-target="#archived" aria-expanded="false" aria-controls="archived">
+                        <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">
                             <i class='bx bxs-archive-in'></i>
-                            <span>Archived</span>
+                            <span class="nav-item">Archived</span>
                         </a>
-
-                        <ul id="archived" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                            <li class="sidebar-item">
-                                <a href="/laundry_system/archived/archive_users.php" class="sidebar-link">Archived Users</a>
-                            </li>
-
-                            <li class="sidebar-item">
-                                <a href="/laundry_system/archived/archive_customer.php" class="sidebar-link">Archived Customer</a>
-                            </li>
-
-                            <li class="sidebar-item">
-                                <a href="/laundry_system/archived/archive_service.php" class="sidebar-link">Archived Service</a>
-                            </li>
-
-                            <li class="sidebar-item">
-                                <a href="/laundry_system/archived/archive_category.php" class="sidebar-link">Archived Category</a>
-                            </li>
-                        </ul>
                     </li>
                 <?php endif; ?>
+
             </ul>
 
             <div class="sidebar-footer">
-                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
+            <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
                     data-bs-toggle="tooltip"
                     data-bs-placement="right" 
                     data-bs-title="Logout">
@@ -193,6 +184,14 @@ if ($_SESSION['user_role'] !== 'admin') {
                 <div class="category_button">
                     <a href="category.php" class="button" id="categoryBtn">Category</a>
                 </div>
+
+                <div class="delivery_button">
+                    <a href="delivery.php" class="button" id="deliveryBtn">Delivery</a>
+                </div>   
+
+                <div class="pickup_button">
+                    <a href="pickup.php" class="button" id="pickupBtn">Pick-up</a>
+                </div> 
             </div> <!-- buttons -->
 
             <div class="table-responsive">
@@ -258,8 +257,9 @@ if ($_SESSION['user_role'] !== 'admin') {
                                 </div>
 
                                 <div class="mx-auto p-3" style="width: 200px;">
-                                    <button type="button" class="btn btn-info">Clear</button>
+                                     <button type="button" class="btn btn-info">Clear</button>
                                     <button type="submit" class="btn btn-success">Submit</button>
+                                   
                                 </div>
                             </form>    
                         </div>
@@ -271,9 +271,10 @@ if ($_SESSION['user_role'] !== 'admin') {
             <div class="Archvmodal" id="archiveModal">
                 <div class="modal-cnt">
                     <span class="close" id="closeArchiveModal">&times;</span>
-                    <p>Do you want to archive this laundry service option?</p>
-                    <button type="button" id="confirmArchiveButton" class="btn btn-success">YES</button>
+                    <h4>Do you want to archive this laundry service option?</h4>
                     <button type="button" id="cancelArchiveButton" class="btn btn-danger">NO</button>
+                    <button type="button" id="confirmArchiveButton" class="btn btn-success">YES</button>
+                    
                 </div>
             </div>
 
@@ -290,8 +291,9 @@ if ($_SESSION['user_role'] !== 'admin') {
                     <span class="close">&times;</span>
                     <h2 id="logoutText">Do you want to logout?</h2>
                     <div class="modal-buttons">
-                        <button class="btn btn-no">No</button>
+                         <button class="btn btn-no">No</button>
                         <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
+                       
                     </div>
                 </div>
             </div>

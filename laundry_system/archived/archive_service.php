@@ -102,6 +102,14 @@ $user_role = $_SESSION['user_role'];
                             <li class="sidebar-item">
                                 <a href="/laundry_system/records/category.php" class="sidebar-link">Category</a>
                             </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/delivery.php" class="sidebar-link">Delivery</a>
+                            </li>
+                            
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/pickup.php" class="sidebar-link">Pick-up</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -126,7 +134,7 @@ $user_role = $_SESSION['user_role'];
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                        <a href="/laundry_system/settings/setting.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Settings">
@@ -265,6 +273,9 @@ $user_role = $_SESSION['user_role'];
     </div>
 
     <script type="text/javascript" src="archive_service.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </body>

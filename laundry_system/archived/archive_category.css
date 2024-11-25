@@ -8,7 +8,7 @@
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 .progress {
@@ -23,8 +23,8 @@ html {
 
 @keyframes progress {
   to {
-  background-color: rgb(20, 255, 226);
-  width: 100%;
+    background-color: rgb(20, 255, 226);
+    width: 100%;
   }
 }
 
@@ -35,19 +35,20 @@ html {
 }
   
 .main-content {
-  min-height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  transition: all 0.35s ease-in-out;
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  transition: margin-left 0.5s ease; 
 }
   
 /*sidebar*/
 #sidebar {
+  display: flex;
+  height: 100%;
   width: 70px;
   min-width: 70px;
   z-index: 1000;
   transition: all .25s ease-in-out;
-  display: flex;
   flex-direction: column;
   background-color: #0e223e;
   border-radius: 0 20px 20px 0;
@@ -65,7 +66,7 @@ a {
 }
   
 li {
-    list-style: none;
+  list-style: none;
 }
   
 h1 {
@@ -75,15 +76,14 @@ h1 {
   
 .wrapper {
   display: flex;
-  width: 100%;
-  height: 100vh;
 }
-
-.main-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  transition: margin-left 0.5s ease; 
+  
+.main {
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  transition: all 0.35s ease-in-out;
+  background-color: #fafbfe;
 }
   
 #sidebar {
@@ -95,12 +95,12 @@ h1 {
   flex-direction: column;
   background-color: #0e223e;
   border-radius: 0 20px 20px 0;
-  overflow: auto;
 }
   
 #sidebar.expand {
   width: 260px;
   min-width: 260px;
+  overflow: auto;
 }
   
 #toggle-btn {
@@ -206,6 +206,77 @@ a.sidebar-link:hover {
   border: #b8c1ec;
 }
 
+/* anchor tag button */
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.button {
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center;
+  height: 60px;
+  /* width: 155px; */
+  padding: 15px 25px;
+  background-color: #b8c1ec;
+  color: #000;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 30px;
+  font-weight: 500;
+  margin: 0; 
+  gap: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #a0b0d9; 
+  cursor: pointer;
+}
+
+/* pagination 
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 0.25rem;
+  margin-top: 20px; 
+  position: absolute;
+  bottom: 20px; 
+  left: 0;
+  right: 0;
+}
+
+.pagination .page-item {
+  margin: 0 5px;
+}
+
+.pagination .page-link {
+  color: #007bff;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+.pagination .page-link:hover {
+  background-color: #f1f1f1;
+  color: #007bff;
+} */
+
 /*responsiveness */
 @media (max-width: 768px) {
   .table {
@@ -239,39 +310,6 @@ a.sidebar-link:hover {
   }
 } 
 
-/* anchor tag button */
-.buttons {
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.button {
-  display: inline-flex; 
-  align-items: center; 
-  justify-content: center;
-  height: 50px;
-  padding: 15px 25px;
-  background-color: #b8c1ec;
-  color: #000;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 10px;
-  font-size: 24px;
-  font-weight: 500;
-  margin: 0; 
-  gap: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.button:hover {
-  background-color: #a0b0d9; 
-  cursor: pointer;
-}
-
 /* search bar */
 .search_bar {
   position: relative;
@@ -286,7 +324,7 @@ a.sidebar-link:hover {
 }
 
 .search_bar .form-control {
-  background-image: url('/laundry_system/icons/search.png');
+  background-image: url('/laundry_system/images/search.png');
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 20px 20px;

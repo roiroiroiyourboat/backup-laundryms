@@ -1,23 +1,17 @@
 <?php
 session_start();
+$user_role = $_SESSION['user_role'];
+if(!isset($_SESSION['user_role'])) {
+    header('location: /laundry_system/homepage/homepage.php');
+    exit();
+}
+
 $conn = new mysqli('localhost', 'root', '', 'laundry_db');
 
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-
-if(!isset($_SESSION['user_role'])) {
-    header('location: /laundry_system/homepage/homepage.php');
-    exit();
-}
-
-$user_role = $_SESSION['user_role'];
-
-if ($_SESSION['user_role'] !== 'admin') {
-    header('location: /laundry_system/homepage/homepage.php');
-    exit();
-} 
 
 $search = "";
 if(isset($_POST['search'])) {
@@ -68,32 +62,32 @@ if ($result->num_rows > 0) {
                 </button>
 
                 <div class="sidebar-logo">
-                    <a href="/laundry_system/dashboard/dashboard.php">Azia Skye</a>
+                    <a href="#">Azia Skye</a>
                 </div>
             </div>
 
             <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Dashboard">
+                        <i class="lni lni-grid-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/laundry_system/profile/profile.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Profile">
+                        <i class="lni lni-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
                 <?php if($user_role === 'admin') : ?>
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Dashboard">
-                            <i class="lni lni-grid-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/profile/profile.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Profile">
-                            <i class="lni lni-user"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-
                     <li class="sidebar-item">
                         <a href="/laundry_system/users/users.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
@@ -123,31 +117,41 @@ if ($result->num_rows > 0) {
                             <li class="sidebar-item">
                                 <a href="/laundry_system/records/category.php" class="sidebar-link">Category</a>
                             </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/delivery.php" class="sidebar-link">Delivery</a>
+                            </li>
+                            
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/pickup.php" class="sidebar-link">Pick-up</a>
+                            </li>
                         </ul>
                     </li>
+                <?php endif; ?>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Transactions">
-                            <i class="lni lni-coin"></i>
-                            <span>Transaction</span>
-                        </a>
-                    </li>
+                <li class="sidebar-item">
+                    <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Transactions">
+                        <i class="lni lni-coin"></i>
+                        <span>Transaction</span>
+                    </a>
+                </li>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Sales Report">
-                            <i class='bx bx-line-chart'></i>
-                            <span>Sales Report</span>
-                        </a>
-                    </li>
+                <li class="sidebar-item">
+                    <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Sales Report">
+                        <i class='bx bx-line-chart'></i>
+                        <span>Sales Report</span>
+                    </a>
+                </li>
 
+                <?php if($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                        <a href="/laundry_system/settings/setting.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Settings">
@@ -187,7 +191,7 @@ if ($result->num_rows > 0) {
             </ul>
 
             <div class="sidebar-footer">
-                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
+            <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
                     data-bs-toggle="tooltip"
                     data-bs-placement="right" 
                     data-bs-title="Logout">
@@ -214,6 +218,7 @@ if ($result->num_rows > 0) {
                     <thead>
                         <tr class="bg-dark text-white">
                             <th>Transaction ID</th>
+                            <th>Customer No.</th>
                             <th>Customer Name</th>
                             <th>Customer Address</th>
                             <th>Service Option Name</th>
@@ -232,6 +237,7 @@ if ($result->num_rows > 0) {
                             foreach ($data as $row) {
                                 echo "<tr>";
                                 echo "<td>{$row['transaction_id']}</td>";
+                                echo "<td>{$row['customer_id']}</td>";
                                 echo "<td>{$row['customer_name']}</td>";
                                 echo "<td>{$row['customer_address']}</td>";
                                 echo "<td>{$row['service_option_name']}</td>";
@@ -285,6 +291,7 @@ if ($result->num_rows > 0) {
                     <div class="modal-buttons">
                         <button class="btn btn-no">No</button>
                         <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
+                        
                     </div>
                 </div>
             </div>
@@ -293,6 +300,7 @@ if ($result->num_rows > 0) {
     </div>
 </body>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script type="text/javascript" src="transaction.js"></script>
 
 </html>

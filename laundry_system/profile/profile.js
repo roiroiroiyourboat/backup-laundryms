@@ -40,7 +40,6 @@ $(document).ready(function(){
                 $('#lname').val(data.last_name);
                 $('#username').val(data.username);
                 $('#password').val(data.password);
-                $('#email').val(data.email);
 
                 //edit user
                 $('#edit_fname').val(data.first_name);
@@ -57,6 +56,7 @@ $(document).ready(function(){
             console.log('Complete response: ', xhr.responseText);  //log raw response for debugging
         }
     });
+    
 
     function showEditUserForm () {
         $('#user_container').hide();
@@ -66,7 +66,6 @@ $(document).ready(function(){
     function showUserContainer () {
         $('#edit_user').hide(); 
         $('#user_container').show();
-        //to refresh the page
         location.reload();
     }
 

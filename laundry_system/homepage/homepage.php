@@ -181,7 +181,7 @@ $conn->close();
                     <h5 class="text-center">Laundry Information</h5>
                     <div class="col">
                         <label for="qty" class="form-label"><b>Quantity of laundry bags</b></label>
-                        <select name="quantity" class="form-select">
+                        <select name="quantity" class="form-select" required>
                             <option selected disabled>--Select Quantity--</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -200,14 +200,14 @@ $conn->close();
                 <div class="row">
                     <div class="col">
                         <label for="service" class="form-label"><b>Laundry Service</b></label>
-                        <select name="service" class="form-select" id="service">
+                        <select name="service" class="form-select" id="service" required>
                             <option selected disabled>--Select Service--</option>
                         </select>
                     </div>
 
                     <div class="col">
                         <label for="category" class="form-label"><b>Laundry Category</b></label>
-                        <select name="category" class="form-select" id="category">
+                        <select name="category" class="form-select" id="category" required>
                             <option selected disabled>--Select Category--</option>
                         </select>
                     </div>
@@ -216,7 +216,7 @@ $conn->close();
                 <div class="row">
                     <div class="col">
                         <label for="weight" class="form-label"><b>Weight(kg)</b></label>
-                        <input type="number" class="form-control" step="0.01" id="weight" name="weight" autocomplete="off">
+                        <input type="number" class="form-control" step="0.01" id="weight" name="weight" autocomplete="off" required>
                     </div>
                 </div>
 
@@ -279,9 +279,8 @@ $conn->close();
                 </div>
                 <div class="buttons">
                     <button type="button" class="btn btn-danger" id="btnCancel_service">Cancel</button>
-                    <button type="button" class="btn btn-secondary" id="btnBack">Order Again</button>
+                    <button type="button" class="btn btn-secondary" id="btnBack">Order again</button>
                     <button type="button" class="btn btn-success" id="btnProceed">Proceed</button>
-                    
                 </div>
             </div>
         </div>
@@ -463,7 +462,9 @@ $conn->close();
                     <h6>Service Type: <span id="invoice_service_type"></span></h6>
                     <h6>Pickup/Delivery Date: <span id="invoice_pickup_delivery_date"></span></h6>
 
+                    
                     <button type="button" class="btn btn-primary" id="print_invoice_btn" style="display: none;">Print Invoice</button>
+                    <p id="status"></p>               
                 </div>
 
             </div>
@@ -623,139 +624,140 @@ $conn->close();
             const formattedDate = newDate.toISOString().split('T')[0];
             pickupDateInput.value = formattedDate;
         });
-
-        async function connectToPrinter() {
-            const statusElem = document.getElementById('status');
-            try {
-                statusElem.innerHTML = "Preparing to print receipt...";
-
-                // Collect invoice details from the DOM
-                const customerNumberElem = document.getElementById('invoice_customer_id_hidden');
-                const customerNameElem = document.getElementById('invoice_name');
-                const invoiceDateElem = document.getElementById('invoice_date');
-                const contactNumberElem = document.getElementById('invoice_contact_number');
-                const addressElem = document.getElementById('invoice_address');
-                const serviceTypeElem = document.getElementById('invoice_service_type');
-                const pickupDeliveryDateElem = document.getElementById('invoice_pickup_delivery_date');
-
-                // Check if any element is null and handle the error
-                if (!customerNumberElem || !customerNameElem || !invoiceDateElem || 
-                    !contactNumberElem || !addressElem || !serviceTypeElem || 
-                    !pickupDeliveryDateElem) {
-                    throw new Error('One or more required elements are missing in the DOM.');
-                }
-
-                // Access text content
-                const customerNumber = customerNumberElem.textContent;
-                const customerName = customerNameElem.textContent;
-                const invoiceDate = invoiceDateElem.textContent;
-                const contactNumber = contactNumberElem.textContent;
-                const address = addressElem.textContent;
-                const serviceType = serviceTypeElem.textContent;
-                const pickupDeliveryDate = pickupDeliveryDateElem.textContent;
-
-                // Prepare the invoice text
-                let invoiceText = 
-                    "Azia Skye's Laundry\n" +
-                    "Verde Heights, City of San Jose del Monte, Bulacan\n" +
-                    "0995-062-8516 / 0991-370-9729\n" +
-                    "Customer No: " + customerNumber + "\n" +
-                    "Name: " + customerName + "\n" +
-                    "Date: " + invoiceDate + "\n" +
-                    "Contact Number: " + contactNumber + "\n" +
-                    "Address: " + address + "\n" +
-                    "-----------------------------\n" +
-                    "Service Details\n" +
-                    "-----------------------------\n";
-
-                // Add service details from the table
-        // Add service details from the table
-        const servicesTable = document.querySelectorAll("#services-table tbody tr");
-        servicesTable.forEach(row => {
-            const service = row.cells[0]?.textContent || ""; 
-            const category = row.cells[1]?.textContent || "";
-            const quantity = row.cells[2]?.textContent ? row.cells[2].textContent + " bag " : ""; 
-            const weight = row.cells[3]?.textContent ? row.cells[3].textContent + " kg " : ""; 
-            const price = row.cells[4]?.textContent ? row.cells[4].textContent + " php \n" : ""; 
-
-            // Create a separate line for service and category
-            invoiceText += service + " " + category; // Use <br> for line break in HTML
-            invoiceText += quantity + weight + price + "\n"; // Use <br> for line break in HTML
-        });
-
-
-
-                invoiceText += 
-                    "-----------------------------\n" +
-                    "Service Type: " + serviceType + "\n" +
-                    "Pickup/Delivery Date: " + pickupDeliveryDate + "\n\n\n";
-
-                // Connect to the Bluetooth printer
-                const device = await navigator.bluetooth.requestDevice({
-                    filters: [{ name: 'POS58D55E3' }],
-                    optionalServices: ['e7810a71-73ae-499d-8c15-faa9aef0c3f2'] // Printer's service UUID
-                });
-
-                const server = await device.gatt.connect();
-                const service = await server.getPrimaryService('e7810a71-73ae-499d-8c15-faa9aef0c3f2');
-                const characteristic = await service.getCharacteristic('bef8d6c9-9c21-4c9e-b632-bd58c1009f9f');
-
-                // Prepare the data to send to the printer
-                const encoder = new TextEncoder();
-                const invoiceBytes = encoder.encode(invoiceText);
-                const chunkSize = 128; 
-
-                // Send the invoice text to the printer in chunks
-                for (let i = 0; i < invoiceBytes.length; i += chunkSize) {
-                    const chunk = invoiceBytes.slice(i, i + chunkSize);
-                    await characteristic.writeValue(chunk);
-                    await new Promise(resolve => setTimeout(resolve, 100)); // 100 ms delay
-                }
-
-                statusElem.innerHTML = "Invoice printed successfully!";
-
-                setTimeout(() => {
-            location.reload();
-        }, 2000);
-            } catch (error) {
-                console.error('Error:', error);
-                statusElem.innerHTML = "Failed to print. Please try again.";
-            }
-        }
-
-        document.getElementById('print_invoices').addEventListener('click', function() {
-            connectToPrinter();
-        });
-
-    function fetchWeight() {
-        fetch('http://192.168.100.189/weight') 
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                const weightInput = document.getElementById('weight');
-                
-                if (data && data.weight !== undefined) {
-                    weightInput.value = data.weight; 
-                } else {
-                    weightInput.value = ''; 
-                }
-            })
-            .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
-                document.getElementById('weight').value = ''; 
-            });
-    }
-    setInterval(fetchWeight, 1000);
         
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="homepage.js"></script>
+        <script>
+        async function connectToPrinter() {
+        const statusElem = document.getElementById('status');
+        try {
+            statusElem.innerHTML = "Preparing to print receipt...";
+
+            // Collect invoice details from the DOM
+            const customerNumberElem = document.getElementById('invoice_customer_id_hidden');
+            const customerNameElem = document.getElementById('invoice_name');
+            const invoiceDateElem = document.getElementById('invoice_date');
+            const contactNumberElem = document.getElementById('invoice_contact_number');
+            const addressElem = document.getElementById('invoice_address');
+            const serviceTypeElem = document.getElementById('invoice_service_type');
+            const pickupDeliveryDateElem = document.getElementById('invoice_pickup_delivery_date');
+
+            // Check if any element is null and handle the error
+            if (!customerNumberElem || !customerNameElem || !invoiceDateElem || 
+                !contactNumberElem || !addressElem || !serviceTypeElem || 
+                !pickupDeliveryDateElem) {
+                throw new Error('One or more required elements are missing in the DOM.');
+            }
+
+            // Access text content
+            const customerNumber = customerNumberElem.textContent;
+            const customerName = customerNameElem.textContent;
+            const invoiceDate = invoiceDateElem.textContent;
+            const contactNumber = contactNumberElem.textContent;
+            const address = addressElem.textContent;
+            const serviceType = serviceTypeElem.textContent;
+            const pickupDeliveryDate = pickupDeliveryDateElem.textContent;
+
+            // Prepare the invoice text
+            let invoiceText = 
+                "Azia Skye's Laundry\n" +
+                "Verde Heights, City of San Jose del Monte, Bulacan\n" +
+                "0995-062-8516 / 0991-370-9729\n" +
+                "Customer No: " + customerNumber + "\n" +
+                "Name: " + customerName + "\n" +
+                "Date: " + invoiceDate + "\n" +
+                "Contact Number: " + contactNumber + "\n" +
+                "Address: " + address + "\n" +
+                "-----------------------------\n" +
+                "Service Details\n" +
+                "-----------------------------\n";
+
+            // Add service details from the table
+    // Add service details from the table
+    const servicesTable = document.querySelectorAll("#services-table tbody tr");
+    servicesTable.forEach(row => {
+        const service = row.cells[0]?.textContent || ""; 
+        const category = row.cells[1]?.textContent || "";
+        const quantity = row.cells[2]?.textContent ? row.cells[2].textContent + " bag " : ""; 
+        const weight = row.cells[3]?.textContent ? row.cells[3].textContent + " kg " : ""; 
+        const price = row.cells[4]?.textContent ? row.cells[4].textContent + " php \n" : ""; 
+
+        // Create a separate line for service and category
+        invoiceText += service + " " + category; // Use <br> for line break in HTML
+        invoiceText += quantity + weight + price + "\n"; // Use <br> for line break in HTML
+    });
+
+
+
+            invoiceText += 
+                "-----------------------------\n" +
+                "Service Type: " + serviceType + "\n" +
+                "Pickup/Delivery Date: " + pickupDeliveryDate + "\n\n\n";
+
+            // Connect to the Bluetooth printer
+            const device = await navigator.bluetooth.requestDevice({
+                filters: [{ name: 'POS58D55E3' }],
+                optionalServices: ['e7810a71-73ae-499d-8c15-faa9aef0c3f2'] // Printer's service UUID
+            });
+
+            const server = await device.gatt.connect();
+            const service = await server.getPrimaryService('e7810a71-73ae-499d-8c15-faa9aef0c3f2');
+            const characteristic = await service.getCharacteristic('bef8d6c9-9c21-4c9e-b632-bd58c1009f9f');
+
+            // Prepare the data to send to the printer
+            const encoder = new TextEncoder();
+            const invoiceBytes = encoder.encode(invoiceText);
+            const chunkSize = 128; 
+
+            // Send the invoice text to the printer in chunks
+            for (let i = 0; i < invoiceBytes.length; i += chunkSize) {
+                const chunk = invoiceBytes.slice(i, i + chunkSize);
+                await characteristic.writeValue(chunk);
+                await new Promise(resolve => setTimeout(resolve, 100)); // 100 ms delay
+            }
+
+            statusElem.innerHTML = "Invoice printed successfully!";
+
+            setTimeout(() => {
+        location.reload();
+    }, 2000);
+        } catch (error) {
+            console.error('Error:', error);
+            statusElem.innerHTML = "Failed to print. Please try again.";
+        }
+    }
+
+
+    document.getElementById('print_invoice_btn').addEventListener('click', function() {
+        connectToPrinter();
+    });
+
+        function fetchWeight() {
+            fetch('http://192.168.56.45/weight') 
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const weightInput = document.getElementById('weight');
+                    
+                    if (data && data.weight !== undefined) {
+                        weightInput.value = data.weight; 
+                    } else {
+                        weightInput.value = ''; 
+                    }
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                    document.getElementById('weight').value = ''; 
+                });
+        }
+        setInterval(fetchWeight, 1000);</script>
 </body>
 
 </html>

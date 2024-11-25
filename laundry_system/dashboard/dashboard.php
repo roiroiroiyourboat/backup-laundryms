@@ -129,27 +129,27 @@ $rush_count = $rush_result->num_rows;
             </div>
 
             <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Dashboard">
+                        <i class="lni lni-grid-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/laundry_system/profile/profile.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Profile">
+                        <i class="lni lni-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
                 <?php if($user_role === 'admin') : ?>
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Dashboard">
-                            <i class="lni lni-grid-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/profile/profile.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Profile">
-                            <i class="lni lni-user"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-
                     <li class="sidebar-item">
                         <a href="/laundry_system/users/users.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
@@ -179,31 +179,41 @@ $rush_count = $rush_result->num_rows;
                             <li class="sidebar-item">
                                 <a href="/laundry_system/records/category.php" class="sidebar-link">Category</a>
                             </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/delivery.php" class="sidebar-link">Delivery</a>
+                            </li>
+                            
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/pickup.php" class="sidebar-link">Pick-up</a>
+                            </li>
                         </ul>
                     </li>
+                <?php endif; ?>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Transactions">
-                            <i class="lni lni-coin"></i>
-                            <span>Transaction</span>
-                        </a>
-                    </li>
+                <li class="sidebar-item">
+                    <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Transactions">
+                        <i class="lni lni-coin"></i>
+                        <span>Transaction</span>
+                    </a>
+                </li>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Sales Report">
-                            <i class='bx bx-line-chart'></i>
-                            <span>Sales Report</span>
-                        </a>
-                    </li>
+                <li class="sidebar-item">
+                    <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Sales Report">
+                        <i class='bx bx-line-chart'></i>
+                        <span>Sales Report</span>
+                    </a>
+                </li>
 
+                <?php if($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                        <a href="/laundry_system/settings/setting.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Settings">
@@ -287,7 +297,7 @@ $rush_count = $rush_result->num_rows;
                                     <?php while($row = $pickup_result->fetch_assoc()): ?>
                                         <div class="notification-item">
                                         <p><h4><strong><?php echo $row['customer_name']; ?></strong></h4></p>
-                                            <p>Address: <?php echo $row['customer_address'].'  '.' , '. $row['brgy']; ?></p>
+                                            <p>Address: <?php echo $row['customer_address'].'  '.', '. $row['brgy']; ?></p>
                                             <p>Weight: <?php echo $row['total_weight']; ?>kg</p>
                                             <p>Quantity: <?php echo $row['total_quantity']; ?></p>
                                             <p>Request Date: <?php echo $row['request_date'].'  '.' at '. $row['service_req_time'] ?>
@@ -329,7 +339,7 @@ $rush_count = $rush_result->num_rows;
                                     <?php while($row = $delivery_result->fetch_assoc()): ?>
                                         <div class="notification-item">
                                         <p><h4><strong><?php echo $row['customer_name']; ?></strong></h4></p>
-                                            <p>Address: <?php echo $row['customer_address'].'  '.' , '. $row['brgy']; ?></p>
+                                            <p>Address: <?php echo $row['customer_address'].'  '.', '. $row['brgy']; ?></p>
                                             <p>Weight: <?php echo $row['total_weight']; ?>kg</p>
                                             <p>Quantity: <?php echo $row['total_quantity']; ?></p>
                                             <p>Request Date: <?php echo $row['request_date'].'  '.' at '. $row['service_req_time'] ?>
@@ -371,7 +381,7 @@ $rush_count = $rush_result->num_rows;
                                     <?php while($row = $rush_result->fetch_assoc()): ?>
                                         <div class="notification-item">
                                         <p><h4><strong><?php echo $row['customer_name']; ?></strong></h4></p>
-                                            <p>Address: <?php echo $row['customer_address'].'  '.' , '. $row['brgy']; ?></p>
+                                            <p>Address: <?php echo $row['customer_address'].'  '.', '. $row['brgy']; ?></p>
                                             <p>Weight: <?php echo $row['total_weight']; ?>kg</p>
                                             <p>Quantity: <?php echo $row['total_quantity']; ?></p>
                                             <p>Request Date: <?php echo $row['request_date'].'  '.' at '. $row['service_req_time'] ?>

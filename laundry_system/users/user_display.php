@@ -10,10 +10,10 @@ if ($conn->connect_error) {
     die("Connection error: " . $conn->connect_error);
 }
 
-$sql = "SELECT user_id, username, first_name, last_name, user_role, last_active, user_status FROM users";
+$sql = "SELECT user_id, username, first_name, last_name, user_role, last_active, user_status";
 $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
+if (result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         echo "<td> 
                 <td>" . $row["user_id"]. "</td>

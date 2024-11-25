@@ -23,6 +23,7 @@ if ($_SESSION['user_role'] !== 'admin') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -41,34 +42,34 @@ if ($_SESSION['user_role'] !== 'admin') {
                 </button>
 
                 <div class="sidebar-logo">
-                    <a href="/laundry_system/dashboard/dashboard.php">Azia Skye</a>
+                    <a href="#">Azia Skye</a>
                 </div>
             </div>
 
             <ul class="sidebar-nav">
-                <?php if($user_role === 'admin') : ?>
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
+                <li class="sidebar-item">
+                <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Dashboard">
                             <i class="lni lni-grid-alt"></i>
                             <span>Dashboard</span>
                         </a>
-                    </li>
+                </li>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/profile/profile.php" class="sidebar-link"
+                <li class="sidebar-item">
+                <a href="/laundry_system/profile/profile.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Profile">
                             <i class="lni lni-user"></i>
                             <span>Profile</span>
                         </a>
-                    </li>
+                </li>
 
+                <?php if ($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/users/users.php" class="sidebar-link"
+                    <a href="/laundry_system/users/users.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Users">
@@ -78,7 +79,7 @@ if ($_SESSION['user_role'] !== 'admin') {
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        <a href="/laundry_system/records/records.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
                             data-bs-target="#records" aria-expanded="false" aria-controls="records">
                             <i class="lni lni-files"></i>
                             <span>Records</span>
@@ -96,31 +97,41 @@ if ($_SESSION['user_role'] !== 'admin') {
                             <li class="sidebar-item">
                                 <a href="/laundry_system/records/category.php" class="sidebar-link">Category</a>
                             </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/delivery.php" class="sidebar-link">Delivery</a>
+                            </li>
+                            
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/pickup.php" class="sidebar-link">Pick-up</a>
+                            </li>
                         </ul>
                     </li>
+                <?php endif; ?>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
+                <li class="sidebar-item">
+                <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Transactions">
                             <i class="lni lni-coin"></i>
                             <span>Transaction</span>
                         </a>
-                    </li>
+                </li>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
+                <li class="sidebar-item">
+                <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Sales Report">
                             <i class='bx bx-line-chart'></i>
                             <span>Sales Report</span>
                         </a>
-                    </li>
+                </li>
 
+                    <?php if ($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                    <a href="/laundry_system/settings/setting.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Settings">
@@ -160,7 +171,7 @@ if ($_SESSION['user_role'] !== 'admin') {
             </ul>
 
             <div class="sidebar-footer">
-                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
+            <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
                     data-bs-toggle="tooltip"
                     data-bs-placement="right" 
                     data-bs-title="Logout">
@@ -215,7 +226,7 @@ if ($_SESSION['user_role'] !== 'admin') {
                                 die("Connection Error: " . $con->connect_error);
                             }
 
-                        $query = "SELECT * FROM users"; 
+                        $query = "SELECT * FROM user"; 
                         $result = mysqli_query($con, $query);
 
                         // 5:55 am 11/14/24
@@ -352,7 +363,6 @@ if ($_SESSION['user_role'] !== 'admin') {
                                 </ul>
                                 </div>
                             </div>
-
                             <button type="button" class="btn btn-info">Clear</button>
                             <button type="submit" class="btn btn-success">Submit</button>
                             
@@ -410,16 +420,16 @@ if ($_SESSION['user_role'] !== 'admin') {
                     <span class="close" id="closeArchiveModal">&times;</span>
                     <input type="hidden" id="archiveUserId">
                     <h4>Do you want to archive this user?</h4>
-                     <button type="button" id="cancelArchiveButton" class="btn btn-danger">No</button>
+                    <button type="button" id="cancelArchiveButton" class="btn btn-danger">No</button>
                     <button type="button" id="confirmArchiveButton" class="btn btn-success">Yes</button>
-                   
+                    
                 </div>
             </div>
 
             <div class="Archvmodal" id="successModal" style="display: none;">
                 <div class="modal-cnt">
                     <span class="close" id="closeSuccessModal">&times;</span>
-                    <h4>You have successfully archived this user's details.</h4>
+                    <p>You have successfully archived this user's details.</p>
                     <button id="closeSuccessButton" class="btn btn-primary">OK</button>
                 </div>
             </div>
@@ -431,6 +441,7 @@ if ($_SESSION['user_role'] !== 'admin') {
                     <div class="modal-buttons">
                         <button class="btn btn-no">No</button>
                         <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
+                        
                     </div>
                 </div>
             </div>

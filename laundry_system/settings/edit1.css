@@ -101,6 +101,7 @@ h1 {
 #sidebar.expand {
   width: 260px;
   min-width: 260px;
+  overflow: auto;
 }
   
 #toggle-btn {

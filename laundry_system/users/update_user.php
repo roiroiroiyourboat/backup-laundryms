@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Update user in the database
-    $stmt = $con->prepare("UPDATE users SET username = ?, first_name = ?, last_name = ?, user_role = ? WHERE user_id = ?");
+    $stmt = $con->prepare("UPDATE user SET username = ?, first_name = ?, last_name = ?, user_role = ? WHERE user_id = ?");
     if (!$stmt) {
         error_log("Prepare failed: " . $con->error);
         $response['error'] = 'Query preparation failed. Please try again later.';

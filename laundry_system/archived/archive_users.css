@@ -95,12 +95,12 @@ h1 {
   flex-direction: column;
   background-color: #0e223e;
   border-radius: 0 20px 20px 0;
-  overflow: auto;
 }
   
 #sidebar.expand {
   width: 260px;
   min-width: 260px;
+  overflow: auto;
 }
   
 #toggle-btn {
@@ -246,14 +246,15 @@ a.sidebar-link:hover {
   display: inline-flex; 
   align-items: center; 
   justify-content: center;
-  height: 50px;
+  height: 60px;
+  /* width: 155px; */
   padding: 15px 25px;
   background-color: #b8c1ec;
   color: #000;
   text-align: center;
   text-decoration: none;
   border-radius: 10px;
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 500;
   margin: 0; 
   gap: 10px;
@@ -265,6 +266,42 @@ a.sidebar-link:hover {
   cursor: pointer;
 }
 
+/* pagination 
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 0.25rem;
+  margin-top: 20px; 
+  position: absolute;
+  bottom: 20px; 
+  left: 0;
+  right: 0;
+}
+
+.pagination .page-item {
+  margin: 0 5px;
+}
+
+.pagination .page-link {
+  color: #007bff;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+.pagination .page-link:hover {
+  background-color: #f1f1f1;
+  color: #007bff;
+} */
 
 /* search bar */
 .search_bar {
@@ -280,7 +317,7 @@ a.sidebar-link:hover {
 }
 
 .search_bar .form-control {
-  background-image: url('/laundry_system/icons/search.png');
+  background-image: url('/laundry_system/images/search.png');
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 20px 20px;

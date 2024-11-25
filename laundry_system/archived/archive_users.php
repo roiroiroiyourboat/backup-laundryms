@@ -40,8 +40,9 @@ $user_role = $_SESSION['user_role'];
 
 <body>
     <div class="progress"></div>
+
     <div class="wrapper">
-    <aside id="sidebar">
+        <aside id="sidebar">
             <div class="d-flex">
                 <button id="toggle-btn" type="button">
                     <i class="bx bx-menu-alt-left"></i>
@@ -103,6 +104,14 @@ $user_role = $_SESSION['user_role'];
                             <li class="sidebar-item">
                                 <a href="/laundry_system/records/category.php" class="sidebar-link">Category</a>
                             </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/delivery.php" class="sidebar-link">Delivery</a>
+                            </li>
+                            
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/pickup.php" class="sidebar-link">Pick-up</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -117,17 +126,14 @@ $user_role = $_SESSION['user_role'];
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Sales Report">
+                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link">
                             <i class='bx bx-line-chart'></i>
                             <span>Sales Report</span>
                         </a>
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                        <a href="/laundry_system/settings/setting.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Settings">
@@ -167,7 +173,7 @@ $user_role = $_SESSION['user_role'];
             </ul>
 
             <div class="sidebar-footer">
-                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
+            <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
                     data-bs-toggle="tooltip"
                     data-bs-placement="right" 
                     data-bs-title="Logout">
@@ -257,7 +263,7 @@ $user_role = $_SESSION['user_role'];
                     <!--PAGINATION LINK-->
                 </ul>
             </nav>
-            
+
             <div id="logoutModal" class="modal" style="display: none;">
                 <div class="modal-cont">
                     <span class="close">&times;</span>
@@ -268,13 +274,15 @@ $user_role = $_SESSION['user_role'];
                     </div>
                 </div>
             </div>
-            
         </div> <!-- closing tag of main-content -->
     </div> <!-- wrapper -->
 
 </body>
 
 <script type="text/javascript" src="archive_users.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </html>

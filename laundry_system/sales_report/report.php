@@ -18,6 +18,7 @@ if(!isset($_SESSION['user_role'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <!--CHARTS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script src ="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js" 
@@ -44,27 +45,27 @@ if(!isset($_SESSION['user_role'])) {
             </div>
 
             <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Dashboard">
+                        <i class="lni lni-grid-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/laundry_system/profile/profile.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Profile">
+                        <i class="lni lni-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
                 <?php if($user_role === 'admin') : ?>
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Dashboard">
-                            <i class="lni lni-grid-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/profile/profile.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Profile">
-                            <i class="lni lni-user"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-
                     <li class="sidebar-item">
                         <a href="/laundry_system/users/users.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
@@ -94,31 +95,41 @@ if(!isset($_SESSION['user_role'])) {
                             <li class="sidebar-item">
                                 <a href="/laundry_system/records/category.php" class="sidebar-link">Category</a>
                             </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/delivery.php" class="sidebar-link">Delivery</a>
+                            </li>
+                            
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/pickup.php" class="sidebar-link">Pick-up</a>
+                            </li>
                         </ul>
                     </li>
+                <?php endif; ?>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Transactions">
-                            <i class="lni lni-coin"></i>
-                            <span>Transaction</span>
-                        </a>
-                    </li>
+                <li class="sidebar-item">
+                    <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Transactions">
+                        <i class="lni lni-coin"></i>
+                        <span>Transaction</span>
+                    </a>
+                </li>
 
-                    <li class="sidebar-item">
-                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="right" 
-                            data-bs-title="Sales Report">
-                            <i class='bx bx-line-chart'></i>
-                            <span>Sales Report</span>
-                        </a>
-                    </li>
+                <li class="sidebar-item">
+                    <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right" 
+                        data-bs-title="Sales Report">
+                        <i class='bx bx-line-chart'></i>
+                        <span>Sales Report</span>
+                    </a>
+                </li>
 
+                <?php if($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                        <a href="/laundry_system/settings/setting.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Settings">
@@ -337,25 +348,25 @@ if(!isset($_SESSION['user_role'])) {
                 <h3>Transaction Summary</h3>
                 <div class="btns">
                     <button class="btn btn-primary" id="btnDaily" data-bs-toggle="modal" data-bs-target="#dailyTransac">
-                        <img src="/laundry_system/icons/calendar-regular-24.png" alt="Calendar Icon">    
+                        <img src="/laundry_system/images/calendar-regular-24.png" alt="Calendar Icon">    
                         Daily
                     </button>
                     
                     <button class="btn btn-primary" id="btnWeekly" data-bs-toggle="modal" data-bs-target="#weeklyTransac">
-                        <img src="/laundry_system/icons/calendar-regular-24.png" alt="Calendar Icon">    
+                        <img src="/laundry_system/images/calendar-regular-24.png" alt="Calendar Icon">    
                         Weekly
                     </button>
                     
                     <button class="btn btn-primary" id="btnMonthly" data-bs-toggle="modal" data-bs-target="#monthlyTransac">
-                        <img src="/laundry_system/icons/calendar-regular-24.png" alt="Calendar Icon">    
+                        <img src="/laundry_system/images/calendar-regular-24.png" alt="Calendar Icon">    
                         Monthly
                     </button>
                     <button class="btn btn-primary" id="btnYearly" data-bs-toggle="modal" data-bs-target="#yearlyTransac">
-                        <img src="/laundry_system/icons/calendar-regular-24.png" alt="Calendar Icon">
+                        <img src="/laundry_system/images/calendar-regular-24.png" alt="Calendar Icon">
                         Yearly
                     </button>
                     <button class="btn btn-info" id="btnPrint">
-                        <img src="/laundry_system/icons/printer-regular-24.png" alt="Printer Icon">
+                        <img src="/laundry_system/images/printer-regular-24.png" alt="Printer Icon">
                         Print
                     </button>
                 </div>
@@ -409,7 +420,7 @@ if(!isset($_SESSION['user_role'])) {
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="btnFilterSave" data-bs-dismiss="modal" data-filter="weekly">Save changes</button>
+                                <button type="button" class="btn btn-primary"  id="btnFilterSave" data-bs-dismiss="modal" data-filter="weekly">Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -434,7 +445,7 @@ if(!isset($_SESSION['user_role'])) {
                                 </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="btnFilterSave" data-bs-dismiss="modal" data-filter="monthly">Save changes</button>
+                                <button type="button" class="btn btn-primary"  id="btnFilterSave" data-bs-dismiss="modal" data-filter="monthly">Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -459,7 +470,7 @@ if(!isset($_SESSION['user_role'])) {
                                 </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary"  id="btnFilterSave" data-bs-dismiss="modal" data-filter="yearly">Save changes</button>
+                                <button type="button" class="btn btn-primary" id="btnFilterSave" data-bs-dismiss="modal" data-filter="yearly">Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -519,7 +530,6 @@ if(!isset($_SESSION['user_role'])) {
 </body>
     
     <!--JAVASCRIPT-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

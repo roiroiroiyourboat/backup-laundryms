@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //detects when the user navigates back in history. 
     //popstate event detects when user pressed the back button.
     window.addEventListener('popstate', function() { //
-        window.location.href = "settings.php"; 
+        window.location.href = "setting.php"; 
     });
 
     // for logout

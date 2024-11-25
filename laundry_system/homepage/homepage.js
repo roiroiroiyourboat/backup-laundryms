@@ -73,26 +73,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 });
 
-//POP-UP LOGIN FORM
-document.addEventListener('DOMContentLoaded', (event) => {
-    const login_form = document.getElementById("form_container");
-    const openLogin = document.getElementById("form_open");
-    const closeBtn = document.getElementsByClassName("btnClose")[0];
-
-    //open the service form
-    openLogin.onclick = function() {
-        login_form.style.display = "block";
-    }
-
-    //close the service form
-    closeBtn.onclick = function() {
-        login_form.style.display = "none";
-    }
-
-});
-
-
-
 //LOGIN IN SERVICE REQUEST
 let redirectToServiceRequest = false;
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -128,7 +108,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     openBtn.addEventListener('click', () => {
-        // Check if the user is logged in
         if (isLoggedIn) {
             // Directly show the service request form
             service_form.style.display = "block";
@@ -138,20 +117,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
             service_form.style.display = 'none';
 
             Swal.fire({
-                title: "Authorized users only have access to the service request",
-                test: "Please log in to access the service request.",
+                title: "Authorized users only have access to the service request.",
                 icon: "warning",
                 showConfirmButton: false,
                 timer: 3000,
             }).then(() => {
-                redirectToServiceRequest = true;
-                login_form.style.display = "block";
-                service_form.style.display = 'none';
+                        redirectToServiceRequest = true;
+                        login_form.style.display = "block";
+                        service_form.style.display = 'none';
             });
         }
     });
 });
-
 
 //OVERVIEW PANEL
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -165,7 +142,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         service_overview.style.display = "none";
     }
 });
-
 
 //LAUNNDRY SERVICE DETAILS
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -285,7 +261,7 @@ function populateCategories(data) {
 
     if (serviceDropdown.value === "2") {
         let filteredCategories = data.filter(category => 
-            category.laundry_category_option === 'Clothes/Table Napkin/Pillowcase' || 
+            category.laundry_category_option === 'Clothes/Table Napkins/Pillowcase' || 
             category.laundry_category_option === 'Bedsheet/Table Cloths/Curtain' 
         );
         
@@ -696,174 +672,421 @@ $(document).ready(function() {
         });
     });
     
+        // $('#btnDone_service').click(function() {
+        //     console.log("btnDone_service clicked");
+            
+        //     var customerId = $('#customer_id_hidden').val();
+        //     var serviceId = $('select[name="service_option"]').val();
+        //     var serviceOption = $('select[name="service_option"] option:selected').text();
+        //     var isRush = $('#rush').is(':checked') ? 'Rush' : 'Standard';
+        //     var province = $('#province').val();
+        //     var city = $('#city').val();
+        //     var address = $('#address').val();
+        //     var brgy = $('#barangaySelect').val();
+        //     var pickupDate = $('#pickup_date').val();
+        //     var deliveryFee = parseFloat($('#delivery_fee').val()) || 0;
+        //     var rushFee = parseFloat($('#rush_fee').val()) || 0;
+        //     var amountTendered = parseFloat($('#amount_tendered').val()) || 0;
+        //     var customerName = $('#customer_name_hidden').val();
+        //     var contactNumber = $('#contact_number_hidden').val();
+            
+        //     let formIsValid = true;
+        //     const serviceType = $("#service_option").val(); //delivery or customer pick-up
+        //     const isDelivery = serviceType === "1";
+            
+        //     if (isDelivery) {
+        //         $("#address, #province, #city, #barangaySelect").each(function() {
+        //             if ($(this).val() === "") {
+        //                 Swal.fire("Oops!", `Please fill in all required delivery fields.`, "error");
+        //                 $(this).focus();
+        //                 formIsValid = false;
+        //                 return false; // Stop checking further fields if one is empty
+        //             }
+        //         });
+        //     }
 
-    // Submit button click event
-    $("#btnDone_service").click(function(event) {
-        console.log("btnDone_service clicked");
+        //     if (formIsValid) {
+        //         console.log("Validation passed: All required fields are present");
+        //         // Proceed with form submission
+        //     } else {
+        //         // Prevent form submission if fields are missing
+        //         event.preventDefault();
+        //     }
 
-        var customerId = $('#customer_id_hidden').val();
-        var serviceId = $('select[name="service_option"]').val();
-        var serviceOption = $('select[name="service_option"] option:selected').text();
-        var isRush = $('#rush').is(':checked') ? 'Rush' : 'Standard';
-        var province = $('#province').val();
-        var city = $('#city').val();
-        var address = $('#address').val();
-        var brgy = $('#barangaySelect').val();
-        var pickupDate = $('#pickup_date').val();
-        var deliveryFee = parseFloat($('#delivery_fee').val()) || 0;
-        var rushFee = parseFloat($('#rush_fee').val()) || 0;
-        var amountTendered = parseFloat($('#amount_tendered').val()) || 0;
-        var customerName = $('#customer_name_hidden').val();
-        var contactNumber = $('#contact_number_hidden').val();
+        //     var finalTotalAmount = totalPrice + deliveryFee + (isRush === 'Rush' ? rushFee : 0);
+        //     var change = amountTendered - finalTotalAmount;
+        
+        //     console.log('finalTotalAmount:', finalTotalAmount);
+        //     console.log('change:', change);
+        //     $('#total_amount').val(finalTotalAmount.toFixed(2));
+        //     $('#change').val(change.toFixed(2));
+        
+        //     if (!serviceOption || !pickupDate || !amountTendered) {
+        //         console.log("Validation failed: Missing serviceOption or pickupDate");
+        //         Swal.fire("Oops!", "Please fill in all the required fields.", "error");
+        //         return;
+        //     } else {
+        //         console.log("Validation passed: serviceOption and pickupDate are present");
+        //     }
+        
+        //     var serviceDetails = {
+        //         customer_id: customerId,
+        //         serviceId: serviceId,
+        //         service_option: serviceOption,
+        //         is_rush: isRush,
+        //         province: province,
+        //         city: city,
+        //         address: address,
+        //         brgy: brgy,
+        //         pickup_date: pickupDate,
+        //         total_amount: finalTotalAmount.toFixed(2),
+        //         delivery_fee: deliveryFee,
+        //         rush_fee: rushFee,
+        //         amount_tendered: amountTendered.toFixed(2),
+        //         change: change.toFixed(2),
+        //         customer_name: customerName,
+        //         contact_number: contactNumber
+        //     };
+        
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: 'saveServiceDetails.php',
+        //         data: serviceDetails,
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             if (response.status === 'success') {
+        //                 Swal.fire({
+        //                     title: "Great! Service details saved successfully.",
+        //                     text: response.message,
+        //                     icon: "success",
+        //                     timer: 2000,
+        //                     showConfirmButton: false
+        //                 }).then(() => {
+        //                     //to set a flag to trigger the other page to refresh
+        //                     localStorage.setItem("refreshOtherPage", "true");
 
-        let formIsValid = true;
-        const serviceType = $("#service_option").val(); // Delivery or Customer Pick-Up
-        const isDelivery = serviceType === "1";
+        //                     resetOrder();
+        //                     $('#form_id')[0].reset();
+        //                     $('#form-service input, #form-service select, #form-service textarea').val('');
+        
+        //                     // Update the invoice with service details
+        //                     $('#invoice_customer_id_hidden').text(serviceDetails.customer_id);
+        //                     $('#invoice_name').text(serviceDetails.customer_name);
+        //                     $('#invoice_date').text(new Date().toLocaleString('en-GB', {
+        //                         year: 'numeric',
+        //                         month: '2-digit',
+        //                         day: '2-digit',
+        //                         hour: '2-digit',
+        //                         minute: '2-digit',
+        //                         second: '2-digit',
+        //                         hour12: false // 24-hour format
+        //                     }));
+        //                     $('#invoice_contact_number').text(serviceDetails.contact_number);
+        //                     $('#invoice_address').text(serviceDetails.address);
+        //                     $('#invoice_service_type').text(serviceDetails.service_option);
+        //                     $('#invoice_pickup_delivery_date').text(serviceDetails.pickup_date);
 
-        // Delivery fields validation
-        if (isDelivery) {
-            // Check each required delivery field
-            $("#address, #province, #city, #barangaySelect").each(function() {
-                if ($(this).val() === "") {
-                    Swal.fire("Oops!", "Please fill in all required delivery fields: Address, Province, City, and Barangay.", "error");
-                    $(this).focus();
-                    formIsValid = false;
-                    return false; // Stop checking further fields if one is empty
-                }
-            });
-        }
+        //                     var orders = JSON.parse(sessionStorage.getItem('orders')) || [];
 
-        if (!formIsValid) {
-            event.preventDefault(); // Prevent form submission if validation fails
-            return;
-        }
+        //                     orders.forEach(order => {
+        //                         var serviceRow = `
+        //                             <tr>
+        //                                 <td>${order.serviceOption}</td>
+        //                                 <td>${order.categoryOption}</td>
+        //                                 <td>${order.quantity}</td>
+        //                                 <td>${order.weight}</td>
+        //                                 <td>${order.price}</td>
+        //                             </tr>
+        //                         `;
+        //                         $('#services-table tbody').append(serviceRow);
+        //                     });
+        
+        //                     if ($('#services-table tbody tr.additional-fees').length === 0) {
+        //                         var additionalFeesRow = `
+        //                             <tr class="additional-fees">
+        //                                 <td colspan="4">Delivery Fee</td>
+        //                                 <td>₱${deliveryFee.toFixed(2)}</td>
+        //                             </tr>
+        //                             ${isRush === 'Rush' ? `<tr class="additional-fees"><td colspan="4">Rush Fee</td><td>₱${rushFee.toFixed(2)}</td></tr>` : ''}
+        //                             <tr class="additional-fees">
+        //                                 <td colspan="4"><strong>Total Amount</strong></td>
+        //                                 <td><strong>₱${finalTotalAmount.toFixed(2)}</strong></td>
+        //                             </tr>
+        //                         `;
+        
+        //                         $('#services-table tbody').append(additionalFeesRow);
+        //                     }
+        
+        //                     // Show the invoice container
+        //                     $('#print_invoice').show();
+        //                     $('#print_invoice_btn').show();
+        //                     console.log("Invoice data set and container shown.");
+        //                 });
+        //             } else {
+        //                 Swal.fire("Service details not saved!", response.message, "error");
+        //             }
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error("Save Service Details Error: " + error);
+        //             Swal.fire("Service details not saved!", "An error occurred while saving the service details. Please try again.", "error");
+        //         }
+        //     });
+        // })
 
-        // Proceed with final total amount and change calculation
-        var finalTotalAmount = totalPrice + deliveryFee + (isRush === 'Rush' ? rushFee : 0);
-        var change = amountTendered - finalTotalAmount;
+// Delivery validation 
+$(document).ready(function() {
+    // Address fields are still visible regardless of the service option
+    $("#address, #province, #city, #barangaySelect").closest('div').show();
+});
 
-        console.log('finalTotalAmount:', finalTotalAmount);
-        console.log('change:', change);
-        $('#total_amount').val(finalTotalAmount.toFixed(2));
-        $('#change').val(change.toFixed(2));
+// change event
+$("#service_option").change(function() {
+    const serviceType = $("#service_option").val();
+    const isDelivery = serviceType === "1"; // "1" represents Delivery
 
-        // Additional field validation
-        if (!serviceOption || !pickupDate || !amountTendered) {
-            console.log("Validation failed: Missing serviceOption, pickupDate, or amountTendered");
-            Swal.fire("Oops!", "Please fill in all the required fields.", "error");
-            return;
-        } else {
-            console.log("Validation passed: All fields are present");
-        }
+    if (isDelivery) {
+        // required for delivery
+        $("#address, #province, #city, #barangaySelect").prop('required', true);
+    } else {
+        // for pick-up fields are still visible
+        $("#address, #province, #city, #barangaySelect").prop('required', false);
+    }
+});
 
-        var serviceDetails = {
-            customer_id: customerId,
-            serviceId: serviceId,
-            service_option: serviceOption,
-            is_rush: isRush,
-            province: province,
-            city: city,
-            address: address,
-            brgy: brgy,
-            pickup_date: pickupDate,
-            total_amount: finalTotalAmount.toFixed(2),
-            delivery_fee: deliveryFee,
-            rush_fee: rushFee,
-            amount_tendered: amountTendered.toFixed(2),
-            change: change.toFixed(2),
-            customer_name: customerName,
-            contact_number: contactNumber
-        };
+// Submit button click event
+$("#btnDone_service").click(function(event) {
+    console.log("btnDone_service clicked");
 
-        $.ajax({
-            type: 'POST',
-            url: 'saveServiceDetails.php',
-            data: serviceDetails,
-            dataType: 'json',
-            success: function(response) {
-                if (response.status === 'success') {
-                    Swal.fire({
-                        title: "Great! Service details saved successfully.",
-                        text: response.message,
-                        icon: "success",
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        localStorage.setItem("refreshOtherPage", "true");
+    var customerId = $('#customer_id_hidden').val();
+    var serviceId = $('select[name="service_option"]').val();
+    var serviceOption = $('select[name="service_option"] option:selected').text();
+    var isRush = $('#rush').is(':checked') ? 'Rush' : 'Standard';
+    var province = $('#province').val();
+    var city = $('#city').val();
+    var address = $('#address').val();
+    var brgy = $('#barangaySelect').val();
+    var pickupDate = $('#pickup_date').val();
+    var deliveryFee = parseFloat($('#delivery_fee').val()) || 0;
+    var rushFee = parseFloat($('#rush_fee').val()) || 0;
+    var amountTendered = parseFloat($('#amount_tendered').val()) || 0;
+    var customerName = $('#customer_name_hidden').val();
+    var contactNumber = $('#contact_number_hidden').val();
 
-                        resetOrder();
-                        $('#form_id')[0].reset();
-                        $('#form-service input, #form-service select, #form-service textarea').val('');
+    let formIsValid = true;
+    const serviceType = $("#service_option").val(); // Delivery or Customer Pick-Up
+    const isDelivery = serviceType === "1";
 
-                        $('#invoice_customer_id_hidden').text(serviceDetails.customer_id);
-                        $('#invoice_name').text(serviceDetails.customer_name);
-                        $('#invoice_date').text(new Date().toLocaleString('en-GB', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit',
-                            hour12: false
-                        }));
-                        $('#invoice_contact_number').text(serviceDetails.contact_number);
-                        $('#invoice_address').text(serviceDetails.address);
-                        $('#invoice_service_type').text(serviceDetails.service_option);
-                        $('#invoice_pickup_delivery_date').text(serviceDetails.pickup_date);
-
-                        var orders = JSON.parse(sessionStorage.getItem('orders')) || [];
-
-                        orders.forEach(order => {
-                            var serviceRow = `
-                                <tr>
-                                    <td>${order.serviceOption}</td>
-                                    <td>${order.categoryOption}</td>
-                                    <td>${order.quantity}</td>
-                                    <td>${order.weight}</td>
-                                    <td>${order.price}</td>
-                                </tr>
-                            `;
-                            $('#services-table tbody').append(serviceRow);
-                        });
-
-                        if ($('#services-table tbody tr.additional-fees').length === 0) {
-                            var additionalFeesRow = `
-                                <tr class="additional-fees">
-                                    <td colspan="4">Delivery Fee</td>
-                                    <td>₱${deliveryFee.toFixed(2)}</td>
-                                </tr>
-                                ${isRush === 'Rush' ? `<tr class="additional-fees"><td colspan="4">Rush Fee</td><td>₱${rushFee.toFixed(2)}</td></tr>` : ''}
-                                <tr class="additional-fees">
-                                    <td colspan="4"><strong>Total Amount</strong></td>
-                                    <td><strong>₱${finalTotalAmount.toFixed(2)}</strong></td>
-                                </tr>
-                            `;
-
-                            $('#services-table tbody').append(additionalFeesRow);
-                        }
-
-                        $('#print_invoice').show();
-                        $('#print_invoice_btn').show();
-                        console.log("Invoice data set and container shown.");
-                    });
-                } else {
-                    Swal.fire("Service details not saved!", response.message, "error");
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Save Service Details Error: " + error);
-                Swal.fire("Service details not saved!", "An error occurred while saving the service details. Please try again.", "error");
+    // Delivery fields validation
+    if (isDelivery) {
+        // Check each delivery field
+        $("#address, #province, #city, #barangaySelect").each(function() {
+            if ($(this).val() === "") {
+                Swal.fire("Oops!", "Please fill in all required delivery fields: Address, Province, City, and Barangay.", "error");
+                $(this).focus();
+                formIsValid = false;
+                return false; 
             }
         });
-    });
+    }
 
-    $("#print_invoice_btn").click(function(){
+    if (!formIsValid) {
+        event.preventDefault(); 
+        return;
+    }
+
+    // proceed with final total amount and change calculation
+    var finalTotalAmount = totalPrice + deliveryFee + (isRush === 'Rush' ? rushFee : 0);
+    var change = amountTendered - finalTotalAmount;
+
+    console.log('finalTotalAmount:', finalTotalAmount);
+    console.log('change:', change);
+    $('#total_amount').val(finalTotalAmount.toFixed(2));
+    $('#change').val(change.toFixed(2));
+
+    // additional field validation
+    if (!serviceOption || !pickupDate || !amountTendered) {
+        console.log("Validation failed: Missing serviceOption, pickupDate, or amountTendered");
+        Swal.fire("Oops!", "Please fill in all the required fields.", "error");
+        return;
+    } else {
+        console.log("Validation passed: All fields are present");
+    }
+
+    var serviceDetails = {
+        customer_id: customerId,
+        serviceId: serviceId,
+        service_option: serviceOption,
+        is_rush: isRush,
+        province: province,
+        city: city,
+        address: address,
+        brgy: brgy,
+        pickup_date: pickupDate,
+        total_amount: finalTotalAmount.toFixed(2),
+        delivery_fee: deliveryFee,
+        rush_fee: rushFee,
+        amount_tendered: amountTendered.toFixed(2),
+        change: change.toFixed(2),
+        customer_name: customerName,
+        contact_number: contactNumber
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: 'saveServiceDetails.php',
+        data: serviceDetails,
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === 'success') {
+                Swal.fire({
+                    title: "Great! Service details saved successfully.",
+                    text: response.message,
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                    localStorage.setItem("refreshOtherPage", "true");
+
+                    resetOrder();
+                    $('#form_id')[0].reset();
+                    $('#form-service input, #form-service select, #form-service textarea').val('');
+
+                    $('#invoice_customer_id_hidden').text(serviceDetails.customer_id);
+                    $('#invoice_name').text(serviceDetails.customer_name);
+                    $('#invoice_date').text(new Date().toLocaleString('en-GB', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false
+                    }));
+                    $('#invoice_contact_number').text(serviceDetails.contact_number);
+                    $('#invoice_address').text(serviceDetails.address);
+                    $('#invoice_service_type').text(serviceDetails.service_option);
+                    $('#invoice_pickup_delivery_date').text(serviceDetails.pickup_date);
+
+                    var orders = JSON.parse(sessionStorage.getItem('orders')) || [];
+
+                    orders.forEach(order => {
+                        var serviceRow = `
+                            <tr>
+                                <td>${order.serviceOption}</td>
+                                <td>${order.categoryOption}</td>
+                                <td>${order.quantity}</td>
+                                <td>${order.weight}</td>
+                                <td>${order.price}</td>
+                            </tr>
+                        `;
+                        $('#services-table tbody').append(serviceRow);
+                    });
+
+                    if ($('#services-table tbody tr.additional-fees').length === 0) {
+                        var additionalFeesRow = `
+                            <tr class="additional-fees">
+                                <td colspan="4">Delivery Fee</td>
+                                <td>P${deliveryFee.toFixed(2)}</td>
+                            </tr>
+                            ${isRush === 'Rush' ? `<tr class="additional-fees"><td colspan="4">Rush Fee</td><td>P${rushFee.toFixed(2)}</td></tr>` : ''}
+                            <tr class="additional-fees">
+                                <td colspan="4"><strong>Total Amount</strong></td>
+                                <td><strong>P${finalTotalAmount.toFixed(2)}</strong></td>
+                            </tr>
+                        `;
+
+                        $('#services-table tbody').append(additionalFeesRow);
+                    }
+
+                    $('#print_invoice').show();
+                    $('#print_invoice_btn').show();
+                    console.log("Invoice data set and container shown.");
+                });
+            } else {
+                Swal.fire("Service details not saved!", response.message, "error");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Save Service Details Error: " + error);
+            Swal.fire("Service details not saved!", "An error occurred while saving the service details. Please try again.", "error");
+        }
+    });
+});
+
+    /*function printInvoice() {
+        var printButton = document.getElementById('print_invoice_btn');
+        printButton.style.display = 'none';
+        
+        var printContents = document.querySelector('.print_invoice').outerHTML; 
+        
+        // Use a new window for printing
+        var newWindow = window.open('', '', 'height=600,width=800');
+        
+        // Write HTML and styles to the new window
+        newWindow.document.write('<html><head><title>Invoice</title>');
+        newWindow.document.write('<style>' +
+            '@media print {' +
+                '@page {' +
+                    'size: 58mm;' + //size of thermal paper
+                    'margin: 0;' +
+                '}' +
+                
+                '.print_invoice {' +
+                    'display: block;' +
+                    'position: static;' +
+                    'background-color: transparent;' +
+                    'padding: 10px;' + 
+                    'width: 100%;' +
+                    'max-width: 58mm;' +  
+                '}' + 
+
+                'hr{' + 
+                'border: 1px solid; margin: 5px 0}' +
+
+                '.logo_header, h3{' + 
+                'font-size: 14px;}' +
+                
+                '.text-center{' +
+                    'text-align: center;' +
+                    'font-size: 12px;' +
+                '}' +
+                
+                '#services-table {' +
+                    'width: 50mm;' + 
+                    'border-collapse: collapse;' +
+                    'margin: 0 auto;' + 
+                '}' +
+                
+                'th, td {' +
+                    'border: 1px solid black;' +
+                    'padding: 2px;' + 
+                    'text-align: left;' +
+                    'font-size: 8px;' + 
+                '}' +
+        
+                'body {' +
+                    'margin: 0;' + 
+                    'padding: 0;' +
+                    'font-size: 12px;' + 
+                '}' +
+            '}' +
+        '</style>');   
+        
+        newWindow.document.write('</head><body>');
+        newWindow.document.write(printContents);
+        newWindow.document.write('</body></html>');
+        
+        newWindow.document.close(); // Close the document to apply styles
+        newWindow.print(); // Trigger the print dialog
+        
+        // Reset UI elements
+        printButton.style.display = 'block';
+        $('#print_invoice tbody').empty();
         $('#print_invoice').hide();
-        $('#print_invoice').reset();
         $('#service_details').hide();
-        $('#service_form').show();
+    }
 
-    });
+    $('#print_invoice_btn').click(printInvoice); */
     
     $('#btnCancel_service_details').click(function() {
         swal.fire({

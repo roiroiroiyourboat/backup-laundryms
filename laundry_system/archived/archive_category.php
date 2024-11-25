@@ -38,8 +38,9 @@ $user_role = $_SESSION['user_role'];
 
 <body>
     <div class="progress"></div>
+
     <div class="wrapper">
-    <aside id="sidebar">
+        <aside id="sidebar">
             <div class="d-flex">
                 <button id="toggle-btn" type="button">
                     <i class="bx bx-menu-alt-left"></i>
@@ -51,9 +52,9 @@ $user_role = $_SESSION['user_role'];
             </div>
 
             <ul class="sidebar-nav">
-                <?php if($user_role === 'admin') : ?>
+                <?php if ($user_role === 'admin') : ?>
                     <li class="sidebar-item">
-                        <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
+                    <a href="/laundry_system/dashboard/dashboard.php" class="sidebar-link" 
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Dashboard">
@@ -63,7 +64,7 @@ $user_role = $_SESSION['user_role'];
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/profile/profile.php" class="sidebar-link"
+                    <a href="/laundry_system/profile/profile.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Profile">
@@ -73,7 +74,7 @@ $user_role = $_SESSION['user_role'];
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/users/users.php" class="sidebar-link"
+                    <a href="/laundry_system/users/users.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Users">
@@ -83,7 +84,7 @@ $user_role = $_SESSION['user_role'];
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
+                        <a href="/laundry_system/records/customer.php" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse"
                             data-bs-target="#records" aria-expanded="false" aria-controls="records">
                             <i class="lni lni-files"></i>
                             <span>Records</span>
@@ -101,11 +102,19 @@ $user_role = $_SESSION['user_role'];
                             <li class="sidebar-item">
                                 <a href="/laundry_system/records/category.php" class="sidebar-link">Category</a>
                             </li>
+
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/delivery.php" class="sidebar-link">Delivery</a>
+                            </li>
+                            
+                            <li class="sidebar-item">
+                                <a href="/laundry_system/records/pickup.php" class="sidebar-link">Pick-up</a>
+                            </li>
                         </ul>
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
+                    <a href="/laundry_system/transaction/transaction.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Transactions">
@@ -115,7 +124,7 @@ $user_role = $_SESSION['user_role'];
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
+                    <a href="/laundry_system/sales_report/report.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Sales Report">
@@ -125,7 +134,7 @@ $user_role = $_SESSION['user_role'];
                     </li>
 
                     <li class="sidebar-item">
-                        <a href="/laundry_system/settings/settings.php" class="sidebar-link"
+                    <a href="/laundry_system/settings/setting.php" class="sidebar-link"
                             data-bs-toggle="tooltip"
                             data-bs-placement="right" 
                             data-bs-title="Settings">
@@ -165,16 +174,16 @@ $user_role = $_SESSION['user_role'];
             </ul>
 
             <div class="sidebar-footer">
-                <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
+            <a href="javascript:void(0)" class="sidebar-link" id="btn_logout"
                     data-bs-toggle="tooltip"
                     data-bs-placement="right" 
                     data-bs-title="Logout">
                     <i class="lni lni-exit"></i>
                     <span>Logout</span>
                 </a>
+                
             </div>
         </aside>
-        
 
         <div class="main-content">
             <nav>
@@ -256,18 +265,21 @@ $user_role = $_SESSION['user_role'];
                     <span class="close">&times;</span>
                     <h2 id="logoutText">Do you want to logout?</h2>
                     <div class="modal-buttons">
-                        
                         <button class="btn btn-no">No</button>
                         <a href="/laundry_system/homepage/logout.php" class="btn btn-yes">Yes</a>
                     </div>
                 </div>
             </div>
-            
+
+
         </div> <!-- closing tag of main-content -->
     </div>
 
 </body>
 <script type="text/javascript" src="archive_category.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 

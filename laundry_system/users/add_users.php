@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode(['status' => 'error', 'message' => "Error: All fields are required."]);
     } else {
         // Check if username already exists
-        $check_username_sql = "SELECT * FROM users WHERE username = ?";
+        $check_username_sql = "SELECT * FROM user WHERE username = ?";
         $stmt = $conn->prepare($check_username_sql);
         $stmt->bind_param("s", $username);
         $stmt->execute();
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // User status
             $user_status = 'Active';
 
-            $insert_user_sql = "INSERT INTO users (username, first_name, last_name, user_role, password, last_active, user_status, date_created, question, answer) VALUES (?, ?, ?, ?, ?, NOW(), ?, NOW(),?,?)";
+            $insert_user_sql = "INSERT INTO user (username, first_name, last_name, user_role, password, last_active, user_status, date_created, question, answer) VALUES (?, ?, ?, ?, ?, NOW(), ?, NOW(),?,?)";
             $stmt = $conn->prepare($insert_user_sql);
             $stmt->bind_param("ssssssss", $username, $fname, $lname, $user_role, $hashed_password, $user_status, $question, $hashed_answer);
             

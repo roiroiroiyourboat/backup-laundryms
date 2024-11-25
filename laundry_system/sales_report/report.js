@@ -961,7 +961,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="12" style="text-align: right;"><strong>Total Revenue:</strong></td>
+                                <td colspan="11" style="text-align: right;"><strong>Total Revenue:</strong></td>
                                 <td colspan="2"><strong>₱${response.total_revenue}</strong></td>
                             </tr>
                         </tfoot>
@@ -1046,6 +1046,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
 
 function fetchTransactionSummary(filter, page = 1, additionalParams = {}) {
     const xhr = new XMLHttpRequest();
@@ -1133,4 +1134,3 @@ function attachPaginationListeners(filter, additionalParams) {
         });
     });
 }
-

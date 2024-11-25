@@ -5,6 +5,7 @@ hamburger.addEventListener("click", function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    //for tooltips
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggle-btn');
     const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -273,7 +274,74 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // const archiveUser = (userId) => {
+    //     const archiveModal = document.getElementById('archiveModal');
+    //     const confirmButton = document.getElementById('confirmArchiveButton');
+    //     const cancelButton = document.getElementById('cancelArchiveButton');
+    //     const hiddenInput = document.getElementById('archiveUserId');
     
+    //     // Set the user ID in the hidden input field
+    //     hiddenInput.value = userId;
+    
+    //     // Show the modal
+    //     archiveModal.style.display = 'flex';
+    
+    //     // Confirm button action
+    //     confirmButton.onclick = () => {
+    //         fetch('/laundry_system/archived/archive_users_db.php', {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({ id: userId })
+    //         })
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 if (data.success) {
+    //                     Swal.fire({
+    //                         icon: 'success',
+    //                         title: 'User Archived!',
+    //                         text: 'The user has been successfully archived.',
+    //                         showConfirmButton: false,
+    //                         timer: 1500
+    //                     }).then(() => {
+    //                         archiveModal.style.display = 'none'; // Close the modal
+    //                         fetchUsers(); // Refresh the user table
+    //                     });
+    //                 } else {
+    //                     Swal.fire({
+    //                         icon: 'error',
+    //                         title: 'Error!',
+    //                         text: data.error || 'There was a problem archiving the user.',
+    //                         confirmButtonText: 'OK'
+    //                     });
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 Swal.fire({
+    //                     icon: 'error',
+    //                     title: 'Oops...',
+    //                     text: 'Something went wrong! Please try again.',
+    //                 });
+    //             });
+    //     };
+    
+    //     // Cancel button action
+    //     cancelButton.onclick = () => {
+    //         archiveModal.style.display = 'none'; // Close the modal
+    //     };
+    
+    //     // Close modal when clicking outside
+    //     window.onclick = (event) => {
+    //         if (event.target === archiveModal) {
+    //             archiveModal.style.display = 'none';
+    //         }
+    //     };
+    // };
+
+    // document.getElementById('closeSuccessButton').addEventListener('click', () => {
+    //     document.getElementById('successModal').style.display = 'none';
+    // });
+
+
     document.getElementById('editForm').addEventListener('submit', function(event) {
         event.preventDefault(); 
     
@@ -360,5 +428,8 @@ document.addEventListener('DOMContentLoaded', function() {
             logoutModal.style.display = "none"; // Hide the modal
         }
     });
+
+   
+
     
 });

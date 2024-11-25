@@ -458,8 +458,8 @@ footer > * {
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /*enable scrolling in form*/
-    background-color: rgba(0, 0, 0, 0.7); /*black background with opacity*/
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.7); 
     padding-top: 60px;
 }
 
@@ -567,8 +567,8 @@ footer > * {
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /*enable scrolling in form*/
-    background-color: rgba(0, 0, 0, 0.7); /*black background with opacity*/
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.7);
     padding-top: 60px;
 }
 
@@ -617,6 +617,7 @@ footer > * {
 .form-control {
     width: 100%;
     padding: 8px;
+    margin: 5px 0;
 }
 
 .buttons {
@@ -676,7 +677,6 @@ footer > * {
     transition: opacity 0.2s, visibility 0.2s;
 }
 
-
 @media (max-width: 768px) {
     .form-container {
         width: 80%;
@@ -714,7 +714,7 @@ footer > * {
     width: 100%;
     height: 100%;
     overflow: auto; /*enable scrolling in form*/
-    background-color: rgba(0, 0, 0, 0.7); /*black background with opacity*/
+    background-color: rgba(0, 0, 0, 0.7); 
     padding-top: 60px;
 }
 
@@ -813,13 +813,12 @@ footer > * {
 @media (max-width: 768px) {
     .service_req_container {
         width: 80%;
-        flex-direction: column; /*switch to column layout*/
+        flex-direction: column; 
     }
 
     .service_req_container .row {
         flex-direction: column;
     }
-
 }
 
 @media (max-width: 576px) {

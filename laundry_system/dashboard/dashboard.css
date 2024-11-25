@@ -230,7 +230,7 @@ a.sidebar-link:hover {
   flex-direction: row;
   justify-content: center; 
   gap: 1rem;
-  padding-top: 2rem;
+  padding-top: 1rem;
   flex-wrap: wrap;
   width: 100%;
 }
@@ -532,9 +532,11 @@ a.sidebar-link:hover {
 .event-title {
   font-size: 2rem;
   font-weight: 600;
-  color: #0a0f24;
+  background-color: #0e223e;
   text-align: center;
+  padding-top: 1%;
   width: 98%;
+  height: 11%;
   margin-left: 0px;
   background-color: #BEDAE3;
   border-radius: 5px;
@@ -788,12 +790,13 @@ a.sidebar-link:hover {
   margin: 0 10px; 
 }
 
-.btn-yes {
+.modal-buttons .btn-yes {
   background-color: #b8c1ec;
   color: #232946;
+  text-decoration: none;
 }
 
-.btn-no {
+.modal-buttons .btn-no {
   background-color: #eebbc3;
   color: #232946;
 }
@@ -836,9 +839,13 @@ a.sidebar-link:hover {
   .modal-buttons .btn {
     padding: 10px;
   }
+  
 }
 
 /*************  NOTIFICATION  ****************/
+body {
+  font-family: Arial, sans-serif;
+}
 
 /* Cards */
 .card {
@@ -997,7 +1004,6 @@ input[type="checkbox"] {
 @media (max-width: 768px) {
   .card-body {
       padding: 15px;
-      
   }
 
   .header-container {

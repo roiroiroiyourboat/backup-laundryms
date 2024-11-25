@@ -21,7 +21,7 @@ if (empty($user_name) || empty($user_password)) {
     $hashed_password = password_hash($user_password, PASSWORD_BCRYPT);
 
     // Prepare and bind to prevent SQL injection
-    $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+    $stmt = $conn->prepare("INSERT INTO user (username, password) VALUES (?, ?)");
     $stmt->bind_param("ss", $user_name, $hashed_password);
 
     // Execute the query

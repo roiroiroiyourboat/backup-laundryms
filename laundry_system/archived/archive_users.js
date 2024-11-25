@@ -110,10 +110,10 @@ document.addEventListener('DOMContentLoaded', function() {
       pageLinks[pageIndex + 1].classList.add('active'); // +1 to skip the prev arrow
   }
 
-  // Initialize table with first page and pagination links
-  displayRows(0);
-  setupPagination();
-  setActivePage(0);
+    // Initialize table with first page and pagination links
+    displayRows(0);
+    setupPagination();
+    setActivePage(0);
 
     // for logout
     const logoutModal = document.getElementById("logoutModal");
